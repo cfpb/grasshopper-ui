@@ -1,8 +1,32 @@
 {% include head.html %}
 {% include header.html %}
 
-<div class="container">
-    {{ content }}
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="recommend.html">
+                    <label for="address">Enter an address</label>
+                    <input id="address" name="address" type="text" />
+                    <button class="btn" type="submit" value="Geocode it!">Geocode it!</button>
+                    <a href="#test">Want to do a batch?<br />Drag your .json file here.</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="map">
+    <div class="row">
+        <div class="col-6">
+            <div id="map"></div>
+        </div>
+        <div class="col-6">
+            <div id="data">
+                Some data goes here
+            </div>
+        </div>
+    </div>
 </div>
 
 {% include footer.html %}
