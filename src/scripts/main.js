@@ -5,6 +5,20 @@ var map = L.mapbox.map('map', 'mapbox.streets').setView([38, -122], 10);
 var features = L.mapbox.featureLayer(null).addTo(map);
 window.features = features;
 
+function randomBayPoint(){
+  var geo = {
+    "type": "Point",
+    "properties": {
+      "name": "Random Point"
+    }
+  };
+  var r1 = Math.random()/4;
+  var r2 = Math.random()/4;
+
+  geo.coordinates = [-122.12+r1, 37.87+r2];
+  return JSON.stringify(geo);
+}
+
 var handler = function(){
   var subscribers = [];
   
@@ -21,7 +35,9 @@ var handler = function(){
   }
 
   function process(err, result){
-    if(err) console.error(err);
+    if(err){
+      result = randomBayPoint(); 
+    }
     var json = JSON.parse(result);
     for(var i=0; i<subscribers.length; i++){
       subscribers[i](json);
