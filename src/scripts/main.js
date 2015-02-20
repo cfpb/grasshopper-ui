@@ -1,9 +1,7 @@
-(function(L, grass){
 'use strict';
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
 var map = L.mapbox.map('map', 'mapbox.streets').setView([38, -122], 10);
 var features = L.mapbox.featureLayer(null).addTo(map);
-window.features = features;
 
 function randomBayPoint(){
   var geo = {
@@ -17,6 +15,10 @@ function randomBayPoint(){
 
   geo.coordinates = [-122.12+r1, 37.87+r2];
   return JSON.stringify(geo);
+}
+
+function flipCoords(arr){
+  return [arr[1],arr[0]];
 }
 
 var handler = function(){
@@ -56,6 +58,7 @@ handler.subscribe(function(result){
 })
 handler.subscribe(function(result){
   features.setGeoJSON(result);
+  map.panTo(flipCoords(result.coordinates));
 });
 
 var inp = document.getElementById('inp');
@@ -66,9 +69,5 @@ inp.addEventListener('keydown',function(e){
     grass.geocode(query, handler.process);
   }
 });
-
-
-})(window.L, window.grass);
-
 
 
