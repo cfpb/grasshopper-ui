@@ -2,6 +2,8 @@
 'use strict';
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
 var map = L.mapbox.map('map', 'mapbox.streets').setView([38, -122], 10);
+var features = L.mapbox.featureLayer(null).addTo(map);
+window.features = features;
 
 var handler = function(){
   var subscribers = [];
@@ -18,10 +20,11 @@ var handler = function(){
     }
   }
 
-  function process(err, results){
+  function process(err, result){
     if(err) console.error(err);
+    var json = JSON.parse(result);
     for(var i=0; i<subscribers.length; i++){
-      subscribers[i](results);
+      subscribers[i](json);
     }
   }
    
@@ -34,6 +37,9 @@ var handler = function(){
 
 handler.subscribe(function(result){
   console.log(result);
+})
+handler.subscribe(function(result){
+  features.setGeoJSON(result);
 });
 
 var inp = document.getElementById('inp');
