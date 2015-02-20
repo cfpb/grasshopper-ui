@@ -1,7 +1,0 @@
-{
-  "name": "grasshopper-ui",
-  "private": true,
-  "dependencies": {
-    "mapbox.js": "~2.1.5"
-  }
-}
