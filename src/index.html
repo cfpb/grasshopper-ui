@@ -1,5 +1,6 @@
 <!doctype html>
 <html> 
+
   <head>
     <meta charset="utf-8">
     <title>Grasshopper UI</title>
@@ -7,7 +8,6 @@
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="styles/main.css">
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
   </head>
 
@@ -15,7 +15,10 @@
     <form action = "" onsubmit="return false">
       <input id="inp" placeholder="Geocode an address...">
     </form>
-    <div id="map"></div>
+    <div id="map"></div> 
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+    <script src="https://rawgit.com/wpears/grassjs/master/grass.js"></script>
     <script src="scripts/main.js"></script>
   </body>
+
 </html>
