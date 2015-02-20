@@ -1,12 +1,4 @@
-// Generated on 2015-02-19 using
-// generator-webapp 0.5.1
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// If you want to recursively match all subfolders, use:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
 
@@ -18,7 +10,7 @@ module.exports = function (grunt) {
 
   // Configurable paths
   var config = {
-    app: 'app',
+    src: 'src',
     dist: 'dist'
   };
 
@@ -35,7 +27,7 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= config.app %>/scripts/{,*/}*.js'],
+        files: ['<%= config.src %>/scripts/{,*/}*.js'],
         tasks: ['jshint'],
         options: {
           livereload: true
@@ -49,7 +41,7 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       styles: {
-        files: ['<%= config.app %>/styles/{,*/}*.css'],
+        files: ['<%= config.src %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
       },
       livereload: {
@@ -57,9 +49,9 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= config.app %>/{,*/}*.html',
+          '<%= config.src %>/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
-          '<%= config.app %>/images/{,*/}*'
+          '<%= config.src %>/images/{,*/}*'
         ]
       }
     },
@@ -79,7 +71,7 @@ module.exports = function (grunt) {
             return [
               connect.static('.tmp'),
               connect().use('/bower_components', connect.static('./bower_components')),
-              connect.static(config.app)
+              connect.static(config.src)
             ];
           }
         }
@@ -93,7 +85,7 @@ module.exports = function (grunt) {
               connect.static('.tmp'),
               connect.static('test'),
               connect().use('/bower_components', connect.static('./bower_components')),
-              connect.static(config.app)
+              connect.static(config.src)
             ];
           }
         }
@@ -129,8 +121,8 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= config.app %>/scripts/{,*/}*.js',
-        '!<%= config.app %>/scripts/vendor/*',
+        '<%= config.src %>/scripts/{,*/}*.js',
+        '!<%= config.src %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
@@ -162,9 +154,9 @@ module.exports = function (grunt) {
 
     // Automatically inject Bower components into the HTML file
     wiredep: {
-      app: {
+      src: {
         ignorePath: /^\/|\.\.\//,
-        src: ['<%= config.app %>/index.html']
+        src: ['<%= config.src %>/index.html']
       }
     },
 
@@ -190,7 +182,7 @@ module.exports = function (grunt) {
       options: {
         dest: '<%= config.dist %>'
       },
-      html: '<%= config.app %>/index.html'
+      html: '<%= config.src %>/index.html'
     },
 
     // Performs rewrites based on rev and the useminPrepare configuration
@@ -211,7 +203,7 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= config.app %>/images',
+          cwd: '<%= config.src %>/images',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
           dest: '<%= config.dist %>/images'
         }]
@@ -222,7 +214,7 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= config.app %>/images',
+          cwd: '<%= config.src %>/images',
           src: '{,*/}*.svg',
           dest: '<%= config.dist %>/images'
         }]
@@ -259,7 +251,7 @@ module.exports = function (grunt) {
     //     files: {
     //       '<%= config.dist %>/styles/main.css': [
     //         '.tmp/styles/{,*/}*.css',
-    //         '<%= config.app %>/styles/{,*/}*.css'
+    //         '<%= config.src %>/styles/{,*/}*.css'
     //       ]
     //     }
     //   }
@@ -283,7 +275,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= config.app %>',
+          cwd: '<%= config.src %>',
           dest: '<%= config.dist %>',
           src: [
             '*.{ico,png,txt}',
@@ -299,7 +291,7 @@ module.exports = function (grunt) {
       styles: {
         expand: true,
         dot: true,
-        cwd: '<%= config.app %>/styles',
+        cwd: '<%= config.src %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       }
@@ -322,7 +314,7 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
+  grunt.registerTask('serve', 'start the server and preview your src, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
       grunt.config.set('connect.options.hostname', '0.0.0.0');
     }
