@@ -18,8 +18,9 @@ $(function() {
 
     function showMap(err, data) {
         map.setView([data.latlng[0], data.latlng[1]], 13);
+        L.mapbox.featureLayer(data.results.features[0]).addTo(map);
         $('#data').html('<h3>' + data.results.features[0].place_name + '</h3>');
-        $('#data').append(JSON.stringify(data, null, '\t'));
+        //$('#data').append('<pre>' + JSON.stringify(data, undefined, 4) + '</pre>');
     }
 
     $('#js-geocode').submit(function(event) {
