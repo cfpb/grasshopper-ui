@@ -1,4 +1,7 @@
 'use strict';
+
+var loadLate = require('./loadLate');
+
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
 var map = L.mapbox.map('map', 'mapbox.streets').setView([38, -122], 10);
 var features = L.mapbox.featureLayer(null).addTo(map);
