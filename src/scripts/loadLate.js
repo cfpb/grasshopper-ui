@@ -4,30 +4,34 @@ module.exports = function(){
   //Beware; appendChild doesn't work in all cases in ie6.
   var attachPoint = d.getElementsByTagName('script')[0].parentNode;
 
-  function script(url, cb){
-    var s = d.createElement('script'); 
-    s.src = url;
-    if(cb) s.onload = cb;
-    return attachPoint.appendChild(s);
+  function js(url, cb){
+    var script = d.createElement('script'); 
+    script.src = url;
+    if(cb){
+      script.onload = cb;
+    }
+    return attachPoint.appendChild(script);
   }
 
   function css(url, cb){
-    var l = d.createElement('link');
+    var link = d.createElement('link');
     var img = d.createElement('img');
-    l.ref = 'stylesheet';
-    l.href = url;
+    link.ref = 'stylesheet';
+    link.href = url;
     img.src = url;
 
     img.onerror = function(e){
       e.preventDefault();
-      if(cb) cb(l);
+      if(cb){
+        cb(link);
+      }
     };
-    return attachPoint.appendChild(l);
+    return attachPoint.appendChild(link);
   }
 
   return {
    css:css,
-   script:script
+   js:js
   };
 
 };
