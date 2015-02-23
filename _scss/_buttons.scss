@@ -6,4 +6,7 @@
     color: $white;
     min-width: 75px;
     padding: 3px 5px;
+    &:hover {
+        background-color: $pacific-80;
+    }
 }
