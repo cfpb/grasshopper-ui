@@ -18,7 +18,8 @@ $(function() {
 
     function showMap(err, data) {
         map.setView([data.latlng[0], data.latlng[1]], 13);
-        $('#data').html(JSON.stringify(data, null, '\t'));
+        $('#data').html('<h3>' + data.results.features[0].place_name + '</h3>');
+        $('#data').append(JSON.stringify(data, null, '\t'));
     }
 
     $('#js-geocode').submit(function(event) {
