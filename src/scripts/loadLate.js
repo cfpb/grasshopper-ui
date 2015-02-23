@@ -7,16 +7,21 @@ module.exports = function(){
   function script(url, cb){
     var s = d.createElement('script'); 
     s.src = url;
-    s.onload = cb;
+    if(cb) s.onload = cb;
     return attachPoint.appendChild(s);
   }
 
   function css(url, cb){
     var l = d.createElement('link');
+    var img = d.createElement('img');
     l.ref = 'stylesheet';
     l.href = url;
-    //TODO img hack for css onload
-    l.onload = cb;
+    img.src = url;
+
+    img.onerror = function(e){
+      e.preventDefault();
+      if(cb) cb(l);
+    };
     return attachPoint.appendChild(l);
   }
 
