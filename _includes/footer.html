@@ -7,6 +7,27 @@
         </div>
     </div>
 </footer>
+<script src='{{ site.baseurl }}/js/jquery-2.1.3.min.js'></script>
+<script>
+
+
+$(function() {
+    L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
+    var map = L.mapbox.map('map', 'cfpb.k55b27gd')
+        .setView([40, -74.50], 4);
+
+    function showMap(err, data) {
+        map.setView([data.latlng[0], data.latlng[1]], 13);
+        $('#data').html(JSON.stringify(data, null, '\t'));
+    }
+
+    $('#js-geocode').submit(function(event) {
+        var geocoder = L.mapbox.geocoder('mapbox.places');
+        geocoder.query($('#address').val(), showMap);
+        event.preventDefault();
+    });    
+});
+</script>
 
 </body>
 </html>
