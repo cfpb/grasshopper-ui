@@ -16,7 +16,7 @@ module.exports = function(){
   function css(url, cb){
     var link = d.createElement('link');
     var img = d.createElement('img');
-    link.ref = 'stylesheet';
+    link.rel = 'stylesheet';
     link.href = url;
     img.src = url;
 

@@ -4,6 +4,7 @@ var loadLate = require('./loadLate');
 var subAndRun = require('./subAndRun');
 var mapboxQuery = require('./mapboxQuery');
 
+var lateLoader = loadLate();
 var subHub = subAndRun();
 
 var mapDiv = document.getElementById('map');
@@ -22,7 +23,7 @@ inp.addEventListener('keydown',function(e){
 
     var query = mapboxQuery(this.value);
     this.value = '';
-    grass.geocode(query, process);
+    grass.geocode(query, process, {uri:1});
   }
 });
 
@@ -39,8 +40,8 @@ function loadMap(){
   
   mapDiv.style.opacity = 1;
 
-  loadLate.css(mapboxCSS,initWhenLoaded);
-  loadLate.js(mapboxJS,initWhenLoaded);
+  lateLoader.css(mapboxCSS,initWhenLoaded);
+  lateLoader.js(mapboxJS,initWhenLoaded);
 
   function initWhenLoaded(){
     if(++loadCount === 2) initMap();
