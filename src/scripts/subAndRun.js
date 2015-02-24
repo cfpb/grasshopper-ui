@@ -25,4 +25,4 @@ module.exports = function(){
     subscribe:subscribe,
     unsubscribe:unsubscribe
   };
-}();
+};
