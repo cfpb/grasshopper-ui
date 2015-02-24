@@ -12,22 +12,43 @@
 
 
 $(function() {
+    var markers;
+
+    $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
+
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-    var map = L.mapbox.map('map', 'cfpb.k55b27gd')
-        .setView([40, -74.50], 4);
+    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
+        .setView([39.8282, -98.5795], 4);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    map.scrollWheelZoom.disable();
+
+    var geocoder = L.mapbox.geocoder('mapbox.places');
 
     function showMap(err, data) {
-        map.setView([data.latlng[0], data.latlng[1]], 13);
-        L.mapbox.featureLayer(data.results.features[0]).addTo(map);
-        $('#data').html('<h3>' + data.results.features[0].place_name + '</h3>');
-        //$('#data').append('<pre>' + JSON.stringify(data, undefined, 4) + '</pre>');
+        $('#data').html('');
+        map.setView([data.latlng[0], data.latlng[1]], 9);
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                map.removeLayer(layer);
+            }
+        });
+        markers = L.geoJson(data.results.features[0]).addTo(map);
+        
+        $('#data').css('display', 'block').append('<h4>' + [data.latlng[0], data.latlng[1]] + '</h4>'
+            + '<h5>' + data.results.features[0].place_name + '</h5>');
     }
 
-    $('#js-geocode').submit(function(event) {
-        var geocoder = L.mapbox.geocoder('mapbox.places');
+    $('#geocode').submit(function(event) {
         geocoder.query($('#address').val(), showMap);
-        event.preventDefault();
-    });    
+        return false;
+    });
+
+    $('#address').keypress(function (e) {
+        if (e.which == 13) {
+            geocoder.query($('#address').val(), showMap);
+            return false;
+        }
+    });   
 });
 </script>
 

@@ -1,28 +1,18 @@
 {% include head.html %}
 {% include header.html %}
 
-<div class="banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <form id="js-geocode">
-                    <label for="address">Enter an address</label>
-                    <input id="address" name="address" type="text" />
-                    <input class="btn" type="submit" value="Geocode it!" />
-                    <a href="#test">Want to do a batch?<br />Drag your .json file here.</a>
-                </form>
+<div class="wrapper">
+    <div class="panel">
+        <form class="group" id="geocode">
+            <div class="input-wrapper">
+                <input id="address" name="address" placeholder="Enter an address" type="text" />
+                <input class="btn" type="submit" value="Get Lat/Long!" />
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-6">
-        <div id="map"></div>
-    </div>
-    <div class="col-6">
+        </form>
+        <a href="#test">Want to do a batch?</a>
         <div id="data"></div>
     </div>
+    <div id="map"></div>
 </div>
 
 {% include footer.html %}

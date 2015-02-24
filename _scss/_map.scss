@@ -1,6 +1,24 @@
 /* map */
 #map {
-	background-color: $gray-50;
-	height: 400px;
-	width: 100%;
+    background-color: $gray-50;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+#data {
+    background: $gray-10;
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    max-width: 500px;
+    h4, h5 {
+        margin: 0;
+    }
+    h4 {
+        margin-bottom: 5px;
+    }
+    h5 {
+        font-weight: normal;
+    }
 }
