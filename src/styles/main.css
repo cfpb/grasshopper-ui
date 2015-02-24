@@ -1,24 +1,33 @@
 body{
   font-family: Helvetica;
 }
-#queryForm{
-  width: 40%;
 
+#queryForm{
   position: absolute;
-  top: 200px;
-  left: 30%;
   z-index: 2;
 
   color: #434355;
 
-  transition : width 1s, top 1s, left 1s; 
+  transition : all 1s;
   transform: translateZ(0);
 }
 
-#inp{
-  width:100%;
+.initialForm{
+  width: 40%;
   height: 2em;
   font-size: 2em;
+
+  top: 200px;
+  left: 30%;
+}
+
+.mapForm{
+
+}
+
+#inp{
+  height:inherit;
+  font-size:inherit;
   padding: 0 5px;
 }
 

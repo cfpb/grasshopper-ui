@@ -52,7 +52,8 @@ function loadMap(){
 function initMap(){
   var L = window.L;
   L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-  var map = L.mapbox.map(mapDiv, 'mapbox.streets').setView([38, -122], 10);
+  var map = L.mapbox.map(mapDiv, 'mapbox.streets', {zoomControl: false}).setView([38, -122], 10);
+  new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
 
   subHub.subscribe(function(result){
