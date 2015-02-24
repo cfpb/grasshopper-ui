@@ -7,6 +7,7 @@ var mapboxQuery = require('./mapboxQuery');
 var lateLoader = loadLate();
 var subHub = subAndRun();
 
+var container = document.getElementById('container');
 var mapDiv = document.getElementById('map');
 var inp = document.getElementById('inp');
 
@@ -38,7 +39,7 @@ function loadMap(){
   var mapboxJS ='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js';
   var loadCount=0;
   
-  mapDiv.style.opacity = 1;
+  container.style.opacity = 1;
 
   lateLoader.css(mapboxCSS,initWhenLoaded);
   lateLoader.js(mapboxJS,initWhenLoaded);

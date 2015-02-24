@@ -65,14 +65,28 @@ h2{
   padding: 0 5px;
 }
 
-#map{
-  width: 75%;
-
+#container{
   position: absolute;
   top: 90px;
   bottom: 0; 
   left: 0;
+  right:0;
 
   opacity:0;
   transition: opacity 1s;
+}
+
+#map{
+  width: 75%;
+  height: 100%;
+
+  position: absolute;
+}
+
+#resultPane{
+  width: 25%; 
+  height: 100%;
+
+  position:absolute;
+  right:0;
 }
