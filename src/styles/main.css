@@ -41,7 +41,7 @@ h2{
 
   color: #434355;
 
-  transition : all 1s;
+  transition : all 0.75s;
   transform: translateZ(0);
 }
 
@@ -49,20 +49,27 @@ h2{
   width: 50%;
   height: 2em;
   font-size: 2em;
+  padding: 0 5px;
 
   top: 40%;
   left: 25%;
 }
 
 .mapForm{
+  width: 22%;
+  height: 1.4em;
+  font-size: 1.2em;
+  padding: 0 3px;
 
+  top: 100px;
+  left:10px;
 }
 
 #inp{
   height:inherit;
   width:100%;
   font-size:inherit;
-  padding: 0 5px;
+  padding: inherit; 
 }
 
 #container{

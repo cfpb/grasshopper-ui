@@ -7,13 +7,15 @@ var mapboxQuery = require('./mapboxQuery');
 var lateLoader = loadLate();
 var subHub = subAndRun();
 
-var container = document.getElementById('container');
-var mapDiv = document.getElementById('map');
-var inp = document.getElementById('inp');
+var d = document;
+var container = d.getElementById('container');
+var mapDiv = d.getElementById('map');
+var queryForm = d.getElementById('queryForm');
+var inp = d.getElementById('inp');
 
 var firstLoad = 1;
 
-
+inp.focus();
 inp.addEventListener('keydown',function(e){
   if(e.keyCode === 13){
 
@@ -40,6 +42,7 @@ function loadMap(){
   var loadCount=0;
   
   container.style.opacity = 1;
+  queryForm.className += ' mapForm';
 
   lateLoader.css(mapboxCSS,initWhenLoaded);
   lateLoader.js(mapboxJS,initWhenLoaded);
