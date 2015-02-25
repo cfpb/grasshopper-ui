@@ -1,14 +1,5 @@
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Vim swap files #
-##################
+# Editors #
+#################
 *.swp
 
 # Python #
@@ -37,3 +28,6 @@ coverage.xml
 node_modules/
 bower_components/
 .grunt/
+.sass-cache
+_site
+bundle.js
