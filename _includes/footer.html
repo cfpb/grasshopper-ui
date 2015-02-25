@@ -39,6 +39,8 @@ $(function() {
         
         $('#data').css('display', 'block').append('<h4>' + [data.latlng[0], data.latlng[1]] + '</h4>'
             + '<h5>' + data.results.features[0].place_name + '</h5>');
+
+        $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
     }
 
     $('#geocode').submit(function(event) {
@@ -86,7 +88,7 @@ $(function() {
                 //markers = L.geoJson(feature.center).addTo(map);
             });*/
         });
-        //$('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
+        $('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
     }
 
     // batch
