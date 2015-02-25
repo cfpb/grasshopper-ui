@@ -30,4 +30,3 @@ bower_components/
 .grunt/
 .sass-cache
 _site
-bundle.js
