@@ -1,5 +1,4 @@
 'use strict';
-
 var loadLate = require('./loadLate');
 var subAndRun = require('./subAndRun');
 var mapboxQuery = require('./mapboxQuery');
@@ -9,7 +8,7 @@ var subHub = subAndRun();
 
 var d = document;
 var container = d.getElementById('container');
-var mapDiv = d.getElementById('map');
+var mapDiv = d.getElementById('mapDiv');
 var queryForm = d.getElementById('queryForm');
 var inp = d.getElementById('inp');
 
@@ -56,19 +55,22 @@ function loadMap(){
 function initMap(){
   var L = window.L;
   L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-  var map = L.mapbox.map(mapDiv, 'mapbox.streets', {zoomControl: false}).setView([38, -122], 10);
+  var map = window.map = L.mapbox.map(mapDiv, 'mapbox.streets', {zoomControl: false}).setView([38, -122], 10);
   new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
 
   subHub.subscribe(function(result){
-  features.setGeoJSON(result);
-  map.panTo(flipCoords(result.coordinates));
-});
+    features.setGeoJSON(result);
+    map.panTo(flipCoords(result.features[0].geometry.coordinates));
+  });
 }
 
 
 function flipCoords(arr){
-  return [arr[1],arr[0]];
+  var zero = arr[0];
+  arr[0] = arr[1];
+  arr[1] = zero;
+  return arr;
 }
 
 

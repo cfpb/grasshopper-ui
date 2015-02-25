@@ -83,7 +83,7 @@ h2{
   transition: opacity 1s;
 }
 
-#map{
+#mapDiv{
   width: 75%;
   height: 100%;
 
