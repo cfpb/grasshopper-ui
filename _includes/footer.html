@@ -25,6 +25,7 @@ $(function() {
     var geocoder = L.mapbox.geocoder('mapbox.places');
 
     function showMap(err, data) {
+        $('#table').css('display', 'none');
         $('#data').html('');
         console.log('lat ' + data.latlng[0]);
         console.log('long ' + data.latlng[1]);
@@ -62,6 +63,7 @@ $(function() {
             }
         });
         $.each(data.results, function(i, result) {
+
             console.log(i);
             console.log(result.type);
             console.log('lat ' + result.features[0].center[1]);
@@ -84,10 +86,13 @@ $(function() {
                 //markers = L.geoJson(feature.center).addTo(map);
             });*/
         });
+        //$('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
     }
 
     // batch
     $('#batch').click(function() {
+        $('#data').css('display', 'none')
+        $('#table tbody').html('');
         //console.log('batch');
         var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
         geocoder.query('cumberland, md; hagerstown, md; chambersburg, pa' , testFunc);
