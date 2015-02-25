@@ -34,6 +34,10 @@
     }
     p.query {
         color: $gray-80;
+        text-transform: capitalize;
+        span {
+            text-transform: uppercase;
+        }
     }
     h5 {
         font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
@@ -85,12 +89,12 @@
 }
 
 .marker {
-    background-color: $green;
+    background-color: $navy;
     //border: 3px solid $black;
     border-radius: 50%;
     box-shadow:
-        0 0 0 3px rgba(0, 0, 0, .8),
+        0 0 0 5px rgba(255, 177, 73, .8),
         0 0 0 10px rgba(0, 0, 0, .1);
-    height: 8px;
-    width: 8px;
+    height: 5px;
+    width: 5px;
 }

@@ -31,7 +31,7 @@ $(function() {
         //console.log('long ' + data.latlng[1]);
         var markerIcon = L.divIcon({
           className: 'marker',
-          iconSize: [8, 8]
+          iconSize: [5, 5]
         });
 
         // clear existing layers
@@ -49,7 +49,7 @@ $(function() {
         
         // display data
         $('#data').css('display', 'block')
-            .append('<p class="query">' + data.results.query[0] + ', ' + data.results.query[1] + '</p>'
+            .append('<p class="query">' + data.results.query[0] + ', <span>' + data.results.query[1] + '</span></p>'
                 + '<h5>' + [data.latlng[0], data.latlng[1]] + '</h5>'
                 + '<p>' + data.results.features[0].place_name + '</p>');
 
@@ -97,7 +97,7 @@ $(function() {
         // Define an icon called cssIcon
         var markerIcon = L.divIcon({
           className: 'marker',
-          iconSize: [8, 8]
+          iconSize: [5, 5]
         });
         map.setView([data.results[0].features[0].center[1], data.results[0].features[0].center[0]], 8);
         map.eachLayer(function(layer) {
@@ -112,7 +112,7 @@ $(function() {
             L.marker([result.features[0].center[1], result.features[0].center[0]], { icon: markerIcon})
             .addTo(map);
             $('#data').append('<div class="result">'
-                + '<p class="query">' + result.query[0] + ', ' + result.query[1] + '</p>'
+                + '<p class="query">' + result.query[0] + ', <span>' + result.query[1] + '</span></p>'
                 + '<h5>' + result.features[0].center[1] + ', ' + result.features[0].center[0] + '</h5>'
                 + '<p>' + result.features[0].place_name + '</p></div>');
             /*$('.table-wrapper').css('display', 'table');
