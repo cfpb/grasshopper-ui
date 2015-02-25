@@ -13,6 +13,7 @@ var queryForm = d.getElementById('queryForm');
 var inp = d.getElementById('inp');
 
 var firstLoad = 1;
+var firstResult;
 
 inp.focus();
 inp.addEventListener('keydown',function(e){
@@ -29,10 +30,14 @@ inp.addEventListener('keydown',function(e){
   }
 });
 
+subHub.subscribe(setFirstResult);
+subHub.subscribe(function(result){console.log(result)});
 
-subHub.subscribe(function(result){
-  console.log(result);
-});
+function setFirstResult(result){
+  firstResult = result;
+  subHub.unsubscribe(setFirstResult);
+}
+
 
 
 function loadMap(){
@@ -58,11 +63,16 @@ function initMap(){
   var map = window.map = L.mapbox.map(mapDiv, 'mapbox.streets', {zoomControl: false}).setView([38, -122], 10);
   new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
+  
+  if(firstResult) panToMarker(firstResult);
+  subHub.subscribe(panToMarker);
 
-  subHub.subscribe(function(result){
+  function panToMarker(result){
     features.setGeoJSON(result);
     map.panTo(flipCoords(result.features[0].geometry.coordinates));
-  });
+  }
+
+  
 }
 
 
