@@ -8,6 +8,11 @@ html {
 
 .wrapper {
     position: relative;
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 }
 
 .container {

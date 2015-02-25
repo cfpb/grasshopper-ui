@@ -22,3 +22,41 @@
         font-weight: normal;
     }
 }
+
+#table {
+    background-color: $white;
+    border-collapse: collapse;
+    border-spacing: 0;
+    bottom: 0;
+    display: none;
+    font-size: .75em;
+    left: 0;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    z-index: 1001;
+
+    & > tbody > tr > td,
+    & > tbody > tr > th,
+    & > tfoot > tr > td,
+    & > tfoot > tr > th {
+      border-top: 1px solid #ddd;
+      line-height: 1.42857;
+      padding: 8px;
+      vertical-align: top;
+    }
+    & > thead > tr > th {
+        border-bottom: 2px solid $gray-50;
+        padding: 8px;
+        text-align: left;
+    }
+    & > thead > tr > th,
+    & > thead > tr > td,
+    & > tbody > tr > th,
+    & > tbody > tr > td,
+    & > tfoot > tr > th,
+    & > tfoot > tr > td {
+        //border-bottom: 2px solid $gray-50;
+    }
+}
