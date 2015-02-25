@@ -1,0 +1,5 @@
+baseurl: /grasshopper-ui
+
+sass:
+    sass_dir: _scss
+    style: expanded
