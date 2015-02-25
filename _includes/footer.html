@@ -48,8 +48,10 @@ $(function() {
         //markers = L.geoJson(data.results.features[0], {icon: markerIcon}).addTo(map);
         
         // display data
-        $('#data').css('display', 'block').append('<h5>' + [data.latlng[0], data.latlng[1]] + '</h5>'
-            + '<p>' + data.results.features[0].place_name + '</p>');
+        $('#data').css('display', 'block')
+            .append('<p class="query">' + data.results.query[0] + ', ' + data.results.query[1] + '</p>'
+                + '<h5>' + [data.latlng[0], data.latlng[1]] + '</h5>'
+                + '<p>' + data.results.features[0].place_name + '</p>');
 
         // reset map height (may have changed on batch)
         //$('#map').height(($(document).height() - $('header').height() - 40) + 'px');
@@ -64,7 +66,7 @@ $(function() {
         // data (single)
         //$('#data').css('display', 'none')
         $('#data').html('');
-
+        $('#downloads').css('display', 'block');
         // single address
         if ($('#address').val().indexOf(';') === -1) {
             var geocoder = L.mapbox.geocoder('mapbox.places');
