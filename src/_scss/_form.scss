@@ -32,8 +32,9 @@ button {
     width: 400px;
     z-index: 1000;
     label {
-        font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
-        font-size: 1em;
+        color: $gray-50;
+        font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
+        font-size: .75em;
         display: block;
     }
     input {
