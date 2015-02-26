@@ -30,15 +30,29 @@ inp.addEventListener('keydown',function(e){
   }
 });
 
-subHub.subscribe(setFirstResult);
+subHub.setPreprocessor(getResult);
 subHub.subscribe(function(result){console.log(result)});
+subHub.subscribe(setFirstResult);
+subHub.subscribe(buildResult);
+
+function getResult(raw){
+  return {
+    addr : raw.features[0].place,
+    coords : flipCoords(raw.features[0].center)
+  }; 
+}
 
 function setFirstResult(result){
   firstResult = result;
   subHub.unsubscribe(setFirstResult);
 }
 
+function buildResult(result){
+  var coords = result.coords;
+  var addr = result.addr;
+  var div = d.createElement('div');
 
+}
 
 function loadMap(){
   var mapboxCSS='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css';
@@ -77,10 +91,7 @@ function initMap(){
 
 
 function flipCoords(arr){
-  var zero = arr[0];
-  arr[0] = arr[1];
-  arr[1] = zero;
-  return arr;
+  return [arr[1], arr[0]];
 }
 
 
