@@ -4,6 +4,7 @@ var className;
 var classRegex;
 
 function activeClass(target){
+  if (target === lastTarget) return;
   var currClass = target.className;
   if(lastTarget){
     var lastClass = lastTarget.className;
