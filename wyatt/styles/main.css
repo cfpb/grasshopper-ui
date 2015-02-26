@@ -94,16 +94,30 @@ h2{
   width: 25%; 
   height: 100%;
 
-  position:absolute;
-  right:0;
+  position: absolute;
+  right: 0;
+  overflow-y: auto;
 }
 
 .result{
   width: 96%;
   margin: 10px 2%;
-  background: #f9fafa;
+  background-color: #f9fafa;
   box-shadow: 0 1px 1px 0 #aaa;
   cursor: pointer;
+}
+
+.selectedResult{
+  box-shadow: -2px 0 0 0 #888,
+               0 1px 1px 0 #aaa
+}
+
+.result:hover{
+  background-color:#eaf8ea;
+}
+
+.result:active{
+  background-color:#f9fafa;
 }
 
 .result > h4{

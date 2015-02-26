@@ -5,7 +5,7 @@ var listenerStore = [];
 function add(div, result){
 
   function bound(){
-    fn(result);
+    fn(div, result);
   }
 
   div.addEventListener('mousedown', bound);

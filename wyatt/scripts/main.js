@@ -3,9 +3,11 @@ var loadLate = require('./loadLate');
 var subAndRun = require('./subAndRun');
 var mapboxQuery = require('./mapboxQuery');
 var eventManager = require('./eventManager');
+var activeClass = require('./activeClass');
 
 var lateLoader = loadLate();
 var subHub = subAndRun();
+activeClass.set('selectedResult');
 
 var d = document;
 var container = d.getElementById('container');
@@ -79,6 +81,7 @@ function buildResult(result){
   div.className = 'result';
 
   eventManager.add(div, result);
+  activeClass(div);
 
   h4.innerText = result.geo.properties.title;
   span.innerText = result.geo.properties.description;
@@ -87,6 +90,7 @@ function buildResult(result){
   div.appendChild(span);
   resultPane.appendChild(div);
 }
+
 
 
 function loadMap(){
@@ -113,7 +117,10 @@ function initMap(){
   new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
   
-  eventManager.setFn(panToMarker);
+  eventManager.setFn(function(div, result){
+    activeClass(div);
+    panToMarker(result);
+  });
 
   if(firstResult) panToMarker(firstResult);
 
