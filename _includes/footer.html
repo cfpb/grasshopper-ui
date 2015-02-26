@@ -18,7 +18,7 @@ $(function() {
 
     function showLocation(location) {
         // create marker
-        var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], { icon: markerIcon});
+        var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], {icon: markerIcon});
         // add marker to featureGroup
         markerGroup.addLayer(marker);
         // fit the map
