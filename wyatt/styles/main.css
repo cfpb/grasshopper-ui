@@ -97,3 +97,25 @@ h2{
   position:absolute;
   right:0;
 }
+
+.result{
+  width: 96%;
+  margin: 10px 2%;
+  background: #f9fafa;
+  box-shadow: 0 1px 1px 0 #aaa;
+  cursor: pointer;
+}
+
+.result > h4{
+  margin: 0 0 4px 10px;
+  padding: 6px 0 2px 0;
+  border-bottom: 1px dotted #333;
+}
+
+.result > span{
+  display: block;
+  line-height:1.4em;
+  margin: 0 0 0 10px;
+  padding: 0 0 6px 0;
+  font-size: 0.9em;
+}
