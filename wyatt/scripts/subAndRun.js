@@ -45,6 +45,6 @@ module.exports = function(){
     run:run,
     subscribe:subscribe,
     unsubscribe:unsubscribe,
-    setProprocessor:setPreprocessor
+    setPreprocessor:setPreprocessor
   };
 };

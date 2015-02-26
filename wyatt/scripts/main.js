@@ -30,22 +30,28 @@ inp.addEventListener('keydown',function(e){
   }
 });
 
+
 subHub.setPreprocessor(getResult);
 subHub.subscribe(function(result){console.log(result)});
 subHub.subscribe(setFirstResult);
 subHub.subscribe(buildResult);
 
+
 function getResult(raw){
+  console.log(raw);
   return {
-    addr : raw.features[0].place,
-    coords : flipCoords(raw.features[0].center)
+    addr : raw.features[0].place_name,
+    coords : flipCoords(raw.features[0].center),
+    geo : raw.features[0].geometry  
   }; 
 }
+
 
 function setFirstResult(result){
   firstResult = result;
   subHub.unsubscribe(setFirstResult);
 }
+
 
 function buildResult(result){
   var coords = result.coords;
@@ -53,6 +59,7 @@ function buildResult(result){
   var div = d.createElement('div');
 
 }
+
 
 function loadMap(){
   var mapboxCSS='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css';
@@ -82,8 +89,8 @@ function initMap(){
   subHub.subscribe(panToMarker);
 
   function panToMarker(result){
-    features.setGeoJSON(result);
-    map.panTo(flipCoords(result.features[0].geometry.coordinates));
+    features.setGeoJSON(result.geo);
+    map.panTo(result.coords);
   }
 
   
