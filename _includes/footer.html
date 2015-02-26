@@ -67,6 +67,7 @@ $(function() {
         //$('#data').css('display', 'none')
         $('#data').html('');
         $('#downloads').css('display', 'block');
+        $('#count').html('');
         // single address
         if ($('#address').val().indexOf(';') === -1) {
             var geocoder = L.mapbox.geocoder('mapbox.places');
@@ -124,6 +125,7 @@ $(function() {
                 + '<td>' + result.attribution + '</td>'
                 + '<td>' + result.features[0].relevance + '</td></tr>');*/
         });
+        $('.panel').append('<div id="count">Showing ' + data.results.length + ' results</div>');
         //$('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
     }
 
