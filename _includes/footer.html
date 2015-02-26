@@ -9,11 +9,82 @@
 </footer>
 <script src='{{ site.baseurl }}/andrew/js/jquery-2.1.3.min.js'></script>
 <script>
-
-
 $(function() {
     var markers;
     var geocoder;
+    var markerIcon = L.divIcon({
+      className: 'marker',
+      iconSize: [5, 5]
+    });
+
+    function showLocation(location) {
+        // set map
+        map.setView([location.features[0].center[1], location.features[0].center[0]], 8);
+        // add marker
+        L.marker([location.features[0].center[1], location.features[0].center[0]], { icon: markerIcon})
+            .addTo(map);
+
+        // setup up query string
+        // this accounts for town/city names having spaces
+        // last piece is the state abbr (in the <span>)
+        var queryName = '';
+        $.each(location.query, function (i, namePart) {
+            if (i === location.query.length - 1) {
+                queryName = queryName + ', <span>' + namePart + '</span>';
+            } else {
+                queryName = queryName + namePart + ' ';
+            }
+        });
+        
+        // append data
+        $('#data').append('<div class="result">'
+            +'<p class="query">' + queryName + '</p>'
+            + '<h5>' + location.features[0].center[1] + ', ' + location.features[0].center[0] + '</h5>'
+            + '<p>' + location.features[0].place_name + '</p>'
+            + '</div>');
+    }
+
+    function renderResults(err, data) {
+        if (data.results.length === undefined) {
+            showLocation(data.results);
+        } else {
+            $.each(data.results, function(i, result) {
+                showLocation(result);
+            });
+            $('#count').append('Showing ' + data.results.length + ' results');
+        }
+        // show data
+        $('#downloads').css('display', 'block');
+        $('#data').css('display', 'block');
+        $('#count').css('display', 'block');
+    }
+
+    function setupGeoCoder() {
+        // clear previous results
+        $('#downloads').css('display', 'none');
+        $('#data').css('display', 'none');
+        $('#count').css('display', 'none');
+        $('#data').html('');
+        $('#count').html('');
+
+        // clear existing layers
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                map.removeLayer(layer);
+            }
+        });
+
+        // if there is no ;
+        // single address
+        if ($('#address').val().indexOf(';') === -1) {
+            var geocoder = L.mapbox.geocoder('mapbox.places');
+            geocoder.query($('#address').val(), renderResults);
+        // else batch
+        } else {
+            var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
+            geocoder.query($('#address').val() , renderResults);
+        }
+    }
 
     // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
@@ -24,60 +95,6 @@ $(function() {
         .setView([39.8282, -98.5795], 4);
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
-
-    // show a single address
-    function showSingle(err, data) {
-        //console.log('lat ' + data.latlng[0]);
-        //console.log('long ' + data.latlng[1]);
-        var markerIcon = L.divIcon({
-          className: 'marker',
-          iconSize: [5, 5]
-        });
-
-        // clear existing layers
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                map.removeLayer(layer);
-            }
-        });
-        // set map
-        map.setView([data.latlng[0], data.latlng[1]], 9);
-        // add new marker
-        L.marker([data.latlng[0], data.latlng[1]], { icon: markerIcon})
-            .addTo(map);
-        //markers = L.geoJson(data.results.features[0], {icon: markerIcon}).addTo(map);
-        
-        // display data
-        $('#data').css('display', 'block')
-            .append('<p class="query">' + data.results.query[0] + ', <span>' + data.results.query[1] + '</span></p>'
-                + '<h5>' + [data.latlng[0], data.latlng[1]] + '</h5>'
-                + '<p>' + data.results.features[0].place_name + '</p>');
-
-        // reset map height (may have changed on batch)
-        //$('#map').height(($(document).height() - $('header').height() - 40) + 'px');
-    }
-
-    function setupGeoCoder() {
-        // clear previous results
-        // table (batch)
-        //$('.table-wrapper').css('display', 'none');
-        //$('#table tbody').html('');
-
-        // data (single)
-        //$('#data').css('display', 'none')
-        $('#data').html('');
-        $('#downloads').css('display', 'block');
-        $('#count').html('');
-        // single address
-        if ($('#address').val().indexOf(';') === -1) {
-            var geocoder = L.mapbox.geocoder('mapbox.places');
-            geocoder.query($('#address').val(), showSingle);
-        // batch
-        } else {
-            var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
-            geocoder.query($('#address').val() , showBatch);
-        }
-    }
 
     // on submit
     $('#geocode').submit(function(event) {
@@ -93,43 +110,7 @@ $(function() {
         }
     });
 
-
-    function showBatch(err, data) {
-        // Define an icon called cssIcon
-        var markerIcon = L.divIcon({
-          className: 'marker',
-          iconSize: [5, 5]
-        });
-        map.setView([data.results[0].features[0].center[1], data.results[0].features[0].center[0]], 8);
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                map.removeLayer(layer);
-            }
-        });
-
-        $('#data').css('display', 'block');
-        $.each(data.results, function(i, result) {
-            //markers = L.geoJson(result.features, {icon: markerIcon}).addTo(map);
-            L.marker([result.features[0].center[1], result.features[0].center[0]], { icon: markerIcon})
-            .addTo(map);
-            $('#data').append('<div class="result">'
-                + '<p class="query">' + result.query[0] + ', <span>' + result.query[1] + '</span></p>'
-                + '<h5>' + result.features[0].center[1] + ', ' + result.features[0].center[0] + '</h5>'
-                + '<p>' + result.features[0].place_name + '</p></div>');
-            /*$('.table-wrapper').css('display', 'table');
-            $('#table tbody').append('<tr><td>'
-                + result.query[0] + ', ' + result.query[1] + '</td>'
-                + '<td>' + result.features[0].center[1] + '</td>'
-                + '<td>' + result.features[0].center[0] + '</td>'
-                + '<td>' + result.features[0].place_name + '</td>'
-                + '<td>' + result.attribution + '</td>'
-                + '<td>' + result.features[0].relevance + '</td></tr>');*/
-        });
-        $('.panel').append('<div id="count">Showing ' + data.results.length + ' results</div>');
-        //$('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
-    }
-
-    // batch
+    // file
     $('#batch').click(function() {
         var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
         geocoder.query('cumberland, md; hagerstown, md; chambersburg, pa' , showBatch);

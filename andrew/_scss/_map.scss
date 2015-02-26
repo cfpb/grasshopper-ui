@@ -25,6 +25,9 @@
     .result {
         border-top: 1px solid $gray-20;
         padding: 10px 0;
+        &:last-child {
+            padding-bottom: 0;
+        }
     }
     p, h5 {
         margin: 0;
@@ -48,7 +51,8 @@
 }
 
 #count {
-    font-size: .75em;
+    font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
+    font-size: .65em;
     margin-top: 20px;
     text-align: right;
 }
