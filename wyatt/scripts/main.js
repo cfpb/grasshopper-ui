@@ -9,6 +9,7 @@ var subHub = subAndRun();
 var d = document;
 var container = d.getElementById('container');
 var mapDiv = d.getElementById('mapDiv');
+var resultPane = d.getElementById('resultPane');
 var queryForm = d.getElementById('queryForm');
 var inp = d.getElementById('inp');
 
@@ -43,7 +44,7 @@ function getResult(raw){
   var coords = flipCoords(raw.features[0].center);
   var geo = raw.features[0].geometry;
 
-  geo.properties = makeTitleHTML(coords, addr);
+  geo.properties = makeGeoProps(coords, addr);
 
   return {
     addr : addr,
@@ -58,7 +59,8 @@ function setFirstResult(result){
   subHub.unsubscribe(setFirstResult);
 }
 
-function makeTitleHTML(coords, addr){
+
+function makeGeoProps(coords, addr){
   return {
     title:coords[0].toFixed(3) + ', ' + coords[1].toFixed(3),
     description:addr
@@ -67,9 +69,17 @@ function makeTitleHTML(coords, addr){
 
 
 function buildResult(result){
-  var coords = result.coords;
-  var addr = result.addr;
   var div = d.createElement('div');
+  var h4 = d.createElement('h4');
+  var span = d.createElement('span');
+  div.className = 'result';
+
+  h4.innerText = result.geo.properties.title;
+  span.innerText = result.geo.properties.description;
+
+  div.appendChild(h4);
+  div.appendChild(span);
+  resultPane.appendChild(div);
 }
 
 
