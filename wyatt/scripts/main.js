@@ -39,10 +39,16 @@ subHub.subscribe(buildResult);
 
 function getResult(raw){
   console.log(raw);
+  var addr = raw.features[0].place_name.replace(/, United States$/, '');
+  var coords = flipCoords(raw.features[0].center);
+  var geo = raw.features[0].geometry;
+
+  geo.properties = makeTitleHTML(coords, addr);
+
   return {
-    addr : raw.features[0].place_name,
-    coords : flipCoords(raw.features[0].center),
-    geo : raw.features[0].geometry  
+    addr : addr,
+    coords : coords,
+    geo : geo   
   }; 
 }
 
@@ -52,12 +58,18 @@ function setFirstResult(result){
   subHub.unsubscribe(setFirstResult);
 }
 
+function makeTitleHTML(coords, addr){
+  return {
+    title:coords[0].toFixed(3) + ', ' + coords[1].toFixed(3),
+    description:addr
+  };
+}
+
 
 function buildResult(result){
   var coords = result.coords;
   var addr = result.addr;
   var div = d.createElement('div');
-
 }
 
 
