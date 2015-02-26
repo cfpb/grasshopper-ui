@@ -48,6 +48,20 @@
         font-weight: normal;
         margin-bottom: 0;
     }
+    .placename {
+        margin-bottom: 5px;
+    }
+    .source, .relevance {
+        color: $gray-50;
+        float: left;
+        width: 50%;
+        a {
+            margin: 0;
+        }
+    }
+    .source {
+        text-align: right;
+    }
 }
 
 #count {
