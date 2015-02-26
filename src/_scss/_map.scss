@@ -40,10 +40,17 @@
         }
     }
     h5 {
+        color: $green;
         font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
         font-weight: normal;
         margin-bottom: 0;
     }
+}
+
+#count {
+    font-size: .75em;
+    margin-top: 20px;
+    text-align: right;
 }
 
 .table-wrapper {
@@ -89,12 +96,12 @@
 }
 
 .marker {
-    background-color: $navy;
+    background-color: $white;
     //border: 3px solid $black;
     border-radius: 50%;
     box-shadow:
-        0 0 0 5px rgba(255, 177, 73, .8),
-        0 0 0 10px rgba(0, 0, 0, .1);
+        0 0 0 3px $green,
+        0 0 0 6px rgba(0, 0, 0, .2);
     height: 5px;
     width: 5px;
 }
