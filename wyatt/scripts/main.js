@@ -2,6 +2,7 @@
 var loadLate = require('./loadLate');
 var subAndRun = require('./subAndRun');
 var mapboxQuery = require('./mapboxQuery');
+var eventManager = require('./eventManager');
 
 var lateLoader = loadLate();
 var subHub = subAndRun();
@@ -36,7 +37,6 @@ subHub.setPreprocessor(getResult);
 subHub.subscribe(function(result){console.log(result)});
 subHub.subscribe(setFirstResult);
 subHub.subscribe(buildResult);
-
 
 function getResult(raw){
   console.log(raw);
@@ -74,6 +74,8 @@ function buildResult(result){
   var span = d.createElement('span');
   div.className = 'result';
 
+  eventManager.add(div, result);
+
   h4.innerText = result.geo.properties.title;
   span.innerText = result.geo.properties.description;
 
@@ -107,14 +109,16 @@ function initMap(){
   new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
   
+  eventManager.setFn(panToMarker);
+
   if(firstResult) panToMarker(firstResult);
+
   subHub.subscribe(panToMarker);
 
   function panToMarker(result){
     features.setGeoJSON(result.geo);
     map.panTo(result.coords);
   }
-
   
 }
 
