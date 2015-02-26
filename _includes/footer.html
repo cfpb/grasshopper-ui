@@ -37,10 +37,12 @@ $(function() {
         });
         
         // append data
-        $('#data').append('<div class="result">'
+        $('#data').append('<div class="result group">'
             +'<p class="query">' + queryName + '</p>'
             + '<h5>' + location.features[0].center[1] + ', ' + location.features[0].center[0] + '</h5>'
-            + '<p>' + location.features[0].place_name + '</p>'
+            + '<p class="placename">' + location.features[0].place_name + '</p>'
+            + '<p class="relevance">Score: ' + location.features[0].relevance + '</p>'
+            + '<p class="source">' + location.attribution + '</p>'
             + '</div>');
     }
 
@@ -61,6 +63,7 @@ $(function() {
         $('#downloads').css('display', 'block');
         $('#data').css('display', 'block');
         $('#count').css('display', 'block');
+        $('.show-hide-data').css('display', 'block');
     }
 
     function setupGeoCoder() {
@@ -117,6 +120,16 @@ $(function() {
         var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
         geocoder.query('cumberland, md; hagerstown, md; chambersburg, pa' , showBatch);
         return false;
+    });
+
+     $('.show-hide-data').click(function() {
+        $('#data, #downloads').toggle( "slow", function() {
+            if ($('#data').css('display') === 'none') {
+                $('.show-hide-data').text('Show Data');
+            } else {
+                $('.show-hide-data').text('Hide Data');
+            }
+        });
     });
 });
 </script>

@@ -6,6 +6,12 @@ html {
   box-sizing: inherit;
 }
 
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .wrapper {
     position: relative;
     &:after {

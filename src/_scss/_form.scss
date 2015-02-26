@@ -61,4 +61,9 @@ button {
         border-bottom: 1px solid $navy;
         color: $navy;
     }
+
+    a.show-hide-data:link {
+        display: none;
+        float: right;
+    }
 }
