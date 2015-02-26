@@ -40,10 +40,14 @@ subHub.subscribe(buildResult);
 
 function getResult(raw){
   console.log(raw);
-  var addr = raw.features[0].place_name.replace(/, United States$/, '');
-  var coords = flipCoords(raw.features[0].center);
-  var geo = raw.features[0].geometry;
-
+  var feature = raw.features[0];
+  var addr = feature.place_name.replace(/, United States$/, '');
+  var coords = flipCoords(feature.center);
+  var geo = feature.geometry;
+  
+  //Override lines with their center
+  geo.type = 'Point'; 
+  geo.coordinates = feature.center;
   geo.properties = makeGeoProps(coords, addr);
 
   return {
