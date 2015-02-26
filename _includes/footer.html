@@ -10,7 +10,6 @@
 <script src='{{ site.baseurl }}/src/js/jquery-2.1.3.min.js'></script>
 <script>
 $(function() {
-    var markers;
     var geocoder;
     var markerIcon = L.divIcon({
       className: 'marker',
@@ -18,13 +17,14 @@ $(function() {
     });
 
     function showLocation(location) {
-        // set map
-        map.setView([location.features[0].center[1], location.features[0].center[0]], 8);
-        // add marker
-        L.marker([location.features[0].center[1], location.features[0].center[0]], { icon: markerIcon})
-            .addTo(map);
+        // create marker
+        var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], { icon: markerIcon});
+        // add marker to featureGroup
+        markerGroup.addLayer(marker);
+        // fit the map
+        map.fitBounds(markerGroup.getBounds());
 
-        // setup up query string
+        // setup up query string for output
         // this accounts for town/city names having spaces
         // last piece is the state abbr (in the <span>)
         var queryName = '';
@@ -45,14 +45,18 @@ $(function() {
     }
 
     function renderResults(err, data) {
+        // single address
         if (data.results.length === undefined) {
             showLocation(data.results);
+        // batch
         } else {
             $.each(data.results, function(i, result) {
                 showLocation(result);
             });
+            // show the count
             $('#count').append('Showing ' + data.results.length + ' results');
         }
+
         // show data
         $('#downloads').css('display', 'block');
         $('#data').css('display', 'block');
@@ -60,19 +64,14 @@ $(function() {
     }
 
     function setupGeoCoder() {
+        // clear featureGroup
+        markerGroup.clearLayers();
         // clear previous results
         $('#downloads').css('display', 'none');
         $('#data').css('display', 'none');
         $('#count').css('display', 'none');
         $('#data').html('');
         $('#count').html('');
-
-        // clear existing layers
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                map.removeLayer(layer);
-            }
-        });
 
         // if there is no ;
         // single address
@@ -89,12 +88,15 @@ $(function() {
     // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
 
-    // load base
+    // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
+
+    // featureGroup for markers
+    var markerGroup = L.featureGroup().addTo(map);
 
     // on submit
     $('#geocode').submit(function(event) {
