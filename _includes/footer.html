@@ -71,7 +71,9 @@ $(function() {
         
         // add the layer
         markerLayer.setGeoJSON(updatedData.results);
-
+        // fit the map to the bounds of the markers
+        map.fitBounds(markerLayer.getBounds());
+        
         // append to count
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         // show data
@@ -160,9 +162,6 @@ $(function() {
                 + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
                 + '</div>');
-            
-            // fit the map to the bounds of the markers
-            map.fitBounds(markerLayer.getBounds());
 
             markerCount ++;
         }
