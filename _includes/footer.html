@@ -17,6 +17,8 @@ $(function() {
     });
 
     function showLocation(location) {
+        console.log (location.features[0].properties.query);
+        console.log (location.features[0].properties.attribution);
         // create marker
         var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], {icon: markerIcon});
         // add marker to featureGroup
@@ -49,10 +51,25 @@ $(function() {
     function renderResults(err, data) {
         // single address
         if (data.results.length === undefined) {
+
             showLocation(data.results);
         // batch
         } else {
             $.each(data.results, function(i, result) {
+                // set 
+                var queryName = '';
+                $.each(result.query, function (i, namePart) {
+                    if (i === result.query.length - 1) {
+                        queryName = queryName + ', <span>' + namePart + '</span>';
+                    } else {
+                        queryName = queryName + namePart + ' ';
+                    }
+                });
+                $.each(result.features, function(j, feature) {
+                    feature.properties.query = queryName;
+                    feature.properties.attribution = result.attribution;
+                });
+                
                 showLocation(result);
             });
             // show the count
