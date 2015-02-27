@@ -73,7 +73,7 @@ $(function() {
         markerLayer.setGeoJSON(updatedData.results);
         // fit the map to the bounds of the markers
         map.fitBounds(markerLayer.getBounds());
-        
+
         // append to count
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         // show data
@@ -144,6 +144,7 @@ $(function() {
               className: 'marker',
               iconSize: [10, 10]
             }));
+        }
 
             var colorClass = 'good';
             if (feature.relevance < .75 && feature.relevance > .5) {
@@ -159,12 +160,13 @@ $(function() {
                 + feature.center[1] + ', ' + feature.center[0]
                 + '</a></h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
+                + '<p class="type">' + feature.geometry.type + '</p>'
                 + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
                 + '</div>');
 
             markerCount ++;
-        }
+       // }
     });
 
     /*
