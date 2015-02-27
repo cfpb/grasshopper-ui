@@ -84,6 +84,15 @@
         margin: 0;
     }
 }
+.good {
+    color: $green;
+}
+.ok {
+    color: $gold;
+}
+.bad {
+    color: $redorange;
+}
 .source {
     text-align: right;
 }
