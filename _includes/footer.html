@@ -54,7 +54,7 @@ $(function() {
         // single address
         if (data.results.length === undefined) {
 
-            showLocation(data.results);
+            //showLocation(data.results);
         // batch
         } else {
             $.each(data.results, function(i, result) {
@@ -72,11 +72,12 @@ $(function() {
                     feature.properties.attribution = result.attribution;
                 });
                 
-                showLocation(result);
+                //showLocation(result);
             });
             // show the count
             $('#count').append('Showing ' + data.results.length + ' results');
         }
+        markerGroup.setGeoJSON(data.results);
 
         // show data
         $('#downloads').css('display', 'block');
@@ -143,11 +144,11 @@ $(function() {
                 }
             });*/
             $('#data').append('<div class="result group">'
-                +'<p class="query">' + data.results.query[0] + '</p>'
+                +'<p class="query">' + feature.properties.query + '</p>'
                 + '<h5>' + feature.center[1] + ', ' + feature.center[0] + '</h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
                 + '<p class="relevance">Score: ' + feature.relevance + '</p>'
-               // + '<p class="source">' + data.results.attribution + '</p>'
+                + '<p class="source">' + feature.properties.attribution + '</p>'
                 + '</div>');
             map.fitBounds(markerGroup.getBounds());
         }
