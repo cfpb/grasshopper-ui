@@ -76,7 +76,7 @@
 .placename {
     margin-bottom: 5px;
 }
-.source, .relevance {
+.type, .relevance {
     color: $gray-50;
     float: left;
     width: 50%;
@@ -93,7 +93,7 @@
 .bad {
     color: $redorange;
 }
-.source {
+.relevance {
     text-align: right;
 }
 
