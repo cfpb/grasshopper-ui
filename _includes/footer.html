@@ -17,7 +17,9 @@ $(function() {
     });
 
     function showLocation(location) {
-        console.log (location.features[0].properties.query);
+        markerGroup.setGeoJSON(data.results);
+        
+        /*console.log (location.features[0].properties.query);
         console.log (location.features[0].properties.attribution);
         // create marker
         var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], {icon: markerIcon});
@@ -45,7 +47,7 @@ $(function() {
             + '<p class="placename">' + location.features[0].place_name + '</p>'
             + '<p class="relevance">Score: ' + location.features[0].relevance + '</p>'
             + '<p class="source">' + location.attribution + '</p>'
-            + '</div>');
+            + '</div>');*/
     }
 
     function renderResults(err, data) {
@@ -117,7 +119,39 @@ $(function() {
     map.scrollWheelZoom.disable();
 
     // featureGroup for markers
-    var markerGroup = L.featureGroup().addTo(map);
+    var markerGroup = L.mapbox.featureLayer().addTo(map);
+
+    // when a layer is added
+    markerGroup.on('layeradd', function(e) {
+        var marker = e.layer,
+        feature = marker.feature;
+
+        if (feature.geometry.type === 'Point') {
+            marker.setIcon(L.divIcon({
+              className: 'marker',
+              iconSize: [10, 10]
+            }));
+            console.log(feature.geometry.type);
+            //console.log(marker);
+            //console.log(feature);
+            var queryName = '';
+            /*$.each(marker.query, function (i, namePart) {
+                if (i === marker.query.length - 1) {
+                    queryName = queryName + ', <span>' + namePart + '</span>';
+                } else {
+                    queryName = queryName + namePart + ' ';
+                }
+            });*/
+            $('#data').append('<div class="result group">'
+                +'<p class="query">' + data.results.query[0] + '</p>'
+                + '<h5>' + feature.center[1] + ', ' + feature.center[0] + '</h5>'
+                + '<p class="placename">' + feature.place_name + '</p>'
+                + '<p class="relevance">Score: ' + feature.relevance + '</p>'
+               // + '<p class="source">' + data.results.attribution + '</p>'
+                + '</div>');
+            map.fitBounds(markerGroup.getBounds());
+        }
+    });
 
     // on submit
     $('#geocode').submit(function(event) {
