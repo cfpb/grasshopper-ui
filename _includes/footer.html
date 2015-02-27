@@ -53,7 +53,17 @@ $(function() {
     function renderResults(err, data) {
         // single address
         if (data.results.length === undefined) {
-
+            var queryName = '';
+            $.each(data.results.query, function (i, namePart) {
+                if (i === data.results.query.length - 1) {
+                    queryName = queryName + ', <span>' + namePart + '</span>';
+                } else {
+                    queryName = queryName + namePart + ' ';
+                }
+                console.log(queryName);
+            });
+            data.results.features[0].properties.query = queryName;
+            data.results.features[0].properties.attribution = data.results.attribution;
             //showLocation(data.results);
         // batch
         } else {
@@ -75,8 +85,9 @@ $(function() {
                 //showLocation(result);
             });
             // show the count
-            $('#count').append('Showing ' + data.results.length + ' results');
+            $('#count').append('Showing ' + (data.results.length - 1) + ' results');
         }
+
         markerGroup.setGeoJSON(data.results);
 
         // show data
