@@ -46,10 +46,16 @@ $(function() {
     function setProperties(data) {
         // single address
         if (data.results.length === undefined) {
-            data.results.features[0].properties.query = setQueryName(data.results.query);
-            data.results.features[0].properties.attribution = data.results.attribution;
+            console.log ('single');
+            //data.results.features[0].properties.query = setQueryName(data.results.query);
+            //data.results.features[0].properties.attribution = data.results.attribution;
+            $.each(data.results.features, function(j, feature) {
+                feature.properties.query = setQueryName(data.results.query);;
+                feature.properties.attribution = data.results.attribution;
+            });
         // batch
         } else {
+            console.log ('batch');
             $.each(data.results, function(i, result) {
                 $.each(result.features, function(j, feature) {
                     feature.properties.query = setQueryName(result.query);;
@@ -136,6 +142,13 @@ $(function() {
               className: 'marker',
               iconSize: [10, 10]
             }));
+
+            var colorClass = 'good';
+            if (feature.relevance < .75 && feature.relevance > .5) {
+                colorClass = 'ok';
+            } else if (feature.relevance <= .5) {
+                colorClass = 'bad';
+            }
             
             // append the data
             $('#data').append('<div class="result group">'
@@ -144,7 +157,7 @@ $(function() {
                 + feature.center[1] + ', ' + feature.center[0]
                 + '</a></h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
-                + '<p class="relevance">Score: ' + feature.relevance + '</p>'
+                + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
                 + '</div>');
             
