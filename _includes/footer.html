@@ -18,36 +18,6 @@ $(function() {
 
     function showLocation(location) {
         markerGroup.setGeoJSON(data.results);
-        
-        /*console.log (location.features[0].properties.query);
-        console.log (location.features[0].properties.attribution);
-        // create marker
-        var marker = L.marker([location.features[0].center[1], location.features[0].center[0]], {icon: markerIcon});
-        // add marker to featureGroup
-        markerGroup.addLayer(marker);
-        // fit the map
-        map.fitBounds(markerGroup.getBounds());
-
-        // setup up query string for output
-        // this accounts for town/city names having spaces
-        // last piece is the state abbr (in the <span>)
-        var queryName = '';
-        $.each(location.query, function (i, namePart) {
-            if (i === location.query.length - 1) {
-                queryName = queryName + ', <span>' + namePart + '</span>';
-            } else {
-                queryName = queryName + namePart + ' ';
-            }
-        });
-        
-        // append data
-        $('#data').append('<div class="result group">'
-            +'<p class="query">' + queryName + '</p>'
-            + '<h5>' + location.features[0].center[1] + ', ' + location.features[0].center[0] + '</h5>'
-            + '<p class="placename">' + location.features[0].place_name + '</p>'
-            + '<p class="relevance">Score: ' + location.features[0].relevance + '</p>'
-            + '<p class="source">' + location.attribution + '</p>'
-            + '</div>');*/
     }
 
     function renderResults(err, data) {
@@ -130,7 +100,7 @@ $(function() {
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
 
-    // featureGroup for markers
+    // featureGroup for markers and add it to the map
     var markerGroup = L.mapbox.featureLayer().addTo(map);
 
     // when a layer is added
@@ -155,8 +125,10 @@ $(function() {
                 }
             });*/
             $('#data').append('<div class="result group">'
-                +'<p class="query">' + feature.properties.query + '</p>'
-                + '<h5>' + feature.center[1] + ', ' + feature.center[0] + '</h5>'
+                + '<p class="query">' + feature.properties.query + '</p>'
+                + '<a class="lat-long" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" onclick="console.log(' + feature.center[1] + ');" href="#">'
+                + feature.center[1] + ', ' + feature.center[0]
+                + '</a>'
                 + '<p class="placename">' + feature.place_name + '</p>'
                 + '<p class="relevance">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
@@ -195,6 +167,14 @@ $(function() {
             }
         });
     });
+
+     // pan to the point from the panel
+     // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
+     $('#data').on('click', '.lat-long', function() {
+        console.log('made it');
+        map.panTo($(this).data('lat-long'));
+        return false;
+     });
 });
 </script>
 
