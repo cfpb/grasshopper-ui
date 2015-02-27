@@ -2,13 +2,17 @@
 var loadLate = require('./loadLate');
 var subAndRun = require('./subAndRun');
 var mapboxQuery = require('./mapboxQuery');
+var eventManager = require('./eventManager');
+var activeClass = require('./activeClass');
 
 var lateLoader = loadLate();
 var subHub = subAndRun();
+activeClass.set('selectedResult');
 
 var d = document;
 var container = d.getElementById('container');
 var mapDiv = d.getElementById('mapDiv');
+var resultPane = d.getElementById('resultPane');
 var queryForm = d.getElementById('queryForm');
 var inp = d.getElementById('inp');
 
@@ -30,12 +34,61 @@ inp.addEventListener('keydown',function(e){
   }
 });
 
-subHub.subscribe(setFirstResult);
+
+subHub.setPreprocessor(getResult);
 subHub.subscribe(function(result){console.log(result)});
+subHub.subscribe(setFirstResult);
+subHub.subscribe(buildResult);
+
+function getResult(raw){
+  console.log(raw);
+  var feature = raw.features[0];
+  var addr = feature.place_name.replace(/, United States$/, '');
+  var coords = flipCoords(feature.center);
+  var geo = feature.geometry;
+  
+  //Override lines with their center
+  geo.type = 'Point'; 
+  geo.coordinates = feature.center;
+  geo.properties = makeGeoProps(coords, addr);
+
+  return {
+    addr : addr,
+    coords : coords,
+    geo : geo   
+  }; 
+}
+
 
 function setFirstResult(result){
   firstResult = result;
   subHub.unsubscribe(setFirstResult);
+}
+
+
+function makeGeoProps(coords, addr){
+  return {
+    title:coords[0].toFixed(3) + ', ' + coords[1].toFixed(3),
+    description:addr
+  };
+}
+
+
+function buildResult(result){
+  var div = d.createElement('div');
+  var h4 = d.createElement('h4');
+  var span = d.createElement('span');
+  div.className = 'result';
+
+  eventManager.add(div, result);
+  activeClass(div);
+
+  h4.innerText = result.geo.properties.title;
+  span.innerText = result.geo.properties.description;
+
+  div.appendChild(h4);
+  div.appendChild(span);
+  resultPane.appendChild(div);
 }
 
 
@@ -64,23 +117,25 @@ function initMap(){
   new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
   var features = L.mapbox.featureLayer(null).addTo(map);
   
+  eventManager.setFn(function(div, result){
+    activeClass(div);
+    panToMarker(result);
+  });
+
   if(firstResult) panToMarker(firstResult);
+
   subHub.subscribe(panToMarker);
 
   function panToMarker(result){
-    features.setGeoJSON(result);
-    map.panTo(flipCoords(result.features[0].geometry.coordinates));
+    features.setGeoJSON(result.geo);
+    map.panTo(result.coords);
   }
-
   
 }
 
 
 function flipCoords(arr){
-  var zero = arr[0];
-  arr[0] = arr[1];
-  arr[1] = zero;
-  return arr;
+  return [arr[1], arr[0]];
 }
 
 
