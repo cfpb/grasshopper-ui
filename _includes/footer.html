@@ -15,51 +15,59 @@ $(function() {
       className: 'marker',
       iconSize: [10, 10]
     });
+    var markerCount = 0;
+    var queryCount = 1;
 
-    function showLocation(location) {
-        markerGroup.setGeoJSON(data.results);
+    /*
+    dealing with data
+    - setting query name (friendly to read)
+    - adding new properties to the feature
+    - rendering results
+    - clearing results
+    - creating the geocoder
+    */
+
+    // return the query name from the result
+    function setQueryName(location) {
+        var queryName = '';
+        $.each(location, function (i, namePart) {
+            if (i === location.length - 1) {
+                queryName = queryName + ', <span>' + namePart + '</span>';
+            } else {
+                queryName = queryName + namePart + ' ';
+            }
+            //console.log(queryName);
+        });
+        return queryName;
     }
 
-    function renderResults(err, data) {
+    // we need to show a few things that aren't in the feature
+    // the actual query ran and the attribution
+    function setProperties(data) {
         // single address
         if (data.results.length === undefined) {
-            var queryName = '';
-            $.each(data.results.query, function (i, namePart) {
-                if (i === data.results.query.length - 1) {
-                    queryName = queryName + ', <span>' + namePart + '</span>';
-                } else {
-                    queryName = queryName + namePart + ' ';
-                }
-                console.log(queryName);
-            });
-            data.results.features[0].properties.query = queryName;
+            data.results.features[0].properties.query = setQueryName(data.results.query);
             data.results.features[0].properties.attribution = data.results.attribution;
-            //showLocation(data.results);
         // batch
         } else {
             $.each(data.results, function(i, result) {
-                // set 
-                var queryName = '';
-                $.each(result.query, function (i, namePart) {
-                    if (i === result.query.length - 1) {
-                        queryName = queryName + ', <span>' + namePart + '</span>';
-                    } else {
-                        queryName = queryName + namePart + ' ';
-                    }
-                });
                 $.each(result.features, function(j, feature) {
-                    feature.properties.query = queryName;
+                    feature.properties.query = setQueryName(result.query);;
                     feature.properties.attribution = result.attribution;
                 });
-                
-                //showLocation(result);
             });
-            // show the count
-            $('#count').append('Showing ' + (data.results.length - 1) + ' results');
         }
+        return data;
+    }
 
-        markerGroup.setGeoJSON(data.results);
+    function renderResults(err, data) {
+        var updatedData = setProperties(data);
+        
+        // add the layer
+        markerLayer.setGeoJSON(updatedData.results);
 
+        // append to count
+        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         // show data
         $('#downloads').css('display', 'block');
         $('#data').css('display', 'block');
@@ -67,9 +75,9 @@ $(function() {
         $('.show-hide-data').css('display', 'block');
     }
 
-    function setupGeoCoder() {
-        // clear featureGroup
-        markerGroup.clearLayers();
+    function clearResults() {
+        // clear featureLayer
+        markerLayer.clearLayers();
         // clear previous results
         $('#downloads').css('display', 'none');
         $('#data').css('display', 'none');
@@ -77,18 +85,31 @@ $(function() {
         $('#data').html('');
         $('#count').html('');
         $('.show-hide-data').text('Hide Data');
+        // reset counts
+        markerCount = 0;
+        queryCount = 1;
+    }
 
-        // if there is no ;
-        // single address
+    function setupGeoCoder() {
+        // if there is no ; its a single address
         if ($('#address').val().indexOf(';') === -1) {
             var geocoder = L.mapbox.geocoder('mapbox.places');
             geocoder.query($('#address').val(), renderResults);
         // else batch
         } else {
+            queryCount = $('#address').val().split(';').length;
             var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
             geocoder.query($('#address').val() , renderResults);
         }
     }
+
+    /*
+    the setup
+    - set map (the div) height
+    - create the map and set properties
+    - add feature layer for markers
+    - function for when layer is added
+    */
 
     // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
@@ -100,64 +121,75 @@ $(function() {
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
 
-    // featureGroup for markers and add it to the map
-    var markerGroup = L.mapbox.featureLayer().addTo(map);
+    // featureLayer for markers and add it to the map
+    var markerLayer = L.mapbox.featureLayer().addTo(map);
 
     // when a layer is added
-    markerGroup.on('layeradd', function(e) {
+    markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
 
+        // if it's a point
         if (feature.geometry.type === 'Point') {
+            // custom marker
             marker.setIcon(L.divIcon({
               className: 'marker',
               iconSize: [10, 10]
             }));
-            console.log(feature.geometry.type);
-            //console.log(marker);
-            //console.log(feature);
-            var queryName = '';
-            /*$.each(marker.query, function (i, namePart) {
-                if (i === marker.query.length - 1) {
-                    queryName = queryName + ', <span>' + namePart + '</span>';
-                } else {
-                    queryName = queryName + namePart + ' ';
-                }
-            });*/
+            
+            // append the data
             $('#data').append('<div class="result group">'
                 + '<p class="query">' + feature.properties.query + '</p>'
-                + '<a class="lat-long" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" onclick="console.log(' + feature.center[1] + ');" href="#">'
+                + '<h5><a class="lat-long" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" onclick="console.log(' + feature.center[1] + ');" href="#">'
                 + feature.center[1] + ', ' + feature.center[0]
-                + '</a>'
+                + '</a></h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
                 + '<p class="relevance">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
                 + '</div>');
-            map.fitBounds(markerGroup.getBounds());
+            
+            // fit the map to the bounds of the markers
+            map.fitBounds(markerLayer.getBounds());
+
+            markerCount ++;
         }
     });
 
+    /*
+    the start
+    when form is submitted (button click or enter press)
+    */
+
     // on submit
     $('#geocode').submit(function(event) {
+        clearResults();
         setupGeoCoder();
         return false;
     });
 
-    // on enter
+    // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
+            clearResults();
             setupGeoCoder();
             return false;
         }
     });
 
-    // file
+    /*
+    A few extra jQuery functions
+    - file upload
+    - show/hide data
+    - panTo
+    */
+
+    // TODO: handle file uploads
     $('#batch').click(function() {
-        var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
-        geocoder.query('cumberland, md; hagerstown, md; chambersburg, pa' , showBatch);
         return false;
     });
 
+    // show/hide the data
+    // allows user to get the data panel out of the way
      $('.show-hide-data').click(function() {
         $('#data, #downloads').toggle( "slow", function() {
             if ($('#data').css('display') === 'none') {
