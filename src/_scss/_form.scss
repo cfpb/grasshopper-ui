@@ -49,8 +49,7 @@ button {
             padding: 6px;
         }
     }
-    a:link {
-        border-bottom: 1px dotted $pacific-50;
+    a:link, a:visited {
         display: inline-block;
         color: $pacific-50;
         font-size: .75em;
@@ -58,12 +57,15 @@ button {
         text-decoration: none;
     }
     a:hover {
-        border-bottom: 1px solid $navy;
         color: $navy;
+        text-decoration: none;
     }
 
     a.show-hide-data:link {
         display: none;
         float: right;
+    }
+    .result a:link {
+        margin-top: 0;
     }
 }
