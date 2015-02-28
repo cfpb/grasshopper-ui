@@ -1,6 +1,7 @@
 module.exports = function(){
   'use strict';
   var subscribers = [];
+  var preprocessor;
 
   
   function subscribe(fn){
@@ -16,10 +17,15 @@ module.exports = function(){
   }
 
   function run(data){ 
+    if(preprocessor) data = preprocessor(data);
     for(var i=0; i<subscribers.length; i++){
       subscribers[i](data);
     }
     cleanSubscribers();
+  }
+
+  function setPreprocessor(fn){
+    preprocessor = fn;
   }
 
 
@@ -38,6 +44,7 @@ module.exports = function(){
   return {
     run:run,
     subscribe:subscribe,
-    unsubscribe:unsubscribe
+    unsubscribe:unsubscribe,
+    setPreprocessor:setPreprocessor
   };
 };
