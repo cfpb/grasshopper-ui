@@ -11,8 +11,8 @@
 <script>
 $(function() {
     var geocoder;
-    var markerIcon = L.divIcon({
-      className: 'marker',
+    var activeMarkerIcon = L.divIcon({
+      className: 'active-marker',
       iconSize: [10, 10]
     });
     var markerCount = 0;
@@ -217,10 +217,10 @@ $(function() {
      // pan to the point from the panel
      // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
      $('#data').on('click', '.lat-long', function() {
-        console.log('made it');
         map.panTo($(this).data('lat-long'));
         return false;
      });
+
 });
 </script>
 
