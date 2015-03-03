@@ -9,97 +9,218 @@
 </footer>
 <script src='{{ site.baseurl }}/andrew/js/jquery-2.1.3.min.js'></script>
 <script>
-
-
 $(function() {
-    var markers;
+    var geocoder;
+    var markerIcon = L.divIcon({
+      className: 'marker',
+      iconSize: [10, 10]
+    });
+    var markerCount = 0;
+    var queryCount = 1;
 
+    /*
+    dealing with data
+    - setting query name (friendly to read)
+    - adding new properties to the feature
+    - rendering results
+    - clearing results
+    - creating the geocoder
+    */
+
+    // return the query name from the result
+    function setQueryName(location) {
+        var queryName = '';
+        $.each(location, function (i, namePart) {
+            if (i === location.length - 1) {
+                queryName = queryName + ', <span>' + namePart + '</span>';
+            } else {
+                queryName = queryName + namePart + ' ';
+            }
+            //console.log(queryName);
+        });
+        return queryName;
+    }
+
+    // we need to show a few things that aren't in the feature
+    // the actual query ran and the attribution
+    function setProperties(data) {
+        // single address
+        if (data.results.length === undefined) {
+            console.log ('single');
+            //data.results.features[0].properties.query = setQueryName(data.results.query);
+            //data.results.features[0].properties.attribution = data.results.attribution;
+            $.each(data.results.features, function(j, feature) {
+                feature.properties.query = setQueryName(data.results.query);;
+                feature.properties.attribution = data.results.attribution;
+            });
+        // batch
+        } else {
+            console.log ('batch');
+            $.each(data.results, function(i, result) {
+                $.each(result.features, function(j, feature) {
+                    feature.properties.query = setQueryName(result.query);;
+                    feature.properties.attribution = result.attribution;
+                });
+            });
+        }
+        return data;
+    }
+
+    function renderResults(err, data) {
+        var updatedData = setProperties(data);
+        
+        // add the layer
+        markerLayer.setGeoJSON(updatedData.results);
+        // fit the map to the bounds of the markers
+        map.fitBounds(markerLayer.getBounds());
+
+        // append to count
+        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
+        // show data
+        $('.data-wrapper').css('display', 'block');
+        //$('#data').css('display', 'block');
+        //$('#count').css('display', 'block');
+        $('.show-hide-data').css('display', 'block');
+    }
+
+    function clearResults() {
+        // clear featureLayer
+        markerLayer.clearLayers();
+        // clear previous results
+        $('.data-wrapper').css('display', 'none');
+        //$('#data').css('display', 'none');
+        //$('#count').css('display', 'none');
+        $('#data').html('');
+        $('#count').html('');
+        $('.show-hide-data').text('Hide Data');
+        // reset counts
+        markerCount = 0;
+        queryCount = 1;
+    }
+
+    function setupGeoCoder() {
+        // if there is no ; its a single address
+        if ($('#address').val().indexOf(';') === -1) {
+            var geocoder = L.mapbox.geocoder('mapbox.places');
+            geocoder.query($('#address').val(), renderResults);
+        // else batch
+        } else {
+            queryCount = $('#address').val().split(';').length;
+            var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
+            geocoder.query($('#address').val() , renderResults);
+        }
+    }
+
+    /*
+    the setup
+    - set map (the div) height
+    - create the map and set properties
+    - add feature layer for markers
+    - function for when layer is added
+    */
+
+    // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
 
+    // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
 
-    var geocoder = L.mapbox.geocoder('mapbox.places');
+    // featureLayer for markers and add it to the map
+    var markerLayer = L.mapbox.featureLayer().addTo(map);
 
-    function showMap(err, data) {
-        $('#table').css('display', 'none');
-        $('#data').html('');
-        console.log('lat ' + data.latlng[0]);
-        console.log('long ' + data.latlng[1]);
-        map.setView([data.latlng[0], data.latlng[1]], 9);
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                map.removeLayer(layer);
+    // when a layer is added
+    markerLayer.on('layeradd', function(e) {
+        var marker = e.layer,
+        feature = marker.feature;
+
+        // if it's a point
+        if (feature.geometry.type === 'Point') {
+            // custom marker
+            marker.setIcon(L.divIcon({
+              className: 'marker',
+              iconSize: [10, 10]
+            }));
+        }
+
+            var colorClass = 'good';
+            if (feature.relevance < .75 && feature.relevance > .5) {
+                colorClass = 'ok';
+            } else if (feature.relevance <= .5) {
+                colorClass = 'bad';
             }
-        });
-        markers = L.geoJson(data.results.features[0]).addTo(map);
-        
-        $('#data').css('display', 'block').append('<h4>' + [data.latlng[0], data.latlng[1]] + '</h4>'
-            + '<h5>' + data.results.features[0].place_name + '</h5>');
+            
+            // append the data
+            $('#data').append('<div class="result group">'
+                + '<h6>' + feature.properties.query + '</h6>'
+                + '<h5><a class="lat-long" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
+                + feature.center[1] + ', ' + feature.center[0]
+                + '</a></h5>'
+                + '<p class="placename">' + feature.place_name + '</p>'
+                + '<p class="type">' + feature.geometry.type + '</p>'
+                + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
+                + '<p class="source">' + feature.properties.attribution + '</p>'
+                + '</div>');
 
-        $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
-    }
+            markerCount ++;
+       // }
+    });
 
+    /*
+    the start
+    when form is submitted (button click or enter press)
+    */
+
+    // on submit
     $('#geocode').submit(function(event) {
-        geocoder.query($('#address').val(), showMap);
+        clearResults();
+        setupGeoCoder();
         return false;
     });
 
-    $('#address').keypress(function (e) {
+    // on keypress of enter
+    $('#address').keypress(function(e) {
         if (e.which == 13) {
-            geocoder.query($('#address').val(), showMap);
+            clearResults();
+            setupGeoCoder();
             return false;
         }
     });
 
+    /*
+    A few extra jQuery functions
+    - file upload
+    - show/hide data
+    - panTo
+    */
 
-    function testFunc(err, data) {
-        //console.log(data.results);
-        map.setView([data.results[0].features[0].center[1], data.results[0].features[0].center[0]], 8);
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                map.removeLayer(layer);
-            }
-        });
-        $.each(data.results, function(i, result) {
-
-            console.log(i);
-            console.log(result.type);
-            console.log('lat ' + result.features[0].center[1]);
-            console.log('long ' + result.features[0].center[0]);
-            
-            markers = L.geoJson(result.features).addTo(map);
-
-            $('#table').css('display', 'block');
-            $('#table tbody').append('<tr><td>'
-                + result.query[0] + ', ' + result.query[1] + '</td>'
-                + '<td>' + result.features[0].center[1] + '</td>'
-                + '<td>' + result.features[0].center[0] + '</td>'
-                + '<td>' + result.features[0].place_name + '</td>'
-                + '<td>' + result.attribution + '</td>'
-                + '<td>' + result.features[0].relevance + '</td></tr>');
-            /*$.each(result.features, function(j, feature) {
-                console.log(feature.text);
-                console.log(feature.center[0]);
-                console.log(feature.center[1]);
-                //markers = L.geoJson(feature.center).addTo(map);
-            });*/
-        });
-        $('#map').height(($(document).height() - $('header').height() - 40 - $('#table').height() - 40) + 'px');
-    }
-
-    // batch
+    // TODO: handle file uploads
     $('#batch').click(function() {
-        $('#data').css('display', 'none')
-        $('#table tbody').html('');
-        //console.log('batch');
-        var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
-        geocoder.query('cumberland, md; hagerstown, md; chambersburg, pa' , testFunc);
         return false;
     });
+
+    // show/hide the data
+    // allows user to get the data panel out of the way
+     $('.show-hide-data').click(function() {
+        $('.data-wrapper').toggle( "slow", function() {
+            if ($('.data-wrapper').css('display') === 'none') {
+                $('.show-hide-data').text('Show Data');
+            } else {
+                $('.show-hide-data').text('Hide Data');
+            }
+        });
+    });
+
+     // pan to the point from the panel
+     // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
+     $('#data').on('click', '.lat-long', function() {
+        console.log('made it');
+        map.panTo($(this).data('lat-long'));
+        return false;
+     });
 });
 </script>
 
