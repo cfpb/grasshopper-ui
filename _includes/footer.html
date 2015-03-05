@@ -223,23 +223,19 @@ $(function() {
 
         // change marker
         markerLayer.eachLayer(function(marker) {
-            console.log('looping through markers');
             var feature = marker.feature;
-            //console.log('the feature id is ' + feature.id + ' and the link id is ' + linkID);
-            if(feature.id === linkID) {
-                console.log ('the correct marker');
-                marker.setIcon(L.divIcon({
-                  className: 'marker2',
-                  iconSize: [10, 10]
-                }));
-                //feature.properties['marker-color'] = '#000000';
-                //markerLayer.setGeoJSON(data.results.feature);
-            } else {
-                console.log ('the other marker');
-                marker.setIcon(L.divIcon({
-                  className: 'marker',
-                  iconSize: [10, 10]
-                }));
+            if (feature.geometry.type === 'Point') {
+                if(feature.id === linkID) {
+                    marker.setIcon(L.divIcon({
+                      className: 'marker2',
+                      iconSize: [10, 10]
+                    }));
+                } else {
+                    marker.setIcon(L.divIcon({
+                      className: 'marker',
+                      iconSize: [10, 10]
+                    }));
+                }
             }
         });
         return false;
