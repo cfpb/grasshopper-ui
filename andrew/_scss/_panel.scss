@@ -2,16 +2,11 @@
     background-color: $white;
     box-shadow: 0 1px 1px $gray-50; 
     border-radius: 2px;
-    padding: 20px;
     position: absolute;
     left: 20px;
     top: 20px;
     width: 400px;
     z-index: 1000;
-}
-.show-hide-data {
-    display: none;
-    float: right;
 }
 
 .data-wrapper {
@@ -20,16 +15,23 @@
 
 .help {
     margin-top: 10px;
+    padding: 0 20px 20px;
 
-    a:link, a:visited {
+    a {
         display: inline-block;
         font-size: .75em;
+        &.show-hide-data {
+            display: none;
+            float: right;
+        }
     }
 }
 
 #downloads {
+    border-bottom: 1px solid $gray-20;
     font-size: .75em;
-    margin: 10px 0;
+    padding: 0 20px 20px;
+
     a {
         font-size: 1em;
     }
@@ -37,14 +39,13 @@
 
 #data {
     max-height: 425px;
-    margin-top: 20px;
     overflow-y: scroll;
     max-width: 500px;
 }
 
 .result {
     border-top: 1px solid $gray-20;
-    padding: 10px 0;
+    padding: 10px 20px;
     &:last-child {
         border-bottom: 1px solid $gray-20;
     }
@@ -98,8 +99,10 @@
 }
 
 #count {
+    background: #f5f5f5;
+    border-top: 1px solid $gray-20;
     font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
     font-size: .65em;
-    margin-top: 20px;
-    text-align: right;
+    padding: 10px;
+    text-align: center;
 }
