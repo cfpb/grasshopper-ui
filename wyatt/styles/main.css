@@ -1,0 +1,135 @@
+html, body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family: Helvetica;
+  color:#333;
+  background-color:#f1f2f2;
+}
+
+.header{
+  height:90px;
+  width:100%;
+
+  position:absolute;
+  top:0;
+
+  background-color:#fff;
+}
+h2{
+  padding:21px 12px;
+  margin:0;
+
+  font-size:48px; 
+  line-height:1em;
+}
+
+.logo{
+  width:262px;
+  height:66px;
+
+  position:absolute;
+  right:12px;
+  top:12px;
+}
+
+#queryForm{
+  position: absolute;
+  z-index: 2;
+
+  color: #434355;
+
+  transition : all 0.75s;
+  transform: translateZ(0);
+}
+
+.initialForm{
+  width: 50%;
+  height: 2em;
+  font-size: 2em;
+  padding: 0 5px;
+
+  top: 40%;
+  left: 25%;
+}
+
+.mapForm{
+  width: 22%;
+  height: 1.4em;
+  font-size: 1.2em;
+  padding: 0 3px;
+
+  top: 100px;
+  left:10px;
+}
+
+#inp{
+  height:inherit;
+  width:100%;
+  font-size:inherit;
+  padding: inherit; 
+}
+
+#container{
+  position: absolute;
+  top: 90px;
+  bottom: 0; 
+  left: 0;
+  right:0;
+
+  opacity:0;
+  transition: opacity 1s;
+}
+
+#mapDiv{
+  width: 75%;
+  height: 100%;
+
+  position: absolute;
+}
+
+#resultPane{
+  width: 25%; 
+  height: 100%;
+
+  position: absolute;
+  right: 0;
+  overflow-y: auto;
+}
+
+.result{
+  width: 96%;
+  margin: 10px 2%;
+  background-color: #f9fafa;
+  box-shadow: 0 1px 1px 0 #aaa;
+  cursor: pointer;
+}
+
+.selectedResult{
+  box-shadow: -2px 0 0 0 #888,
+               0 1px 1px 0 #aaa
+}
+
+.result:hover{
+  background-color:#eaf8ea;
+}
+
+.result:active{
+  background-color:#f9fafa;
+}
+
+.result > h4{
+  margin: 0 0 4px 10px;
+  padding: 6px 0 2px 0;
+  border-bottom: 1px dotted #333;
+}
+
+.result > span{
+  display: block;
+  line-height:1.4em;
+  margin: 0 0 0 10px;
+  padding: 0 0 6px 0;
+  font-size: 0.9em;
+}
