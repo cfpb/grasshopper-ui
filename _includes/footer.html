@@ -13,7 +13,7 @@ $(function() {
     var geocoder;
     var activeMarkerIcon = L.divIcon({
       className: 'active-marker',
-      iconSize: [10, 10]
+      iconSize: [5, 5]
     });
     var markerCount = 0;
     var queryCount = 1;
@@ -142,7 +142,7 @@ $(function() {
             // custom marker
             marker.setIcon(L.divIcon({
               className: 'marker',
-              iconSize: [10, 10]
+              iconSize: [5, 5]
             }));
         }
 
@@ -228,12 +228,12 @@ $(function() {
                 if(feature.id === linkID) {
                     marker.setIcon(L.divIcon({
                       className: 'marker-active',
-                      iconSize: [10, 10]
+                      iconSize: [5, 5]
                     }));
                 } else {
                     marker.setIcon(L.divIcon({
                       className: 'marker',
-                      iconSize: [10, 10]
+                      iconSize: [5, 5]
                     }));
                 }
             }
