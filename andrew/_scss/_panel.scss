@@ -9,10 +9,6 @@
     width: 400px;
     z-index: 1000;
 }
-.show-hide-data {
-    display: none;
-    float: right;
-}
 
 .data-wrapper {
     display: none;
@@ -21,9 +17,13 @@
 .help {
     margin-top: 10px;
 
-    a:link, a:visited {
+    a {
         display: inline-block;
         font-size: .75em;
+        &.show-hide-data {
+            display: none;
+            float: right;
+        }
     }
 }
 

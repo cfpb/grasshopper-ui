@@ -156,7 +156,7 @@ $(function() {
             // append the data
             $('#data').append('<div class="result group">'
                 + '<h6>' + feature.properties.query + '</h6>'
-                + '<h5><a class="lat-long" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
+                + '<h5><a class="lat-long" data-id="' + feature.id + '" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
                 + feature.center[1] + ', ' + feature.center[0]
                 + '</a></h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
@@ -217,7 +217,31 @@ $(function() {
      // pan to the point from the panel
      // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
      $('#data').on('click', '.lat-long', function() {
+        // pan to
         map.panTo($(this).data('lat-long'));
+        var linkID = $(this).data('id');
+
+        // change marker
+        markerLayer.eachLayer(function(marker) {
+            console.log('looping through markers');
+            var feature = marker.feature;
+            //console.log('the feature id is ' + feature.id + ' and the link id is ' + linkID);
+            if(feature.id === linkID) {
+                console.log ('the correct marker');
+                marker.setIcon(L.divIcon({
+                  className: 'marker2',
+                  iconSize: [10, 10]
+                }));
+                //feature.properties['marker-color'] = '#000000';
+                //markerLayer.setGeoJSON(data.results.feature);
+            } else {
+                console.log ('the other marker');
+                marker.setIcon(L.divIcon({
+                  className: 'marker',
+                  iconSize: [10, 10]
+                }));
+            }
+        });
         return false;
      });
 
