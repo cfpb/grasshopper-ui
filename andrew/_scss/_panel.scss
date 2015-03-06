@@ -51,6 +51,7 @@
         animation: blink 1.5s infinite;
     }
     &:last-child {
+        margin-bottom: 0;
     }
     p, h5 {
         margin: 0;
@@ -100,10 +101,10 @@
 }
 .line {
     background-color: $green;
-    border-radius: 5px;
+    border-radius: 3px;
     display: inline-block;
-    height: 5px;
-    margin-bottom: 4px;
+    height: 3px;
+    margin-bottom: 5px;
     margin-right: 2px;
     width: 10px;
 }
