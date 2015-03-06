@@ -13,7 +13,7 @@ $(function() {
     var geocoder;
     var activeMarkerIcon = L.divIcon({
       className: 'active-marker',
-      iconSize: [10, 10]
+      iconSize: [5, 5]
     });
     var markerCount = 0;
     var queryCount = 1;
@@ -77,7 +77,8 @@ $(function() {
         // append to count
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         // show data
-        $('.data-wrapper').css('display', 'block');
+        //$('.data-wrapper').css('display', 'block');
+        $('.data-wrapper').slideDown('slow');
         //$('#data').css('display', 'block');
         //$('#count').css('display', 'block');
         $('.show-hide-data').css('display', 'block');
@@ -87,7 +88,7 @@ $(function() {
         // clear featureLayer
         markerLayer.clearLayers();
         // clear previous results
-        $('.data-wrapper').css('display', 'none');
+        $('.data-wrapper').slideDown('slow');
         //$('#data').css('display', 'none');
         //$('#count').css('display', 'none');
         $('#data').html('');
@@ -136,14 +137,21 @@ $(function() {
     markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
+        var geoType = '';
 
         // if it's a point
         if (feature.geometry.type === 'Point') {
             // custom marker
             marker.setIcon(L.divIcon({
               className: 'marker',
-              iconSize: [10, 10]
+              iconSize: [5, 5]
             }));
+
+            geoType = '<div class="point geo-symbol"></div>';
+        } else if (feature.geometry.type === 'LineString') {
+            geoType = '<div class="line geo-symbol"></div>';
+        } else if (feature.geometry.type === 'MultiLineString') {
+            geoType = '<div class="line geo-symbol"></div><div class="line geo-symbol"></div>';
         }
 
             var colorClass = 'good';
@@ -155,14 +163,16 @@ $(function() {
             
             // append the data
             $('#data').append('<div class="result group">'
-                + '<h6>' + feature.properties.query + '</h6>'
+                + '<div class="geo-data">'
                 + '<h5><a class="lat-long" data-id="' + feature.id + '" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
                 + feature.center[1] + ', ' + feature.center[0]
-                + '</a></h5>'
+                + '</a> ' + geoType + '</h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
                 + '<p class="type">' + feature.geometry.type + '</p>'
                 + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
+                + '</div>'
+                + '<h6>' + feature.properties.query + '</h6>'
                 + '</div>');
 
             markerCount ++;
@@ -205,18 +215,34 @@ $(function() {
     // show/hide the data
     // allows user to get the data panel out of the way
      $('.show-hide-data').click(function() {
-        $('.data-wrapper').toggle( "slow", function() {
+        if ($('.data-wrapper').is(':hidden')) {
+            $('.data-wrapper').slideDown('slow');
+            $('.show-hide-data').text('Hide Data');
+        } else {
+            $('.data-wrapper').slideUp('slow');
+            $('.show-hide-data').text('Show Data');
+        }
+        /*$('.data-wrapper').toggle( "slow", function() {
             if ($('.data-wrapper').css('display') === 'none') {
                 $('.show-hide-data').text('Show Data');
             } else {
                 $('.show-hide-data').text('Hide Data');
             }
-        });
+        });*/
     });
 
      // pan to the point from the panel
      // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
      $('#data').on('click', '.lat-long', function() {
+
+        $('.result').removeClass('active');
+        $(this).closest($('.result')).addClass('active');
+        //$(this).parent().parent().addClass('active');
+        /*var currentPos = $(this).parent().parent().offset();
+        $(this).parent().parent().offset({
+            top: currentPos.top,
+            left: currentPos.left + 20
+        });*/
         // pan to
         map.panTo($(this).data('lat-long'));
         var linkID = $(this).data('id');
@@ -227,13 +253,13 @@ $(function() {
             if (feature.geometry.type === 'Point') {
                 if(feature.id === linkID) {
                     marker.setIcon(L.divIcon({
-                      className: 'marker2',
-                      iconSize: [10, 10]
+                      className: 'marker-active',
+                      iconSize: [5, 5]
                     }));
                 } else {
                     marker.setIcon(L.divIcon({
                       className: 'marker',
-                      iconSize: [10, 10]
+                      iconSize: [5, 5]
                     }));
                 }
             }
