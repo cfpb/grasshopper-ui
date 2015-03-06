@@ -214,13 +214,18 @@ $(function() {
     // show/hide the data
     // allows user to get the data panel out of the way
      $('.show-hide-data').click(function() {
-        $('.data-wrapper').toggle( "slow", function() {
+        if ($('.data-wrapper').is(':hidden')) {
+            $('.data-wrapper').slideDown('slow');
+        } else {
+            $('.data-wrapper').slideUp();
+        }
+        /*$('.data-wrapper').toggle( "slow", function() {
             if ($('.data-wrapper').css('display') === 'none') {
                 $('.show-hide-data').text('Show Data');
             } else {
                 $('.show-hide-data').text('Hide Data');
             }
-        });
+        });*/
     });
 
      // pan to the point from the panel
