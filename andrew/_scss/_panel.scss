@@ -49,6 +49,7 @@
     &:hover .geo-symbol,
     &.active .geo-symbol {
         animation: blink 1.5s infinite;
+        -webkit-animation: blink 1.5s infinite;
     }
     &:last-child {
         margin-bottom: 0;
@@ -83,6 +84,14 @@
 }
 
 @keyframes blink {
+    0% {
+        background-color: rgba(44, 179, 74, 0);
+    }
+    100% {
+        background-color: rgba(44, 179, 74, 1);
+    }
+}
+@-webkit-keyframes blink {
     0% {
         background-color: rgba(44, 179, 74, 0);
     }
