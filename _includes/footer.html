@@ -77,7 +77,8 @@ $(function() {
         // append to count
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         // show data
-        $('.data-wrapper').css('display', 'block');
+        //$('.data-wrapper').css('display', 'block');
+        $('.data-wrapper').slideDown('slow');
         //$('#data').css('display', 'block');
         //$('#count').css('display', 'block');
         $('.show-hide-data').css('display', 'block');
@@ -87,7 +88,7 @@ $(function() {
         // clear featureLayer
         markerLayer.clearLayers();
         // clear previous results
-        $('.data-wrapper').css('display', 'none');
+        $('.data-wrapper').slideDown('slow');
         //$('#data').css('display', 'none');
         //$('#count').css('display', 'none');
         $('#data').html('');
@@ -216,8 +217,10 @@ $(function() {
      $('.show-hide-data').click(function() {
         if ($('.data-wrapper').is(':hidden')) {
             $('.data-wrapper').slideDown('slow');
+            $('.show-hide-data').text('Hide Data');
         } else {
-            $('.data-wrapper').slideUp();
+            $('.data-wrapper').slideUp('slow');
+            $('.show-hide-data').text('Show Data');
         }
         /*$('.data-wrapper').toggle( "slow", function() {
             if ($('.data-wrapper').css('display') === 'none') {
