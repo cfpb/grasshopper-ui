@@ -10,8 +10,8 @@
     background-color: $white;
     border-radius: 50%;
     box-shadow:
-        0 0 0 3px $gold,
-        0 0 0 6px rgba(0, 0, 0, .6);
+        0 0 0 3px $black,
+        0 0 0 6px rgba(0, 0, 0, .3);
     height: 5px;
     width: 5px;
 }
@@ -20,53 +20,40 @@
     @extend .marker;
     box-shadow:
         0 0 0 3px $green,
-        0 0 0 6px rgba(0, 0, 0, .6);
+        0 0 0 6px rgba(0, 0, 0, .3);
 
-    animation: toggle-shadow-new .75s 5;
+    animation: toggle-shadow 1.5s infinite;
 }
 
 @keyframes toggle-shadow {
-    0%, 40%, 80% {
-        box-shadow:
-            0 0 0 3px $green,
-            0 0 0 6px rgba(0, 0, 0, .2);
-    }
-    20%, 60%, 100% {
-        box-shadow:
-            0 0 0 3px $green,
-            0 0 0 6px rgba(0, 0, 0, .6);
-    }
-}
-
-@keyframes toggle-shadow-new {
     0% {
         box-shadow:
             0 0 0 0 $green,
-            0 0 0 0 rgba(0, 0, 0, .2);
+            0 0 0 0 rgba(0, 0, 0, .1);
     }
     15% {
         box-shadow:
             0 0 0 1px $green,
-            0 0 0 2px rgba(0, 0, 0, .6);
+            0 0 0 4px rgba(0, 0, 0, .2);
     }
     30% {
         box-shadow:
             0 0 0 2px $green,
-            0 0 0 3px rgba(0, 0, 0, .6);
+            0 0 0 8px rgba(0, 0, 0, .3);
     }
     45% {
         box-shadow:
             0 0 0 3px $green,
-            0 0 0 4px rgba(0, 0, 0, .6);
+            0 0 0 12px rgba(0, 0, 0, .2);
     }
     60% {
         box-shadow:
             0 0 0 3px $green,
-            0 0 0 5px rgba(0, 0, 0, .6);
+            0 0 0 14px rgba(0, 0, 0, .1);
     }
     75%, 100% {
         box-shadow:
             0 0 0 3px $green,
-            0 0 0 6px rgba(0, 0, 0, .6);
+            0 0 0 16px rgba(0, 0, 0, 0);
     }
 }
