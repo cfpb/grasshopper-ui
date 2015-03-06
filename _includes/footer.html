@@ -136,6 +136,7 @@ $(function() {
     markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
+        var geoType = '';
 
         // if it's a point
         if (feature.geometry.type === 'Point') {
@@ -144,6 +145,12 @@ $(function() {
               className: 'marker',
               iconSize: [5, 5]
             }));
+
+            geoType = '<div class="point geo-symbol"></div>';
+        } else if (feature.geometry.type === 'LineString') {
+            geoType = '<div class="line geo-symbol"></div>';
+        } else if (feature.geometry.type === 'MultiLineString') {
+            geoType = '<div class="line geo-symbol"></div><div class="line geo-symbol"></div>';
         }
 
             var colorClass = 'good';
@@ -155,14 +162,16 @@ $(function() {
             
             // append the data
             $('#data').append('<div class="result group">'
-                + '<h6>' + feature.properties.query + '</h6>'
+                + '<div class="geo-data">'
                 + '<h5><a class="lat-long" data-id="' + feature.id + '" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
                 + feature.center[1] + ', ' + feature.center[0]
-                + '</a></h5>'
+                + '</a> ' + geoType + '</h5>'
                 + '<p class="placename">' + feature.place_name + '</p>'
                 + '<p class="type">' + feature.geometry.type + '</p>'
                 + '<p class="relevance ' + colorClass + '">Score: ' + feature.relevance + '</p>'
                 + '<p class="source">' + feature.properties.attribution + '</p>'
+                + '</div>'
+                + '<h6>' + feature.properties.query + '</h6>'
                 + '</div>');
 
             markerCount ++;
@@ -219,8 +228,13 @@ $(function() {
      $('#data').on('click', '.lat-long', function() {
 
         $('.result').removeClass('active');
-
-        $(this).parent().parent().addClass('active');
+        $(this).closest($('.result')).addClass('active');
+        //$(this).parent().parent().addClass('active');
+        /*var currentPos = $(this).parent().parent().offset();
+        $(this).parent().parent().offset({
+            top: currentPos.top,
+            left: currentPos.left + 20
+        });*/
         // pan to
         map.panTo($(this).data('lat-long'));
         var linkID = $(this).data('id');
