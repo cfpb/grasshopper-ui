@@ -4,19 +4,15 @@
 Expect to be able to geocode individual addresses as well as batches of addresses from files or piped in from other APIs.
 
 ## Demo
-  - [Andrew's version](http://cfpb.github.io/grasshopper-ui/andrew/)
-  - [Wyatt's version](http://cfpb.github.io/grasshopper-ui/wyatt/)
-
-    - These were developed in parallel to aid in prototyping new features / concepts.
+  - [Check it out](http://cfpb.github.io/grasshopper-ui/src/)
 
 ## Info
-  - **Technology stack**: Uses [grassjs](https://github.com/wpears/grassjs) as the geocoding library and [Mapbox](https://www.mapbox.com/mapbox.js/api/v2.1.5/) for the map.
+  - **Technology stack**: Uses [Mapbox](https://www.mapbox.com/mapbox.js/api/v2.1.5/) for the map and (temporarily) for geocoding. Built with Jekyll.
   - **Status**:  Alpha
 
 ## Dependencies
 
-  - Andrew's version runs on Jekyll with scss
-  - Wyatt's version is Javascript built with browserify
+  - Runs on Jekyll with scss
 
 ----
 
