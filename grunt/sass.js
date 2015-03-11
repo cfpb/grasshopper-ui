@@ -1,12 +1,11 @@
 module.exports = {
-    sass: {
+    dist: {
         options: {
-            sourceMap: true
+            sourceMap: true,
+            outputStyle: 'compressed'
         },
-        dist: {
-            files: {
-                'dist/css/main.css': 'scss/grasshopper.scss'
-            }
+        files: {
+            'dist/css/main.css': 'scss/grasshopper.scss'
         }
     }
 }
