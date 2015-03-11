@@ -30,3 +30,7 @@ bower_components/
 .grunt/
 .sass-cache
 _site
+
+# System #
+##########
+.DS_Store
