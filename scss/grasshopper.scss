@@ -1,5 +1,3 @@
----
----
 // get our variables
 @import "variables/colors";
 @import "variables/fonts";
@@ -11,6 +9,7 @@
 // typography
 @import "fonts";
 @import "typography";
+@import "links";
 
 // layout
 @import "layout";
@@ -24,8 +23,8 @@
 // buttons
 @import "buttons";
 
-// banner
-@import "banner";
-
 // map
 @import "map";
+
+// panel
+@import "panel";
