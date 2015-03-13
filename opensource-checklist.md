@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 layout: base
+=======
+layout: default
+>>>>>>> gh-pages
 title: "Open Source Checklist"
 ---
 

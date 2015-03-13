@@ -7,33 +7,13 @@
 ehthumbs.db
 Thumbs.db
 
-# Vim swap files #
-##################
-*.swp
-
-# Python #
-#################
-*.pyc
-*.egg-info/
-__pycache__/
-*.py[cod]
-
-# Django #
-#################
-*.egg-info
-.installed.cfg
-
-# Unit test / coverage reports
-#################
-htmlcov/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-
 # Front-End #
 #############
 node_modules/
-bower_components/
 .grunt/
+.sass-cache
+dist/
+
+# System #
+##########
+.DS_Store
