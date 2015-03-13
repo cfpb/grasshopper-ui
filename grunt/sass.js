@@ -4,7 +4,7 @@ module.exports = {
             sourceMap: true,
         },
         files: {
-            'dist/css/main.css': 'scss/grasshopper.scss'
+            'dist/css/grasshopper.css': 'scss/grasshopper.scss'
         }
     }
 }
