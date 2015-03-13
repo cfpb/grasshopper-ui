@@ -6,5 +6,9 @@ module.exports = {
     css: {
         files: 'scss/*.scss',
         tasks: ['sass']
+    },
+    html: {
+        files: 'index.html',
+        tasks: ['htmlmin']
     }
 }
