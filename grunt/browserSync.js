@@ -5,7 +5,8 @@ module.exports = {
         },
         options: {
             watchTask: true,
-            server: './dist'
+            server: './dist',
+            open: false
         }
     }
 }
