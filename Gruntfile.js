@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
     // load grunt config
     require('load-grunt-config')(grunt);
-    grunt.registerTask('default', ['htmlmin:dist', 'sass:dist', 'cssmin']);
+    grunt.registerTask('default', ['htmlmin:dist', 'sass:dist', 'concat', 'copy', 'connect']);
 };
