@@ -1,14 +1,14 @@
 module.exports = {
     scripts: {
         files: 'js/**/*.js',
-        tasks: ['concat']
+        tasks: ['concat:dev']
     },
     css: {
         files: 'scss/**/*.scss',
-        tasks: ['sass']
+        tasks: ['sass:dev']
     },
     html: {
         files: 'index.html',
-        tasks: ['htmlmin']
+        tasks: ['copy:dev']
     }
 }
