@@ -1,7 +1,15 @@
 module.exports = {
-    dist: {
+    dev: {
         options: {
-            sourceMap: true,
+            sourceMap: true
+        },
+        files: {
+            'dist/css/grasshopper.css': 'scss/grasshopper.scss'
+        }
+    },
+    build: {
+        options: {
+            outputStyle: 'compressed'
         },
         files: {
             'dist/css/grasshopper.css': 'scss/grasshopper.scss'

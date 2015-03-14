@@ -1,5 +1,5 @@
 module.exports = {
-    dist: {
+    build: {
         options: {
             removeComments: true,
             collapseWhitespace: true
