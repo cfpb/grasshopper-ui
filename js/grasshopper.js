@@ -13,6 +13,7 @@ $(function() {
         map.fitBounds(markerLayer.getBounds());
 
         // append to count
+        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         
         //wrapper.showHide();
         //$('#data').css('display', 'block');
