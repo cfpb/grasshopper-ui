@@ -24,10 +24,10 @@ var dataWrapper = function () {
         queryCount = 1;
     }
 
-    function setColor (feature) {
-        if (feature.relevance < .75 && feature.relevance > .5) {
+    function setColor (relevance) {
+        if (relevance < .75 && relevance > .5) {
             colorClass = 'ok';
-        } else if (feature.relevance <= .5) {
+        } else if (relevance <= .5) {
             colorClass = 'bad';
         }
         return colorClass;
@@ -52,7 +52,7 @@ var dataWrapper = function () {
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></div></h5>'
             + '<p class="placename">' + feature.place_name + '</p>'
             + '<p class="type">' + feature.geometry.type + '</p>'
-            + '<p class="relevance ' + setColor(feature) + '">Score: ' + feature.relevance + '</p>'
+            + '<p class="relevance ' + setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
             + '<p class="source">' + feature.properties.attribution + '</p>'
             + '</div>'
             + '<h6>' + feature.properties.query + '</h6>'

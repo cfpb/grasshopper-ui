@@ -1,3 +1,4 @@
+console.log('map loaded');
 var geoMap = function () {
     var mapID = 'map',
     h = $('header'),

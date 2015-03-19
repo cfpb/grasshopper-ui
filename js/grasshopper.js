@@ -1,4 +1,40 @@
 $(function() {
+    console.log('main loaded');
+    var geocoder;
+    var queryCount = 1;
+
+    function renderResults(err, data) {
+        console.log('rendering results');
+        var updatedData = setProperties(data);
+        
+        // add the layer
+        markerLayer.setGeoJSON(updatedData.results);
+        // fit the map to the bounds of the markers
+        map.fitBounds(markerLayer.getBounds());
+
+        // append to count
+        
+        //wrapper.showHide();
+        //$('#data').css('display', 'block');
+        //$('#count').css('display', 'block');
+        $('.show-hide-data').css('display', 'block');
+    }
+
+    function setupGeoCoder(markerLayer) {
+        console.log('geocoding');
+        // if there is no ; its a single address
+        if ($('#address').val().indexOf(';') === -1) {
+            console.log('one address');
+            var geocoder = L.mapbox.geocoder('mapbox.places');
+            geocoder.query($('#address').val(), renderResults);
+        // else batch
+        } else {
+            queryCount = $('#address').val().split(';').length;
+            var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
+            geocoder.query($('#address').val() , renderResults);
+        }
+    }
+
     var markerCount = 0;
     var wrapper = new dataWrapper();
     
