@@ -1,9 +1,5 @@
 // featureLayer for markers and add it to the map
 var markerLayer = L.mapbox.featureLayer().addTo(map);
-var activeMarkerIcon = L.divIcon({
-  className: 'active-marker',
-  iconSize: [5, 5]
-});
 
 // when a layer is added
 markerLayer.on('layeradd', function(e) {
