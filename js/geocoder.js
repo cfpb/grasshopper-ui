@@ -20,7 +20,7 @@ function renderResults(err, data) {
     $('.show-hide-data').css('display', 'block');
 }
 
-function setupGeoCoder() {
+function setupGeoCoder(markerLayer) {
     console.log('geocoding');
     // if there is no ; its a single address
     if ($('#address').val().indexOf(';') === -1) {
