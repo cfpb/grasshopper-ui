@@ -1,32 +1,33 @@
 var geocoder = function () {
+    //var _queryName = '';
     // return the query name from the result
-    function setQueryName(location) {
-        var queryName = '';
+    function _setQueryName(location) {
+        var _queryName = '';
         $.each(location, function (i, namePart) {
             if (i === location.length - 1) {
-                queryName = queryName + ', <span>' + namePart + '</span>';
+                _queryName = _queryName + ', <span>' + namePart + '</span>';
             } else {
-                queryName = queryName + namePart + ' ';
+                _queryName = _queryName + namePart + ' ';
             }
         });
-        return queryName;
+        return _queryName;
     }
 
     // we need to show a few things that aren't in the feature
     // the actual query ran and the attribution
-    function setProperties(data) {
+    function _setProperties(data) {
         // single address
         if (data.features === undefined) {
             $.each(data, function(i, result) {
                 $.each(result.features, function(j, feature) {
-                    feature.properties.query = setQueryName(result.query);
+                    feature.properties.query = _setQueryName(result.query);
                     feature.properties.attribution = result.attribution;
                 });
             });
         // batch
         } else {
             $.each(data.features, function(j, feature) {
-                feature.properties.query = setQueryName(data.query);
+                feature.properties.query = _setQueryName(data.query);
                 feature.properties.attribution = data.attribution;
             });
         }
@@ -53,7 +54,7 @@ var geocoder = function () {
             dataType: "json"
         }).done(function(data) {
             console.log(data);
-            geodata = setProperties(data);
+            geodata = _setProperties(data);
         });
         return geodata;
     }

@@ -1,7 +1,7 @@
 $(function() {
-    var markerCount = 0;
-    var wrapper = new dataWrapper();
-    var coder = new geocoder();
+    var markerCount = 0,
+        wrapper = new dataWrapper(),
+        coder = new geocoder();
     
     // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
@@ -13,13 +13,14 @@ $(function() {
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
     map.scrollWheelZoom.disable();
 
+    // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
 
+    // when a marker gets added
     markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
-        //var geoType = '';
-        var wrapper = new dataWrapper();
+        // var wrapper = new dataWrapper();
         if (feature.geometry.type === 'Point') {
             // custom marker
             marker.setIcon(L.divIcon({
@@ -36,6 +37,7 @@ $(function() {
    
     // on submit
     $('#geocode').submit(function(event) {
+        markerCount = 0;
         wrapper.clear();
         markerLayer.clearLayers();
         var updatedData = coder.setupGeoCoder();
@@ -52,6 +54,7 @@ $(function() {
     // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
+            markerCount = 0;
             wrapper.clear();
             markerLayer.clearLayers();
             var updatedData = coder.setupGeoCoder();

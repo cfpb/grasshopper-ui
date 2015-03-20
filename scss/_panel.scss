@@ -36,7 +36,7 @@
 #data {
     background: $gray-20;
     max-height: 400px;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
     overflow-y: scroll;
     max-width: 500px;
 }
@@ -50,9 +50,6 @@
     &.active .geo-symbol {
         animation: blink 1.5s infinite;
         -webkit-animation: blink 1.5s infinite;
-    }
-    &:last-child {
-        margin-bottom: 0;
     }
     p, h5 {
         margin: 0;
@@ -80,6 +77,9 @@
         margin: 0;
         padding: 10px;
         text-transform: capitalize;
+        & span {
+            text-transform: uppercase;
+        }
     }
 }
 

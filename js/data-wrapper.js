@@ -2,36 +2,35 @@ var dataWrapper = function () {
     var speed = 'slow',
         dw = $('.data-wrapper'),
         c = $('#count'),
-        d = $('#data'),
-        //markerCount = 0,
-        colorClass = 'good';
+        d = $('#data');
 
-    function changeText(text) {
+    function _changeText(text) {
         $('.show-hide-data').text(text);
+    }
+
+    function _setColor(relevance) {
+        var _colorClass = 'good';
+        if (relevance < .75 && relevance > .5) {
+            _colorClass = 'ok';
+        } else if (relevance <= .5) {
+            _colorClass = 'bad';
+        }
+        return _colorClass;
     }
 
     function clear() {
         d.html('');
         c.html('');
-        changeText('Hide Data');
-    }
-
-    function setColor(relevance) {
-        if (relevance < .75 && relevance > .5) {
-            colorClass = 'ok';
-        } else if (relevance <= .5) {
-            colorClass = 'bad';
-        }
-        return colorClass;
+        _changeText('Hide Data');
     }
 
     function showHide() {
         if (dw.is(':hidden')) {
             dw.slideDown(speed);
-            changeText('Hide Data');
+            _changeText('Hide Data');
         } else {
             dw.slideUp(speed);
-            changeText('Show Data');
+            _changeText('Show Data');
         }
     }
 
@@ -44,7 +43,7 @@ var dataWrapper = function () {
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></div></h5>'
             + '<p class="placename">' + feature.place_name + '</p>'
             + '<p class="type">' + feature.geometry.type + '</p>'
-            + '<p class="relevance ' + setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
+            + '<p class="relevance ' + _setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
             + '<p class="source">' + feature.properties.attribution + '</p>'
             + '</div>'
             + '<h6>' + feature.properties.query + '</h6>'
