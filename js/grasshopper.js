@@ -3,56 +3,7 @@ $(function() {
     //var geocoder;
     var queryCount = 1;
 
-    function renderResults(data) {
-        console.log('rendering results');
-        var updatedData = setProperties(data);
-        
-        // add the layer
-        markerLayer.setGeoJSON(updatedData);
-        // fit the map to the bounds of the markers
-        map.fitBounds(markerLayer.getBounds());
-
-        // append to count
-        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
-        
-        //wrapper.showHide();
-        //$('#data').css('display', 'block');
-        //$('#count').css('display', 'block');
-        $('.show-hide-data').css('display', 'block');
-    }
-
-    function setupGeoCoder() {
-        //console.log('geocoding');
-        var apiPre = 'http://api.tiles.mapbox.com/v4/geocode/';
-        var apiSuf = '.json?access_token=pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-        // if there is no ; its a single address
-        if ($('#address').val().indexOf(';') === -1) {
-            console.log('one address');
-            var geocoder = 'mapbox.places';
-            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query}.json?access_token=<your access token>
-            //geocoder.query($('#address').val(), renderResults);
-        // else batch
-        } else {
-            queryCount = $('#address').val().split(';').length;
-            var geocoder = 'mapbox.places-permanent';
-            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query};{query}; ... ;{query}.json?access_token=<your access token>
-            //geocoder.query($('#address').val() , renderResults);
-        }
-        /*$.get(apiPre + geocoder + '/' + $('#address').val() + apiSuf, function(data) {
-            console.log('data= ');
-            console.log(data);
-        });*/
-        $.ajax({
-            url: apiPre + geocoder + '/' + $('#address').val() + apiSuf,
-            method: "GET",
-            //data: { id : menuId },
-            dataType: "json"
-        }).done(function(data) {
-            console.log(data);
-            renderResults(data);
-        });
-        //renderResults(data);
-    }
+    // it goes here
 
     var markerCount = 0;
     var wrapper = new dataWrapper();
@@ -90,7 +41,7 @@ $(function() {
     $('#geocode').submit(function(event) {
         wrapper.clear();
         markerLayer.clearLayers();
-        setupGeoCoder();
+        setupGeoCoder(markerLayer);
         return false;
     });
 
@@ -99,7 +50,7 @@ $(function() {
         if (e.which == 13) {
             wrapper.clear();
             markerLayer.clearLayers();
-            setupGeoCoder();
+            setupGeoCoder(markerLayer);
             return false;
         }
     });
