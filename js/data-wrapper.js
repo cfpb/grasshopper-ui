@@ -37,14 +37,14 @@ var dataWrapper = function () {
     function addResults(feature) {
         // append the data
         d.append('<div class="result group">'
-            + '<div class="geo-data">'
+            + '<div class="geo-data group">'
             + '<h5><a class="lat-long" data-id="' + feature.id + '" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
             + feature.center[1] + ', ' + feature.center[0]
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></div></h5>'
             + '<p class="placename">' + feature.place_name + '</p>'
             + '<p class="type">' + feature.geometry.type + '</p>'
             + '<p class="relevance ' + _setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
-            + '<p class="source">' + feature.properties.attribution + '</p>'
+            //+ '<p class="source">' + feature.properties.attribution + '</p>'
             + '</div>'
             + '<h6>' + feature.properties.query + '</h6>'
             + '</div>');
@@ -55,11 +55,17 @@ var dataWrapper = function () {
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         $('.show-hide-data').css('display', 'block');
     }
+
+    function activeResult(link) {
+        $('.result').removeClass('active');
+        $(link).closest($('.result')).addClass('active');
+    }
     
     return {
         clear: clear,
         showHide: showHide,
         addResults: addResults,
-        addCount: addCount
+        addCount: addCount,
+        activeResult: activeResult
     };
 }

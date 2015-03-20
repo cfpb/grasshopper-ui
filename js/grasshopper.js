@@ -76,8 +76,9 @@ $(function() {
     // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
     $('#data').on('click', '.lat-long', function() {
 
-       $('.result').removeClass('active');
-       $(this).closest($('.result')).addClass('active');
+        wrapper.activeResult(this);
+       //$('.result').removeClass('active');
+       //$(this).closest($('.result')).addClass('active');
        
        // pan to
        map.panTo($(this).data('lat-long'));
