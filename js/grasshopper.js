@@ -33,10 +33,7 @@ $(function() {
         markerCount ++;
     });
 
-    
-   
-    // on submit
-    $('#geocode').submit(function(event) {
+    function formSubmitted(numQueries) {
         markerCount = 0;
         wrapper.clear();
         markerLayer.clearLayers();
@@ -47,24 +44,19 @@ $(function() {
         map.fitBounds(markerLayer.getBounds());
         //wrapper.showHide();
         $('.data-wrapper').slideDown('slow');
-        wrapper.addCount(markerCount, 1);
+        wrapper.addCount(markerCount, numQueries);
+    }
+   
+    // on submit
+    $('#geocode').submit(function(event) {
+        formSubmitted(1);
         return false;
     });
 
     // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
-            markerCount = 0;
-            wrapper.clear();
-            markerLayer.clearLayers();
-            var updatedData = coder.setupGeoCoder();
-            // add the layer
-            markerLayer.setGeoJSON(updatedData);
-            // fit the map to the bounds of the markers
-            map.fitBounds(markerLayer.getBounds());
-            //wrapper.showHide();
-            $('.data-wrapper').slideDown('slow');
-            wrapper.addCount(markerCount, $('#address').val().split(';').length);
+            formSubmitted($('#address').val().split(';').length);
             return false;
         }
     });
