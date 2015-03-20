@@ -4,13 +4,15 @@ $(function() {
         coder = new geocoder();
     
     // set map size
-    $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
+    $('#map, .panel').height(($(document).height() - $('header').height() - 21) + 'px');
+    $('#map').width($(document).width() - $('.panel').width());
 
     // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
-    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+    new L.Control.Attribution({ position: 'bottomleft' }).addTo(map);
     map.scrollWheelZoom.disable();
 
     // add markerLayer to map
@@ -43,8 +45,12 @@ $(function() {
         // fit the map to the bounds of the markers
         map.fitBounds(markerLayer.getBounds());
         //wrapper.showHide();
+
         $('.data-wrapper').slideDown('slow');
+
         wrapper.addCount(markerCount, numQueries);
+
+        $('#data').height(($('.panel').height() - 82 - $('#geocode').height() - $('#downloads').height() - $('#count').height()) + 'px');
     }
    
     // on submit
