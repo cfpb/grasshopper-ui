@@ -1,14 +1,14 @@
 $(function() {
-    console.log('main loaded');
-    var geocoder;
+    //console.log('main loaded');
+    //var geocoder;
     var queryCount = 1;
 
-    function renderResults(err, data) {
+    function renderResults(data) {
         console.log('rendering results');
         var updatedData = setProperties(data);
         
         // add the layer
-        markerLayer.setGeoJSON(updatedData.results);
+        markerLayer.setGeoJSON(updatedData);
         // fit the map to the bounds of the markers
         map.fitBounds(markerLayer.getBounds());
 
@@ -21,19 +21,37 @@ $(function() {
         $('.show-hide-data').css('display', 'block');
     }
 
-    function setupGeoCoder(markerLayer) {
-        console.log('geocoding');
+    function setupGeoCoder() {
+        //console.log('geocoding');
+        var apiPre = 'http://api.tiles.mapbox.com/v4/geocode/';
+        var apiSuf = '.json?access_token=pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
         // if there is no ; its a single address
         if ($('#address').val().indexOf(';') === -1) {
             console.log('one address');
-            var geocoder = L.mapbox.geocoder('mapbox.places');
-            geocoder.query($('#address').val(), renderResults);
+            var geocoder = 'mapbox.places';
+            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query}.json?access_token=<your access token>
+            //geocoder.query($('#address').val(), renderResults);
         // else batch
         } else {
             queryCount = $('#address').val().split(';').length;
-            var geocoder = L.mapbox.geocoder('mapbox.places-permanent');
-            geocoder.query($('#address').val() , renderResults);
+            var geocoder = 'mapbox.places-permanent';
+            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query};{query}; ... ;{query}.json?access_token=<your access token>
+            //geocoder.query($('#address').val() , renderResults);
         }
+        /*$.get(apiPre + geocoder + '/' + $('#address').val() + apiSuf, function(data) {
+            console.log('data= ');
+            console.log(data);
+        });*/
+        $.ajax({
+            url: apiPre + geocoder + '/' + $('#address').val() + apiSuf,
+            method: "GET",
+            //data: { id : menuId },
+            dataType: "json"
+        }).done(function(data) {
+            console.log(data);
+            renderResults(data);
+        });
+        //renderResults(data);
     }
 
     var markerCount = 0;

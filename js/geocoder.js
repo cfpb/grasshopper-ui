@@ -25,23 +25,25 @@ function setQueryName(location) {
 // we need to show a few things that aren't in the feature
 // the actual query ran and the attribution
 function setProperties(data) {
+    console.log('length = ' + data.features.length);
     // single address
-    if (data.results.length === undefined) {
-        console.log ('single');
-        //data.results.features[0].properties.query = setQueryName(data.results.query);
-        //data.results.features[0].properties.attribution = data.results.attribution;
-        $.each(data.results.features, function(j, feature) {
-            feature.properties.query = setQueryName(data.results.query);;
-            feature.properties.attribution = data.results.attribution;
-        });
-    // batch
-    } else {
+    if (data.features.length === undefined) {
         console.log ('batch');
         $.each(data.results, function(i, result) {
             $.each(result.features, function(j, feature) {
                 feature.properties.query = setQueryName(result.query);;
                 feature.properties.attribution = result.attribution;
             });
+        });
+
+    // batch
+    } else {
+        console.log ('single');
+        //data.results.features[0].properties.query = setQueryName(data.results.query);
+        //data.results.features[0].properties.attribution = data.results.attribution;
+        $.each(data.features, function(j, feature) {
+            feature.query = setQueryName(data.query);;
+            feature.attribution = data.attribution;
         });
     }
     return data;
