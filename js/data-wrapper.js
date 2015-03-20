@@ -1,30 +1,22 @@
 var dataWrapper = function () {
     var speed = 'slow',
-    dw = $('.data-wrapper'),
-    c = $('#count'),
-    d = $('#data'),
-    colorClass = 'good';
+        dw = $('.data-wrapper'),
+        c = $('#count'),
+        d = $('#data'),
+        //markerCount = 0,
+        colorClass = 'good';
 
     function changeText(text) {
         $('.show-hide-data').text(text);
     }
 
-    function clear () {
-        console.log('clearing results');
-        // clear featureLayer
-        // clear previous results
-        dw.slideDown(speed);
-        //$('#data').css('display', 'none');
-        //$('#count').css('display', 'none');
+    function clear() {
         d.html('');
         c.html('');
         changeText('Hide Data');
-        // reset counts
-        markerCount = 0;
-        queryCount = 1;
     }
 
-    function setColor (relevance) {
+    function setColor(relevance) {
         if (relevance < .75 && relevance > .5) {
             colorClass = 'ok';
         } else if (relevance <= .5) {
@@ -33,7 +25,7 @@ var dataWrapper = function () {
         return colorClass;
     }
 
-    function showHide () {
+    function showHide() {
         if (dw.is(':hidden')) {
             dw.slideDown(speed);
             changeText('Hide Data');
@@ -43,7 +35,7 @@ var dataWrapper = function () {
         }
     }
 
-    function addResults (feature) {
+    function addResults(feature) {
         // append the data
         d.append('<div class="result group">'
             + '<div class="geo-data">'
@@ -58,10 +50,17 @@ var dataWrapper = function () {
             + '<h6>' + feature.properties.query + '</h6>'
             + '</div>');
     }
+
+    function addCount(markerCount, queryCount) {
+        // append to count
+        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
+        $('.show-hide-data').css('display', 'block');
+    }
     
     return {
         clear: clear,
         showHide: showHide,
-        addResults: addResults
+        addResults: addResults,
+        addCount: addCount
     };
 }

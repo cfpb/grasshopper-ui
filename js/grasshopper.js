@@ -1,12 +1,7 @@
 $(function() {
-    //console.log('main loaded');
-    //var geocoder;
-    var queryCount = 1;
-
-    // it goes here
-
     var markerCount = 0;
     var wrapper = new dataWrapper();
+    var coder = new geocoder();
     
     // set map size
     $('#map').height(($(document).height() - $('header').height() - 40) + 'px');
@@ -36,12 +31,21 @@ $(function() {
 
         markerCount ++;
     });
+
+    
    
     // on submit
     $('#geocode').submit(function(event) {
         wrapper.clear();
         markerLayer.clearLayers();
-        setupGeoCoder(markerLayer);
+        var updatedData = coder.setupGeoCoder();
+        // add the layer
+        markerLayer.setGeoJSON(updatedData);
+        // fit the map to the bounds of the markers
+        map.fitBounds(markerLayer.getBounds());
+        //wrapper.showHide();
+        $('.data-wrapper').slideDown('slow');
+        wrapper.addCount(markerCount, 1);
         return false;
     });
 
@@ -50,7 +54,14 @@ $(function() {
         if (e.which == 13) {
             wrapper.clear();
             markerLayer.clearLayers();
-            setupGeoCoder(markerLayer);
+            var updatedData = coder.setupGeoCoder();
+            // add the layer
+            markerLayer.setGeoJSON(updatedData);
+            // fit the map to the bounds of the markers
+            map.fitBounds(markerLayer.getBounds());
+            //wrapper.showHide();
+            $('.data-wrapper').slideDown('slow');
+            wrapper.addCount(markerCount, $('#address').val().split(';').length);
             return false;
         }
     });
@@ -72,12 +83,7 @@ $(function() {
 
        $('.result').removeClass('active');
        $(this).closest($('.result')).addClass('active');
-       //$(this).parent().parent().addClass('active');
-       /*var currentPos = $(this).parent().parent().offset();
-       $(this).parent().parent().offset({
-           top: currentPos.top,
-           left: currentPos.left + 20
-       });*/
+       
        // pan to
        map.panTo($(this).data('lat-long'));
        var linkID = $(this).data('id');
