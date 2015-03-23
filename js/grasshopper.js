@@ -94,20 +94,63 @@ $(function() {
         wrapper.showHide();
     });
 
+     // on mouseover of link
+     $('#data').on('mouseover', '.lat-long', function() {
+        // if its acitve do nothing
+        if ($(this).closest($('.result')).hasClass('active')) {
+          return false;
+        // else blink marker and symbol with gold color (marker-hover class)
+        } else {
+          var linkID = $(this).data('id');
+
+          // change marker
+          markerLayer.eachLayer(function(marker) {
+              var feature = marker.feature;
+              if (feature.geometry.type === 'Point') {
+                  if(feature.id === linkID) {
+                      marker.setIcon(L.divIcon({
+                        className: 'marker-hover',
+                        iconSize: [5, 5]
+                      }));
+                  }
+              }
+          });
+          return false;
+        }
+     });
+
+     // on mouse out
+     $('#data').on('mouseout', '.lat-long', function() {
+        var linkID = $(this).data('id');
+        var hasClass = $(this).closest($('.result')).hasClass('active');
+        // change marker
+        markerLayer.eachLayer(function(marker) {
+            var feature = marker.feature;
+            if (feature.geometry.type === 'Point') {
+              // change the marker back to normal if its not active
+              if(feature.id === linkID && !hasClass) {
+                console.log('not active');
+                    marker.setIcon(L.divIcon({
+                      className: 'marker',
+                      iconSize: [5, 5]
+                    }));
+                }
+            }
+        });
+        return false;
+     });
+
     // pan to the point from the panel
     // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
+    // change marker and result to active
+    // reset everything else
     $('#data').on('click', '.lat-long', function() {
 
-        wrapper.activeResult(this);
-       //$('.result').removeClass('active');
-       //$(this).closest($('.result')).addClass('active');
-       
-       // pan to
-       map.panTo($(this).data('lat-long'));
-       var linkID = $(this).data('id');
+      wrapper.activeResult(this);
+      var linkID = $(this).data('id');
 
        // change marker
-       markerLayer.eachLayer(function(marker) {
+      markerLayer.eachLayer(function(marker) {
            var feature = marker.feature;
            if (feature.geometry.type === 'Point') {
                if(feature.id === linkID) {
