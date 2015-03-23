@@ -47,14 +47,6 @@
     &:last-child {
         border-bottom: none;
     }
-    &.active .geo-symbol {
-        animation: blink-active 1.5s infinite;
-        -webkit-animation: blink-active 1.5s infinite;
-    }
-    &:hover .geo-symbol {
-        animation: blink-hover 1.5s infinite;
-        -webkit-animation: blink-hover 1.5s infinite;
-    }
     p, h5 {
         margin: 0;
     }
@@ -84,6 +76,24 @@
         }
     }
 }
+
+.geo-symbol {
+    background-color: $gray-50;
+    border-radius: 50%;
+    display: inline-block;
+    height: 5px;
+    margin-bottom: 4px;
+    width: 5px;
+}
+.active .geo-symbol,
+.active .lat-long:hover + .geo-symbol {
+    animation: blink-active 1.5s infinite;
+    -webkit-animation: blink-active 1.5s infinite;
+}
+.lat-long:hover + .geo-symbol {
+        animation: blink-hover 1.5s infinite;
+        -webkit-animation: blink-hover 1.5s infinite;
+    }
 
 @keyframes blink-hover {
     0% {
@@ -119,14 +129,6 @@
     }
 }
 
-.point {
-    background-color: $gray-50;
-    border-radius: 50%;
-    display: inline-block;
-    height: 5px;
-    margin-bottom: 4px;
-    width: 5px;
-}
 .line {
     background-color: $gray-50;
     border-radius: 3px;
