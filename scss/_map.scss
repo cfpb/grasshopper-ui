@@ -15,6 +15,16 @@
     height: 5px;
     width: 5px;
 }
+.marker-hover {
+    background-color: $white;
+    @extend .marker;
+    box-shadow:
+        0 0 0 3px $gold,
+        0 0 0 6px rgba(0, 0, 0, .3);
+
+    animation: toggle-shadow-hover 1.5s infinite;
+    -webkit-animation: toggle-shadow-hover 1.5s infinite;
+}
 .marker-active {
     background-color: $white;
     @extend .marker;
@@ -22,11 +32,76 @@
         0 0 0 3px $green,
         0 0 0 6px rgba(0, 0, 0, .3);
 
-    animation: toggle-shadow 1.5s infinite;
-    -webkit-animation: toggle-shadow 1.5s infinite;
+    animation: toggle-shadow-active 1.5s infinite;
+    -webkit-animation: toggle-shadow-active 1.5s infinite;
 }
 
-@keyframes toggle-shadow {
+@keyframes toggle-shadow-hover {
+    0% {
+        box-shadow:
+            0 0 0 0 $gold,
+            0 0 0 0 rgba(0, 0, 0, .1);
+    }
+    15% {
+        box-shadow:
+            0 0 0 1px $gold,
+            0 0 0 4px rgba(0, 0, 0, .2);
+    }
+    30% {
+        box-shadow:
+            0 0 0 2px $gold,
+            0 0 0 8px rgba(0, 0, 0, .3);
+    }
+    45% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 12px rgba(0, 0, 0, .2);
+    }
+    60% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 14px rgba(0, 0, 0, .1);
+    }
+    75%, 100% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 16px rgba(0, 0, 0, 0);
+    }
+}
+@-webkit-keyframes toggle-shadow-hover {
+    0% {
+        box-shadow:
+            0 0 0 0 $gold,
+            0 0 0 0 rgba(0, 0, 0, .1);
+    }
+    15% {
+        box-shadow:
+            0 0 0 1px $gold,
+            0 0 0 4px rgba(0, 0, 0, .2);
+    }
+    30% {
+        box-shadow:
+            0 0 0 2px $gold,
+            0 0 0 8px rgba(0, 0, 0, .3);
+    }
+    45% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 12px rgba(0, 0, 0, .2);
+    }
+    60% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 14px rgba(0, 0, 0, .1);
+    }
+    75%, 100% {
+        box-shadow:
+            0 0 0 3px $gold,
+            0 0 0 16px rgba(0, 0, 0, 0);
+    }
+}
+
+@keyframes toggle-shadow-active {
     0% {
         box-shadow:
             0 0 0 0 $green,
@@ -58,7 +133,7 @@
             0 0 0 16px rgba(0, 0, 0, 0);
     }
 }
-@-webkit-keyframes toggle-shadow {
+@-webkit-keyframes toggle-shadow-active {
     0% {
         box-shadow:
             0 0 0 0 $green,
