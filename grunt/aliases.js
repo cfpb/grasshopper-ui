@@ -13,14 +13,5 @@ module.exports = {
         'htmlmin:build',
         'sass:build',
         'uglify:build'
-    ]/*,
-    'lint': [
-        'jshint',
-        'csslint'
-    ],
-    'build': [
-        'lint',
-        'mocha',
-        'notify'
-    ]*/
+    ]
 };
