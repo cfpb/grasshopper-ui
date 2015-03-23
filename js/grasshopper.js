@@ -50,7 +50,18 @@ $(function() {
 
         wrapper.addCount(markerCount, numQueries);
 
-        $('#data').height(($('.panel').height() - 82 - $('#geocode').height() - $('#downloads').height() - $('#count').height()) + 'px');
+        //console.log('the count padding is : ' + $('#count').css('paddingTop') + ' and ' + $('#count').css('paddingTop'));
+        //console.log('the geocode padding is : ' + $('#geocode').css('paddingTop') + ' and ' + $('#geocode').css('paddingTop'));
+        //console.log('the downloads padding is : ' + $('#downloads').css('paddingTop') + ' and ' + $('#downloads').css('paddingTop'));
+        //console.log('the panel padding is : ' + $('.panel').css('paddingTop') + ' and ' + $('.panel').css('paddingTop'));
+        var padding = 0;
+        $('.js-padded').each(function(i, obj) {
+            //console.log($(this).css('borderBottomWidth'));
+            padding = padding + parseInt($(this).css('paddingTop').replace("px", "")) + parseInt($(this).css('paddingBottom').replace("px", ""));
+            padding = padding + parseInt($(this).css('borderTopWidth').replace("px", "")) + parseInt($(this).css('borderBottomWidth').replace("px", ""));
+        });
+        //console.log('the padding is : ' + padding);
+        $('#data').height(($('.panel').height() - padding - $('#geocode').height() - $('#downloads').height() - $('#count').height()) + 'px');
     }
    
     // on submit

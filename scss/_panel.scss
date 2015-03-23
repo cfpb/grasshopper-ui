@@ -24,8 +24,7 @@
 }
 
 #downloads {
-    background: $gray-5;
-    border-top: 1px solid $gray-20;
+    border-bottom: 1px solid $gray-20;
     font-size: .75em;
     padding: 10px;
     text-align: center;
@@ -35,6 +34,7 @@
 }
 
 #data {
+    background: $white;
     padding: 0 20px;
     overflow-y: scroll;
     max-width: 500px;
@@ -44,6 +44,9 @@
     border-bottom: 1px solid $gray-20;
     padding: 20px 0;
     position: relative;
+    &:last-child {
+        border-bottom: none;
+    }
     &:hover .geo-symbol,
     &.active .geo-symbol {
         animation: blink 1.5s infinite;
@@ -66,8 +69,7 @@
         margin-bottom: 0;
     }
     h6 {
-        background: $gray-5;
-        color: $gray-80;
+        color: $gray-50;
         font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
         font-weight: normal;
         line-height: 1;
