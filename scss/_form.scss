@@ -1,8 +1,17 @@
 /* form */
 form {
+    background: $green;
     border-bottom: 1px solid $gray-20;
+    color: $white;
     margin: 0;
     padding: 20px;
+    a:link, a:visited {
+        border-bottom: 1px dotted $white;
+        color: $white;
+    }
+    a:hover {
+        border-bottom: 1px dotted transparent;
+    }
 }
 .input-wrapper {
     position: relative;
@@ -17,6 +26,7 @@ input {
 input[type="text"] {
     border: 1px solid $gray-20;
     border-radius: 2px;
+    color: $black;
     padding: 4px 95px 3px 6px;
     width: 100%;
 }
@@ -29,9 +39,9 @@ input[type="submit"] {
     right: 1px;
 }
 label {
-    color: $gray-50;
-    font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
-    font-size: .75em;
+    color: $white;
+    font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
+    font-size: .7em;
     display: block;
     margin-top: 5px;
 }
