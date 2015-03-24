@@ -1,0 +1,38 @@
+{
+  "name": "grasshopper-ui",
+  "description": "Front-end for experimenting with Grasshopper",
+  "version": "0.0.1",
+  "homepage": "http://github.com/cfpb/grasshopper-ui",
+  "author": {
+    "name": "Consumer Financial Protection Bureau",
+    "url": "http://cfpb.github.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/cfpb/grasshopper-ui.git"
+  },
+  "bugs": {
+    "url": "http://github.com/cfpb/grasshopper-ui/issues"
+  },
+  "licenses": {
+    "type": "Public Domain",
+    "url": "http://github.com/cfpb/grasshopper-ui/blob/master/TERMS.md"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^2.2.0",
+    "grunt-browser-sync": "^2.0.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-htmlmin": "^0.4.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-glob": "^0.1.0",
+    "grunt-sass": "^0.18.1",
+    "load-grunt-config": "^0.16.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

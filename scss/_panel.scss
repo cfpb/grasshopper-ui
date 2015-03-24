@@ -1,4 +1,7 @@
 .panel {
+    background-color: $white;
+    box-shadow: 0 1px 1px $gray-50; 
+    border-radius: 2px;
     position: absolute;
     left: 20px;
     top: 20px;
@@ -8,6 +11,7 @@
 
 .help {
     padding-top: 10px;
+
     a {
         display: inline-block;
         font-size: .75em;
@@ -28,6 +32,7 @@
     font-size: .75em;
     padding: 10px;
     text-align: center;
+
     a {
         font-size: 1em;
     }
@@ -36,7 +41,7 @@
 #data {
     background: $gray-20;
     max-height: 400px;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
     overflow-y: scroll;
     max-width: 500px;
 }
@@ -50,9 +55,6 @@
     &.active .geo-symbol {
         animation: blink 1.5s infinite;
         -webkit-animation: blink 1.5s infinite;
-    }
-    &:last-child {
-        margin-bottom: 0;
     }
     p, h5 {
         margin: 0;
@@ -80,6 +82,9 @@
         margin: 0;
         padding: 10px;
         text-transform: capitalize;
+        & span {
+            text-transform: uppercase;
+        }
     }
 }
 
@@ -101,7 +106,7 @@
 }
 
 .point {
-    background-color: $green;
+    background-color: $gray-50;
     border-radius: 50%;
     display: inline-block;
     height: 5px;
@@ -109,7 +114,7 @@
     width: 5px;
 }
 .line {
-    background-color: $green;
+    background-color: $gray-50;
     border-radius: 3px;
     display: inline-block;
     height: 3px;
