@@ -3,9 +3,7 @@
 node_modules/
 .grunt/
 .sass-cache
-dist/
 
 # System #
 ##########
 .DS_Store
-
