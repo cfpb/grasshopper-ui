@@ -9,16 +9,16 @@ $(function() {
 
     // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false, attributionControl: false })
+    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
     
     //new L.Control.Attribution({ position: 'bottomleft' }).addTo(map);
-    var attribution = L.control.attribution({ position: 'bottomleft' });
-    attribution.setPrefix('');
-    attribution.addAttribution('<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox © OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/#cfpb.k55b27gd/-98.579/39.828/4" target="_blank">Improve this map</a>');
-    attribution.addTo(map);
+   // var attribution = L.control.attribution({ position: 'bottomleft' });
+   // attribution.setPrefix('');
+    //attribution.addAttribution('<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox © OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/#cfpb.k55b27gd/-98.579/39.828/4" target="_blank">Improve this map</a>');
+    //attribution.addTo(map);
     map.scrollWheelZoom.disable();
-    new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
     // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
