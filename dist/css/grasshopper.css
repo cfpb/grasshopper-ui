@@ -445,7 +445,8 @@ html {
 
 /* header */
 header {
-  margin: 20px 0; }
+  border-bottom: 1px solid #E3E4E5;
+  margin: 20px 0 0; }
   header h1 {
     font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
     margin: 0; }
@@ -454,9 +455,7 @@ header {
 
 /* form */
 form {
-  background-color: #FFFFFF;
   border-bottom: 1px solid #E3E4E5;
-  border-radius: 2px 2px 0 0;
   margin: 0;
   padding: 20px; }
 
@@ -473,7 +472,8 @@ input {
 input[type="text"] {
   border: 1px solid #E3E4E5;
   border-radius: 2px;
-  padding: 3px 95px 3px 6px;
+  color: #101820;
+  padding: 4px 95px 3px 6px;
   width: 100%; }
 
 input[type="submit"] {
@@ -482,12 +482,11 @@ input[type="submit"] {
   padding: 6px;
   position: absolute;
   top: 0;
-  right: 0; }
+  right: 1px; }
 
 label {
-  color: #BABBBD;
-  font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
-  font-size: .75em;
+  font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
+  font-size: .7em;
   display: block;
   margin-top: 5px; }
 
@@ -507,22 +506,67 @@ label {
   background-color: #BABBBD;
   height: 100%;
   position: absolute;
+  right: 0;
   width: 100%; }
 
-.marker, .marker-active {
+.marker, .marker-hover, .marker-active {
   background-color: #FFFFFF;
   border-radius: 50%;
   box-shadow: 0 0 0 3px #101820, 0 0 0 6px rgba(0, 0, 0, 0.3);
   height: 5px;
   width: 5px; }
 
+.marker-hover {
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 6px rgba(0, 0, 0, 0.3);
+  animation: toggle-shadow-hover 1.5s infinite;
+  -webkit-animation: toggle-shadow-hover 1.5s infinite; }
+
 .marker-active {
   background-color: #FFFFFF;
   box-shadow: 0 0 0 3px #2CB34A, 0 0 0 6px rgba(0, 0, 0, 0.3);
-  animation: toggle-shadow 1.5s infinite;
-  -webkit-animation: toggle-shadow 1.5s infinite; }
+  animation: toggle-shadow-active 1.5s infinite;
+  -webkit-animation: toggle-shadow-active 1.5s infinite; }
 
-@keyframes toggle-shadow {
+@keyframes toggle-shadow-hover {
+  0% {
+    box-shadow: 0 0 0 0 #FF9E1B, 0 0 0 0 rgba(0, 0, 0, 0.1); }
+
+  15% {
+    box-shadow: 0 0 0 1px #FF9E1B, 0 0 0 4px rgba(0, 0, 0, 0.2); }
+
+  30% {
+    box-shadow: 0 0 0 2px #FF9E1B, 0 0 0 8px rgba(0, 0, 0, 0.3); }
+
+  45% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 12px rgba(0, 0, 0, 0.2); }
+
+  60% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 14px rgba(0, 0, 0, 0.1); }
+
+  75%, 100% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 16px transparent; } }
+
+@-webkit-keyframes toggle-shadow-hover {
+  0% {
+    box-shadow: 0 0 0 0 #FF9E1B, 0 0 0 0 rgba(0, 0, 0, 0.1); }
+
+  15% {
+    box-shadow: 0 0 0 1px #FF9E1B, 0 0 0 4px rgba(0, 0, 0, 0.2); }
+
+  30% {
+    box-shadow: 0 0 0 2px #FF9E1B, 0 0 0 8px rgba(0, 0, 0, 0.3); }
+
+  45% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 12px rgba(0, 0, 0, 0.2); }
+
+  60% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 14px rgba(0, 0, 0, 0.1); }
+
+  75%, 100% {
+    box-shadow: 0 0 0 3px #FF9E1B, 0 0 0 16px transparent; } }
+
+@keyframes toggle-shadow-active {
   0% {
     box-shadow: 0 0 0 0 #2CB34A, 0 0 0 0 rgba(0, 0, 0, 0.1); }
 
@@ -541,7 +585,7 @@ label {
   75%, 100% {
     box-shadow: 0 0 0 3px #2CB34A, 0 0 0 16px transparent; } }
 
-@-webkit-keyframes toggle-shadow {
+@-webkit-keyframes toggle-shadow-active {
   0% {
     box-shadow: 0 0 0 0 #2CB34A, 0 0 0 0 rgba(0, 0, 0, 0.1); }
 
@@ -561,9 +605,10 @@ label {
     box-shadow: 0 0 0 3px #2CB34A, 0 0 0 16px transparent; } }
 
 .panel {
+  background: #F8F8F8;
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 0;
+  top: 0;
   width: 400px;
   z-index: 1000; }
 
@@ -580,8 +625,7 @@ label {
   display: none; }
 
 #downloads {
-  background: #F8F8F8;
-  border-top: 1px solid #E3E4E5;
+  border-bottom: 1px solid #E3E4E5;
   font-size: .75em;
   padding: 10px;
   text-align: center; }
@@ -589,66 +633,81 @@ label {
     font-size: 1em; }
 
 #data {
-  background: #E3E4E5;
-  max-height: 400px;
-  padding: 20px 20px 0 20px;
+  background: #FFFFFF;
+  padding: 0 20px;
   overflow-y: scroll;
   max-width: 500px; }
 
 .result {
-  background: #FFFFFF;
-  border-radius: 2px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #E3E4E5;
+  padding: 20px 0;
   position: relative; }
-  .result:hover .geo-symbol, .result.active .geo-symbol {
-    animation: blink 1.5s infinite;
-    -webkit-animation: blink 1.5s infinite; }
+  .result:last-child {
+    border-bottom: none; }
   .result p, .result h5 {
     margin: 0; }
   .result p {
     font-size: .75em; }
-  .result .geo-data {
-    padding: 10px; }
   .result h5 {
     color: #2CB34A;
     font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
-    font-size: 1em;
+    font-size: .85em;
     font-weight: normal;
     margin-bottom: 0; }
   .result h6 {
-    background: #F8F8F8;
-    border-radius: 0 0 2px 2px;
-    color: #919395;
+    color: #BABBBD;
     font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
     font-weight: normal;
     line-height: 1;
     margin: 0;
-    padding: 10px;
+    padding: 0 0 3px;
     text-transform: capitalize; }
     .result h6 span {
       text-transform: uppercase; }
 
-@keyframes blink {
-  0% {
-    background-color: rgba(44, 179, 74, 0); }
-
-  100% {
-    background-color: #2cb34a; } }
-
-@-webkit-keyframes blink {
-  0% {
-    background-color: rgba(44, 179, 74, 0); }
-
-  100% {
-    background-color: #2cb34a; } }
-
-.point {
+.geo-symbol {
   background-color: #BABBBD;
   border-radius: 50%;
   display: inline-block;
   height: 5px;
   margin-bottom: 4px;
   width: 5px; }
+
+.active .geo-symbol, .active .lat-long:hover + .geo-symbol {
+  animation: blink-active 1.5s infinite;
+  -webkit-animation: blink-active 1.5s infinite; }
+
+.lat-long:hover + .geo-symbol {
+  animation: blink-hover 1.5s infinite;
+  -webkit-animation: blink-hover 1.5s infinite; }
+
+@keyframes blink-hover {
+  0% {
+    background-color: rgba(255, 158, 27, 0); }
+
+  100% {
+    background-color: #ff9e1b; } }
+
+@-webkit-keyframes blink-hover {
+  0% {
+    background-color: rgba(255, 158, 27, 0); }
+
+  100% {
+    background-color: #ff9e1b; } }
+
+@keyframes blink-active {
+  0% {
+    background-color: rgba(44, 179, 74, 0); }
+
+  100% {
+    background-color: #2cb34a; } }
+
+@-webkit-keyframes blink-active {
+  0% {
+    background-color: rgba(44, 179, 74, 0); }
+
+  100% {
+    background-color: #2cb34a; } }
 
 .line {
   background-color: #BABBBD;
@@ -684,9 +743,12 @@ label {
 #count {
   background: #F8F8F8;
   border-top: 1px solid #E3E4E5;
+  bottom: 0;
   font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
   font-size: .65em;
   padding: 10px;
-  text-align: center; }
+  position: absolute;
+  text-align: center;
+  width: 100%; }
 
 /*# sourceMappingURL=grasshopper.css.map */

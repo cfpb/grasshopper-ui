@@ -1,10 +1,8 @@
 .panel {
-    background-color: $white;
-    box-shadow: 0 1px 1px $gray-50; 
-    border-radius: 2px;
+    background: $gray-5;
     position: absolute;
-    left: 20px;
-    top: 20px;
+    left: 0;
+    top: 0;
     width: 400px;
     z-index: 1000;
 }
@@ -27,8 +25,7 @@
 }
 
 #downloads {
-    background: $gray-5;
-    border-top: 1px solid $gray-20;
+    border-bottom: 1px solid $gray-20;
     font-size: .75em;
     padding: 10px;
     text-align: center;
@@ -39,22 +36,18 @@
 }
 
 #data {
-    background: $gray-20;
-    max-height: 400px;
-    padding: 20px 20px 0 20px;
+    background: $white;
+    padding: 0 20px;
     overflow-y: scroll;
     max-width: 500px;
 }
 
 .result {
-    background: $white;
-    border-radius: 2px;
-    margin-bottom: 20px;
+    border-bottom: 1px solid $gray-20;
+    padding: 20px 0;
     position: relative;
-    &:hover .geo-symbol,
-    &.active .geo-symbol {
-        animation: blink 1.5s infinite;
-        -webkit-animation: blink 1.5s infinite;
+    &:last-child {
+        border-bottom: none;
     }
     p, h5 {
         margin: 0;
@@ -63,24 +56,22 @@
        font-size: .75em;
     }
     .geo-data {
-        padding: 10px;
+        
     }
     h5 {
         color: $green;
         font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
-        font-size: 1em;
+        font-size: .85em;
         font-weight: normal;
         margin-bottom: 0;
     }
     h6 {
-        background: $gray-5;
-        border-radius: 0 0 2px 2px;
-        color: $gray-80;
+        color: $gray-50;
         font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
         font-weight: normal;
         line-height: 1;
         margin: 0;
-        padding: 10px;
+        padding: 0 0 3px;
         text-transform: capitalize;
         & span {
             text-transform: uppercase;
@@ -88,7 +79,42 @@
     }
 }
 
-@keyframes blink {
+.geo-symbol {
+    background-color: $gray-50;
+    border-radius: 50%;
+    display: inline-block;
+    height: 5px;
+    margin-bottom: 4px;
+    width: 5px;
+}
+.active .geo-symbol,
+.active .lat-long:hover + .geo-symbol {
+    animation: blink-active 1.5s infinite;
+    -webkit-animation: blink-active 1.5s infinite;
+}
+.lat-long:hover + .geo-symbol {
+        animation: blink-hover 1.5s infinite;
+        -webkit-animation: blink-hover 1.5s infinite;
+    }
+
+@keyframes blink-hover {
+    0% {
+        background-color: rgba(255, 158, 27, 0);
+    }
+    100% {
+        background-color: rgba(255, 158, 27, 1);
+    }
+}
+@-webkit-keyframes blink-hover {
+    0% {
+        background-color: rgba(255, 158, 27, 0);
+    }
+    100% {
+        background-color: rgba(255, 158, 27, 1);
+    }
+}
+
+@keyframes blink-active {
     0% {
         background-color: rgba(44, 179, 74, 0);
     }
@@ -96,7 +122,7 @@
         background-color: rgba(44, 179, 74, 1);
     }
 }
-@-webkit-keyframes blink {
+@-webkit-keyframes blink-active {
     0% {
         background-color: rgba(44, 179, 74, 0);
     }
@@ -105,14 +131,6 @@
     }
 }
 
-.point {
-    background-color: $gray-50;
-    border-radius: 50%;
-    display: inline-block;
-    height: 5px;
-    margin-bottom: 4px;
-    width: 5px;
-}
 .line {
     background-color: $gray-50;
     border-radius: 3px;
@@ -150,8 +168,11 @@
 #count {
     background: $gray-5;
     border-top: 1px solid $gray-20;
+    bottom: 0;
     font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
     font-size: .65em;
     padding: 10px;
+    position: absolute;
     text-align: center;
+    width: 100%;
 }
