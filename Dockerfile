@@ -10,7 +10,7 @@ ADD dist /opt/grasshopper-ui/
 RUN rm -v /etc/nginx/nginx.conf
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Append "deamon off" to the beginning of the configuration
+# Append "daemon off" to the beginning of the configuration
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 EXPOSE 80
