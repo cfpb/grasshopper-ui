@@ -4,7 +4,6 @@ node_modules/
 .grunt/
 .sass-cache
 _site/
-dist/
 
 # System #
 ##########
