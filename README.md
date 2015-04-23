@@ -48,6 +48,22 @@ $ jekyll serve
 
 The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
 
+### Docker
+
+The site can also be run as a Docker container. First make sure that the site is built by issuing `grunt build`. Once this is done, build the Docker image as follows:
+
+```
+docker build --rm -t hmda/grasshopper-ui .
+
+```
+
+To run the Docker container:
+
+```
+docker run -p 80:80 hmda/grasshopper-ui
+```
+
+
 ## Known issues
 
 We are still in the prototyping phase so there is a lot of ongoing work and errors could occur at anytime.
