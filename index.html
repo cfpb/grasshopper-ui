@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-    <header>
+    <header class="header">
         <div class="container">
             <div class="row">
                 <div class="col-1">
@@ -34,33 +34,13 @@
                 <input id="address" name="address" placeholder="Enter an address" type="text" />
                 <input class="btn" type="submit" value="Get Lat/Long!" />
             </div>
-            <!--<label for="address">For multiple addresses separate them with a ;<br />
-                E.g. Cumberland, MD; Washington, DC; Chambersburg, PA</label>-->
-            <!--<div class="help group">
-                <a id="file-batch" href="#test">Want to use a file?</a> <a class="show-hide-data" href="#showhide">Hide Data</a>
-            </div>-->
         </form>
         <div class="data-wrapper">
-            <div class="js-padded" id="downloads">
-                Download the <a href="#download-csv">CSV</a> or <a href="#download-json">JSON</a>
-            </div>
             <div id="data"></div>
-            <div class="js-padded" id="count"></div>
-
         </div>
     </div>
     <div id="map"></div>
 </div>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                
-            </div>
-        </div>
-    </div>
-</footer>
 
 <script src='js/grasshopper.js'></script>
 

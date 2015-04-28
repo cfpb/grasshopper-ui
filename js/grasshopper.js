@@ -4,19 +4,12 @@ $(function() {
     coder = new geocoder();
     
     // set map size
-    $('#map, .panel').height(($(document).height() - $('header').height() - 21) + 'px');
-    $('#map').width($(document).width() - $('.panel').width());
+    $('#map').height(($(document).height() - $('header').height() - 21) + 'px');
 
     // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
-    .setView([39.8282, -98.5795], 4);
-    
-    //new L.Control.Attribution({ position: 'bottomleft' }).addTo(map);
-   // var attribution = L.control.attribution({ position: 'bottomleft' });
-   // attribution.setPrefix('');
-    //attribution.addAttribution('<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox © OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/map-feedback/#cfpb.k55b27gd/-98.579/39.828/4" target="_blank">Improve this map</a>');
-    //attribution.addTo(map);
+        .setView([39.8282, -98.5795], 4);
     map.scrollWheelZoom.disable();
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 
@@ -50,20 +43,11 @@ $(function() {
         // add the layer
         markerLayer.setGeoJSON(updatedData[0]);
         // fit the map to the bounds of the markers
-        //map.setView([36.17558950466898,-94.01536909650383], 12);
         map.fitBounds(markerLayer.getBounds());
-        //wrapper.showHide();
 
         $('.data-wrapper').slideDown('slow');
 
         wrapper.addCount(markerCount, numQueries);
-
-        var padding = 0;
-        $('.js-padded').each(function(i, obj) {
-            padding = padding + parseInt($(this).css('paddingTop').replace("px", "")) + parseInt($(this).css('paddingBottom').replace("px", ""));
-            padding = padding + parseInt($(this).css('borderTopWidth').replace("px", "")) + parseInt($(this).css('borderBottomWidth').replace("px", ""));
-        });
-        $('#data').height(($('.panel').height() - padding - $('#geocode').height() - $('#downloads').height() - $('#count').height()) + 'px');
     }
 
     // on submit
@@ -75,14 +59,9 @@ $(function() {
     // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
-            formSubmitted($('#address').val().split(';').length);
+            formSubmitted(1);
             return false;
         }
-    });
-
-    // TODO: handle file uploads
-    $('#batch').click(function() {
-        return false;
     });
 
     // show/hide the data
@@ -103,14 +82,12 @@ $(function() {
               // change marker
             markerLayer.eachLayer(function(marker) {
                 var feature = marker.feature;
-                //if (feature.geometry.type === 'Point') {
-                    if(wrapper.setID(feature) === linkID) {
-                        marker.setIcon(L.divIcon({
-                            className: 'marker-hover',
-                            iconSize: [5, 5]
-                        }));
-                    }
-                //}
+                if(wrapper.setID(feature) === linkID) {
+                    marker.setIcon(L.divIcon({
+                        className: 'marker-hover',
+                        iconSize: [5, 5]
+                    }));
+                }
             });
 
             return false;
@@ -124,16 +101,14 @@ $(function() {
         // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            //if (feature.geometry.type === 'Point') {
-                // change the marker back to normal if its not active
-                if(wrapper.setID(feature) === linkID && !hasClass) {
-                    console.log('not active');
-                    marker.setIcon(L.divIcon({
-                        className: 'marker',
-                        iconSize: [5, 5]
-                    }));
-                }
-            //}
+            // change the marker back to normal if its not active
+            if(wrapper.setID(feature) === linkID && !hasClass) {
+                console.log('not active');
+                marker.setIcon(L.divIcon({
+                    className: 'marker',
+                    iconSize: [5, 5]
+                }));
+            }
         });
         
         return false;
@@ -151,18 +126,16 @@ $(function() {
         // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            if (feature.geometry.type === 'Point') {
-                if(feature.id === linkID) {
-                    marker.setIcon(L.divIcon({
-                        className: 'marker-active',
-                        iconSize: [5, 5]
+            if(wrapper.setID(feature) === linkID) {
+                marker.setIcon(L.divIcon({
+                    className: 'marker-active',
+                    iconSize: [5, 5]
+            }));
+            } else {
+                marker.setIcon(L.divIcon({
+                    className: 'marker',
+                    iconSize: [5, 5]
                 }));
-                } else {
-                    marker.setIcon(L.divIcon({
-                        className: 'marker',
-                        iconSize: [5, 5]
-                    }));
-                }
             }
         });
     

@@ -1,8 +1,9 @@
 .panel {
-    background: $gray-5;
+    background: $white;
+    border-radius: 2px;
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 20px;
+    top: 20px;
     width: 400px;
     z-index: 1000;
 }
@@ -25,7 +26,6 @@
 }
 
 #downloads {
-    border-bottom: 1px solid $gray-20;
     font-size: .75em;
     padding: 10px;
     text-align: center;
@@ -36,14 +36,14 @@
 }
 
 #data {
-    background: $white;
+    border-radius: 2px;
     padding: 0 20px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     max-width: 500px;
 }
 
 .result {
-    border-bottom: 1px solid $gray-20;
+    border-top: 1px solid $gray-20;
     padding: 20px 0;
     position: relative;
     &:last-child {
