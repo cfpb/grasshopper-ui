@@ -4,11 +4,15 @@ $(function() {
     coder = new geocoder();
     
     // set map size
-    $('#map').height(($(document).height() - $('header').height() - 21) + 'px');
+    var headerPadTop = $('.header').css('padding-top').replace('px', '');
+    var headerPadBottom = $('.header').css('padding-bottom').replace('px', '');
+    var headerBorderBottom = $('.header').css('border-bottom-width').replace('px', '');
+    
+    $('#map').height(($(document).height() - $('.header').height() - headerPadTop - headerPadBottom - headerBorderBottom) + 'px');
 
     // load base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
+    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false, attributionControl:false })
         .setView([39.8282, -98.5795], 4);
     map.scrollWheelZoom.disable();
     new L.Control.Zoom({ position: 'bottomright' }).addTo(map);

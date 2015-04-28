@@ -45,7 +45,6 @@ html {
     position: relative;
 }
 
-// 12 col grid
 @for $i from 1 to $columns+1 {
     .col-#{$i} {
         width: (($i / $columns) * 100%) - ($gutter * 2);
