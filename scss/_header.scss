@@ -1,7 +1,8 @@
 /* header */
 .header {
-    border-bottom: 1px solid $gray-20;
-    margin: 20px 0 0;
+    border-bottom: 3px solid $green;
+    padding: 20px 0;
+    z-index: 999;
     h1 {
         font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
         margin: 0;

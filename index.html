@@ -18,10 +18,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-1">
-                    <h1>Grasshopper Prototype</h1>
+                    <form class="js-padded" id="geocode">
+                        <div class="input-wrapper group">
+                            <input id="address" name="address" placeholder="Enter an address" type="text" />
+                            <input class="btn" type="submit" value="Search" />
+                        </div>
+                    </form>
                 </div>
                 <div class="col-1">
-                    <img class="logo" src="img/logo_210.png" /> 
+                    <img class="logo" src="img/logo_210.png" width="130" /> 
                 </div>
             </div>
         </div>
@@ -29,12 +34,7 @@
 
 <div class="wrapper">
     <div class="panel">
-        <form class="js-padded" id="geocode">
-            <div class="input-wrapper group">
-                <input id="address" name="address" placeholder="Enter an address" type="text" />
-                <input class="btn" type="submit" value="Get Lat/Long!" />
-            </div>
-        </form>
+        
         <div class="data-wrapper">
             <div id="data"></div>
         </div>

@@ -1,32 +1,29 @@
 /* form */
 form {
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 .input-wrapper {
     position: relative;
 }
 input {
-    border-radius: 2px;
     display: block;
     float: left;
     font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
     font-size: 1em;
 }
 input[type="text"] {
-    border: 1px solid $gray-20;
-    border-radius: 2px;
+    border: none;
+    border-bottom: 1px solid $gray-20;
     color: $black;
-    padding: 4px 95px 3px 6px;
-    width: 100%;
+    margin-right: 10px;
+    padding: 4px 6px 3px 6px;
+    width: 30%;
 }
 input[type="submit"] {
     font-size: .75em;
     margin: 1px 0 0 1px;
     padding: 6px;
-    position: absolute;
-    top: 0;
-    right: 1px;
 }
 label {
     font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
