@@ -27,6 +27,7 @@ $(function() {
     markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
+        console.log(feature);
         // var wrapper = new dataWrapper();
         if (feature.geometry.type === 'Point') {
             // custom marker
@@ -45,9 +46,11 @@ $(function() {
         wrapper.clear();
         markerLayer.clearLayers();
         var updatedData = coder.setupGeoCoder();
+        console.log(updatedData);
         // add the layer
-        markerLayer.setGeoJSON(updatedData);
+        markerLayer.setGeoJSON(updatedData[0]);
         // fit the map to the bounds of the markers
+        //map.setView([36.17558950466898,-94.01536909650383], 12);
         map.fitBounds(markerLayer.getBounds());
         //wrapper.showHide();
 
@@ -100,14 +103,14 @@ $(function() {
               // change marker
             markerLayer.eachLayer(function(marker) {
                 var feature = marker.feature;
-                if (feature.geometry.type === 'Point') {
-                    if(feature.id === linkID) {
+                //if (feature.geometry.type === 'Point') {
+                    if(wrapper.setID(feature) === linkID) {
                         marker.setIcon(L.divIcon({
                             className: 'marker-hover',
                             iconSize: [5, 5]
                         }));
                     }
-                }
+                //}
             });
 
             return false;
@@ -121,16 +124,16 @@ $(function() {
         // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            if (feature.geometry.type === 'Point') {
+            //if (feature.geometry.type === 'Point') {
                 // change the marker back to normal if its not active
-                if(feature.id === linkID && !hasClass) {
+                if(wrapper.setID(feature) === linkID && !hasClass) {
                     console.log('not active');
                     marker.setIcon(L.divIcon({
                         className: 'marker',
                         iconSize: [5, 5]
                     }));
                 }
-            }
+            //}
         });
         
         return false;

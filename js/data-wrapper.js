@@ -35,15 +35,26 @@ var dataWrapper = function () {
         }
     }
 
+    function setID(feature) {
+        var lat = feature.geometry.coordinates[1];
+        var lon = feature.geometry.coordinates[0];
+        var latID = lat.toString().replace('.', '').replace('-', '');
+        var lonID = lon.toString().replace('.', '').replace('-', '');
+        var featureID = latID + lonID;
+        return featureID;
+    }
+
     function addResults(feature) {
+       
         // append the data
         d.append('<div class="result group">'
             + '<div class="geo-data group">'
-            + '<h6>' + feature.properties.query + '</h6>'
-            + '<h5><a class="lat-long" data-id="' + feature.id + '" data-lat-long="[' + feature.center[1] + ', ' + feature.center[0] + ']" href="#">'
-            + feature.center[1] + ', ' + feature.center[0]
+            // + '<h6>' + feature.properties.query + '</h6>'
+            + '<h5><a class="lat-long" data-id="' + setID(feature)
+            + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
+            + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></div></h5>'
-            + '<p class="placename">' + feature.place_name + '</p>'
+            + '<p class="placename">' + feature.properties.address + '</p>'
             // + '<p class="type">' + feature.geometry.type + '</p>'
             // + '<p class="relevance ' + _setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
             // + '<p class="source">' + feature.properties.attribution + '</p>'
@@ -67,6 +78,7 @@ var dataWrapper = function () {
         showHide: showHide,
         addResults: addResults,
         addCount: addCount,
-        activeResult: activeResult
+        activeResult: activeResult,
+        setID: setID
     };
 }

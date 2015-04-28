@@ -35,9 +35,10 @@ var geocoder = function () {
     }
 
     function setupGeoCoder() {
-        var apiPre = 'http://api.tiles.mapbox.com/v4/geocode/';
-        var apiSuf = '.json?access_token=pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
+        //var apiPre = 'http://api.tiles.mapbox.com/v4/geocode/';
+        //var apiSuf = '.json?access_token=pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
         // if there is no ; its a single address
+        /*
         if ($('#address').val().indexOf(';') === -1) {
             var geocoder = 'mapbox.places';
             //http://api.tiles.mapbox.com/v4/geocode/{index}/{query}.json?access_token=<your access token>
@@ -47,16 +48,23 @@ var geocoder = function () {
             //http://api.tiles.mapbox.com/v4/geocode/{index}/{query};{query}; ... ;{query}.json?access_token=<your access token>
         }
         var geodata = null;
+/*
         $.ajax({
-            url: apiPre + geocoder + '/' + $('#address').val() + apiSuf,
+            url: 'http://awsdevhmdal05:31010/addresses/points/20779',
             method: "GET",
             async: false,
-            dataType: "json"
+            dataType: "json",
+            crossDomain: true
         }).done(function(data) {
             console.log(data);
-            geodata = _setProperties(data);
+            //geodata = _setProperties(data);
+        }).error(function(request, status, error) {
+            console.log(request);
+            console.log(status);
+            console.log(error);
         });
-        return geodata;
+*/
+        return $.parseJSON('[{"type": "Feature","geometry": {"type": "Point", "coordinates": [-94.01536909650383, 36.17558950466898, 0.0] }, "properties": { "address": "20779 Lakeshore Springdale AR 72764", "alt_address": "", "load_date": 1428674694900 }}]');
     }
 
     return {
