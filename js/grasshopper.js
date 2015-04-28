@@ -16,12 +16,11 @@ $(function() {
     // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
 
-    // when a marker gets added
+    // when a marker gets added set the custom icon
+    // and add the result to the panel
     markerLayer.on('layeradd', function(e) {
         var marker = e.layer,
         feature = marker.feature;
-        console.log(feature);
-        // var wrapper = new dataWrapper();
         if (feature.geometry.type === 'Point') {
             // custom marker
             marker.setIcon(L.divIcon({
@@ -39,7 +38,6 @@ $(function() {
         wrapper.clear();
         markerLayer.clearLayers();
         var updatedData = coder.setupGeoCoder();
-        console.log(updatedData);
         // add the layer
         markerLayer.setGeoJSON(updatedData[0]);
         // fit the map to the bounds of the markers
@@ -103,7 +101,6 @@ $(function() {
             var feature = marker.feature;
             // change the marker back to normal if its not active
             if(wrapper.setID(feature) === linkID && !hasClass) {
-                console.log('not active');
                 marker.setIcon(L.divIcon({
                     className: 'marker',
                     iconSize: [5, 5]
