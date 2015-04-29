@@ -1,4 +1,4 @@
-var dataWrapper = function () {
+module.exports = function () {
     var speed = 'slow',
         dw = $('.data-wrapper'),
         c = $('#count'),
@@ -45,7 +45,7 @@ var dataWrapper = function () {
     }
 
     function addResults(feature) {
-       
+       console.log('addResults');
         // append the data
         d.append('<div class="result group">'
             + '<div class="geo-data group">'
@@ -63,6 +63,7 @@ var dataWrapper = function () {
     }
 
     function addCount(markerCount, queryCount) {
+        console.log('addCount');
         // append to count
         $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
         //$('.show-hide-data').css('display', 'block');
@@ -81,4 +82,4 @@ var dataWrapper = function () {
         activeResult: activeResult,
         setID: setID
     };
-}
+};

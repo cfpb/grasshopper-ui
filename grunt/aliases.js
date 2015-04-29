@@ -3,7 +3,7 @@ module.exports = {
         'clean',
         'copy:dev',
         'sass:dev',
-        'concat:dev',
+        'browserify:dev',
         'browserSync',
         'watch'
     ],

@@ -1,7 +1,13 @@
+var $ = require('jquery');
+var wrapper = require('../js/data-wrapper');
+var coder = require('../js/geocoder');
+require('mapbox.js');
+
+var wrap = wrapper();
+
 $(function() {
-    var markerCount = 0,
-    wrapper = new dataWrapper(),
-    coder = new geocoder();
+    var markerCount = 0;
+    
     
     // set map size
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
@@ -32,28 +38,30 @@ $(function() {
                 iconSize: [5, 5]
             }));
         }
-        wrapper.addResults(feature);
+        wrap.addResults(feature);
 
         markerCount ++;
     });
 
     function formSubmitted(numQueries) {
         markerCount = 0;
-        wrapper.clear();
+        //wrapper.clear();
         markerLayer.clearLayers();
-        var updatedData = coder.setupGeoCoder();
+        var updatedData = coder();
+        console.log(updatedData);
         // add the layer
         markerLayer.setGeoJSON(updatedData[0]);
         // fit the map to the bounds of the markers
         map.fitBounds(markerLayer.getBounds());
 
-        $('.data-wrapper').slideDown('slow');
+        //$('.data-wrapper').slideDown('slow');
 
-        wrapper.addCount(markerCount, numQueries);
+        wrap.addCount(markerCount, numQueries);
     }
 
     // on submit
     $('#geocode').submit(function(event) {
+        console.log('submitted');
         formSubmitted(1);
         return false;
     });
@@ -69,7 +77,7 @@ $(function() {
     // show/hide the data
     // allows user to get the data panel out of the way
     $('.show-hide-data').click(function() {
-        wrapper.showHide();
+        wrap.showHide();
     });
 
      // on mouseover of link
@@ -84,7 +92,7 @@ $(function() {
               // change marker
             markerLayer.eachLayer(function(marker) {
                 var feature = marker.feature;
-                if(wrapper.setID(feature) === linkID) {
+                if(wrap.setID(feature) === linkID) {
                     marker.setIcon(L.divIcon({
                         className: 'marker-hover',
                         iconSize: [5, 5]
@@ -104,7 +112,7 @@ $(function() {
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
             // change the marker back to normal if its not active
-            if(wrapper.setID(feature) === linkID && !hasClass) {
+            if(wrap.setID(feature) === linkID && !hasClass) {
                 marker.setIcon(L.divIcon({
                     className: 'marker',
                     iconSize: [5, 5]
@@ -121,13 +129,13 @@ $(function() {
     // reset everything else
     $('#data').on('click', '.lat-long', function() {
 
-        wrapper.activeResult(this);
+        wrap.activeResult(this);
         var linkID = $(this).data('id');
         map.panTo($(this).data('lat-long'));
         // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            if(wrapper.setID(feature) === linkID) {
+            if(wrap.setID(feature) === linkID) {
                 marker.setIcon(L.divIcon({
                     className: 'marker-active',
                     iconSize: [5, 5]
