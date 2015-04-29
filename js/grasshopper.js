@@ -1,22 +1,20 @@
 var $ = require('jquery');
-var wrapper = require('../js/data-wrapper');
-var coder = require('../js/geocoder');
 require('mapbox.js');
 
+var wrapper = require('../js/data-wrapper');
 var wrap = wrapper();
+var coder = require('../js/geocoder');
+
+var markerCount = 0;
 
 $(function() {
-    var markerCount = 0;
-    
-    
     // set map size
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
     var headerPadBottom = $('.header').css('padding-bottom').replace('px', '');
     var headerBorderBottom = $('.header').css('border-bottom-width').replace('px', '');
-    
     $('#map').height(($(document).height() - $('.header').height() - headerPadTop - headerPadBottom - headerBorderBottom) + 'px');
 
-    // load base and settings
+    // load map base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false, attributionControl:false })
         .setView([39.8282, -98.5795], 4);
@@ -33,35 +31,44 @@ $(function() {
         feature = marker.feature;
         if (feature.geometry.type === 'Point') {
             // custom marker
-            marker.setIcon(L.divIcon({
-                className: 'marker',
-                iconSize: [5, 5]
-            }));
+            markerSetClass(marker, 'marker');
         }
         wrap.addResults(feature);
 
         markerCount ++;
     });
 
+    if (window.location.hash) {
+        var hash = window.location.hash;
+        $('#address').val(hash.replace('#', ''));
+        formSubmitted(1);
+    }
+
     function formSubmitted(numQueries) {
+        window.location.hash = '#' + encodeURIComponent($('#address').val());
         markerCount = 0;
         //wrapper.clear();
         markerLayer.clearLayers();
         var updatedData = coder();
-        console.log(updatedData);
         // add the layer
-        markerLayer.setGeoJSON(updatedData[0]);
+        markerLayer.setGeoJSON(updatedData);
         // fit the map to the bounds of the markers
         map.fitBounds(markerLayer.getBounds());
 
-        //$('.data-wrapper').slideDown('slow');
+        $('.data-wrapper').slideDown('slow');
 
-        wrap.addCount(markerCount, numQueries);
+        //wrap.addCount(markerCount, numQueries);
+    }
+
+    function markerSetClass (marker, className) {
+        marker.setIcon(L.divIcon({
+            className: className,
+            iconSize: [5, 5]
+        }));
     }
 
     // on submit
     $('#geocode').submit(function(event) {
-        console.log('submitted');
         formSubmitted(1);
         return false;
     });
@@ -92,15 +99,10 @@ $(function() {
               // change marker
             markerLayer.eachLayer(function(marker) {
                 var feature = marker.feature;
-                if(wrap.setID(feature) === linkID) {
-                    marker.setIcon(L.divIcon({
-                        className: 'marker-hover',
-                        iconSize: [5, 5]
-                    }));
+                if(feature.properties.id === linkID) {
+                    markerSetClass(marker, 'marker-hover');
                 }
             });
-
-            return false;
         }
     });
 
@@ -112,15 +114,10 @@ $(function() {
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
             // change the marker back to normal if its not active
-            if(wrap.setID(feature) === linkID && !hasClass) {
-                marker.setIcon(L.divIcon({
-                    className: 'marker',
-                    iconSize: [5, 5]
-                }));
+            if(feature.properties.id === linkID && !hasClass) {
+                markerSetClass(marker, 'marker');
             }
         });
-        
-        return false;
     });
 
     // pan to the point from the panel
@@ -128,23 +125,16 @@ $(function() {
     // change marker and result to active
     // reset everything else
     $('#data').on('click', '.lat-long', function() {
-
         wrap.activeResult(this);
         var linkID = $(this).data('id');
         map.panTo($(this).data('lat-long'));
         // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            if(wrap.setID(feature) === linkID) {
-                marker.setIcon(L.divIcon({
-                    className: 'marker-active',
-                    iconSize: [5, 5]
-            }));
+            if(feature.properties.id === linkID) {
+                markerSetClass(marker, 'marker-active');
             } else {
-                marker.setIcon(L.divIcon({
-                    className: 'marker',
-                    iconSize: [5, 5]
-                }));
+                markerSetClass(marker, 'marker');
             }
         });
     
