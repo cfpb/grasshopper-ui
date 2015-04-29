@@ -4,7 +4,7 @@ module.exports = {
         'copy:dev',
         'sass:dev',
         'browserify:dev',
-        'browserSync',
+        'connect',
         'watch'
     ],
     'build': [
