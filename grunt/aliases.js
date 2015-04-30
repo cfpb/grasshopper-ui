@@ -13,6 +13,6 @@ module.exports = {
         'copy:build',
         'htmlmin:build',
         'sass:build',
-        'uglify:build'
+        'browserify:dev'
     ]
 };
