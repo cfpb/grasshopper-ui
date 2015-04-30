@@ -8,7 +8,6 @@ var coder = require('../js/geocoder');
 var markerCount = 0;
 
 $(function() {
-    console.log('fasdasdffasdfff');
     // set map size
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
     var headerPadBottom = $('.header').css('padding-bottom').replace('px', '');
