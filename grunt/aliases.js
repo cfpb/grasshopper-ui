@@ -4,6 +4,7 @@ module.exports = {
         'copy:dev',
         'sass:dev',
         'browserify:dev',
+        'configureProxies:server',
         'connect',
         'watch'
     ],

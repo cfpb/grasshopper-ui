@@ -17,24 +17,26 @@ function _setID(data) {
     return data;
 }
 
-module.exports = function() {
-    /*
+module.exports = function(address) {
+    var geodata;
     $.ajax({
-        url: 'http://awsdevhmdal05:31010/addresses/points/20779',
+        url: '/addresses/points/' + address,
         method: "GET",
-        async: false,
         dataType: "json",
-        crossDomain: true
+        async: false
     }).done(function(data) {
-        console.log(data);
-        //geodata = _setProperties(data);
+        geodata = _setID(data);
     }).error(function(request, status, error) {
         console.log(request);
         console.log(status);
         console.log(error);
     });
-    */
+
+    /*
+    // can use this as a response and comment out the ajax call
     var data = $.parseJSON('[{"type": "Feature","geometry": {"type": "Point", "coordinates": [-94.01536909650383, 36.17558950466898, 0.0] }, "properties": { "address": "20779 Lakeshore Springdale AR 72764", "alt_address": "", "load_date": 1428674694900 }}]');
     var geodata = _setID(data);
+    */
+
     return geodata;
 }

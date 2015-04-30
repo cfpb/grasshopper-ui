@@ -49,7 +49,8 @@ $(function() {
         markerCount = 0;
         //wrapper.clear();
         markerLayer.clearLayers();
-        var updatedData = coder();
+        var updatedData = coder($('#address').val());
+        
         // add the layer
         markerLayer.setGeoJSON(updatedData);
         // fit the map to the bounds of the markers
