@@ -36,9 +36,9 @@ To view the site run
 $ grunt
 ```
 
-The site should now be live at `http://localhost:3000/`.
+The site should now be live at `http://localhost:9001`.
 
-*It uses grunt-browser-sync to preview and update the site 'on-the-fly'. So any changes to the `.scss` and `.js` will reload the site for you.*
+*It uses [grunt-contrib-connect](https://www.npmjs.com/package/grunt-contrib-connect), [grunt-connect-proxy](https://www.npmjs.com/package/grunt-connect-proxy) to handle the API call, and [connect-livereload](https://www.npmjs.com/package/connect-livereload).*
 
 ### To launch the Jekyll site, enter:
 
@@ -52,9 +52,20 @@ The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
 
 The site can also be run as a Docker container. First make sure that the site is built by issuing `grunt build`. Once this is done, build the Docker image as follows:
 
+First run
+
+```shell
+$ npm install
+```
+
+Then run
+
+```
+$ grunt build
+```
+
 ```
 docker build --rm -t hmda/grasshopper-ui .
-
 ```
 
 To run the Docker container:
