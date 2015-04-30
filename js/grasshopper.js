@@ -48,7 +48,6 @@ $(function() {
     function formSubmitted(numQueries) {
         request = true;
         $('.error').css('display', 'none');
-
         var response = coder($('#address').val());
         window.location.hash = '#' + $('#address').val();
         
@@ -80,14 +79,14 @@ $(function() {
 
     // on submit
     $('#geocode').submit(function(event) {
-        formSubmitted(1);
+        formSubmitted();
         return false;
     });
 
     // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
-            formSubmitted(1);
+            formSubmitted();
             return false;
         }
     });
