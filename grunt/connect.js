@@ -1,29 +1,43 @@
 var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 module.exports = {
-    server: {
+    options: {
+        hostname: 'localhost',
+        port: 9001,
+        base: 'dist',
+        livereload: 35729
+    },
+    livereload: {
         options: {
-            hostname: 'localhost',
-            port: 9001,
-            base: 'dist',
             middleware: function (connect, options) {
-                var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-                return [
-                    // Include the proxy first
-                    proxy,
-                    // Serve static files.
-                    connect.static(options.base[0]),
-                    // Make empty directories browsable.
-                    connect.directory(options.base[0])
-                ];
+                if (!Array.isArray(options.base)) {
+                    options.base = [options.base];
+                }
+
+                // Setup the proxy
+                var middlewares = [require('grunt-connect-proxy/lib/utils').proxyRequest];
+
+                // Serve static files.
+                options.base.forEach(function(base) {
+                    middlewares.push(connect.static(base));
+                });
+
+                // Make directory browse-able.
+                var directory = options.directory || options.base[options.base.length - 1];
+                middlewares.push(connect.directory(directory));
+
+                return middlewares;
             }
         }
     },
     proxies: [
         {
-            context: '/addresses',
+            context: '/api',
             host: 'awsdevhmdal05',
-            port: 31010
+            port: 31010,
+            rewrite: {
+                '^/api': ''
+            }
         }
     ] 
 }

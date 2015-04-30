@@ -20,7 +20,7 @@ function _setID(data) {
 module.exports = function(address) {
     var geodata;
     $.ajax({
-        url: '/addresses/points/' + address,
+        url: '/api/addresses/points/' + address,
         method: "GET",
         dataType: "json",
         async: false

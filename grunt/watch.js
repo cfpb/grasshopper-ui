@@ -10,5 +10,13 @@ module.exports = {
     html: {
         files: 'index.html',
         tasks: ['copy:dev']
+    },
+    livereload: {
+        options: {
+            livereload: '<%= connect.options.livereload %>'
+        },
+        files: [
+            'dist/**/*',
+        ]
     }
 }
