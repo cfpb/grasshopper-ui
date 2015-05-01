@@ -38,29 +38,43 @@ $(function() {
         markerCount ++;
     });
 
-    if (window.location.hash) {
+    /*if (window.location.hash) {
         var hash = window.location.hash;
         $('#address').val(hash.replace('#', '').replace('+', ' '));
         formSubmitted(1);
-    }
+    }*/
 
     function formSubmitted(numQueries) {
-        window.location.hash = '#' + encodeURIComponent($('#address').val().replace(' ', '+'));
-        markerCount = 0;
-        //wrapper.clear();
-        markerLayer.clearLayers();
-        var updatedData = coder(encodeURIComponent($('#address').val().replace(' ', '+')));
-        
-        // add the layer
-        markerLayer.setGeoJSON(updatedData);
+        $('.error').css('display', 'none');
 
-        setTimeout(function() {
-            map.fitBounds(markerLayer.getBounds());
-        }, 0);
+        var updatedData = coder($('#address').val());
+        console.log('updatedData');
+        console.log(updatedData);
+        if (updatedData === 404) {
+            $('.error').css('display', 'inline-block');
+            window.location.hash = '';
+            markerLayer.clearLayers();
+            map.setView([39.8282, -98.5795], 4);
+            $('.data-wrapper').slideUp('slow');
+            console.log(updatedData);
+        } else {
+            //if (!window.location.hash) {
+                window.location.hash = '#' + $('#address').val();
+            //}
+            markerCount = 0;
+            //wrapper.clear();
+            markerLayer.clearLayers();
+            // add the layer
+            markerLayer.setGeoJSON(updatedData);
 
-        $('.data-wrapper').slideDown('slow');
+            setTimeout(function() {
+                map.fitBounds(markerLayer.getBounds());
+            }, 0);
 
-        //wrap.addCount(markerCount, numQueries);
+            $('.data-wrapper').slideDown('slow');
+
+            //wrap.addCount(markerCount, numQueries);
+        }
     }
 
     function markerSetClass (marker, className) {

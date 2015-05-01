@@ -5,7 +5,7 @@ form {
 }
 .input-wrapper {
     position: relative;
-    width: 40%;
+    width: 100%;
 }
 input {
     display: block;
@@ -19,19 +19,24 @@ input[type="text"] {
     color: $black;
     margin-right: 10px;
     padding: 4px 80px 3px 6px;
-    width: 100%;
+    width: 40%;
 }
 input[type="submit"] {
     bottom: 2px;
     font-size: .75em;
+    left: 40%;
     margin: 1px 0 0 1px;
     padding: 6px;
     position: absolute;
-    right: 0;
 }
 label {
     font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
     font-size: .7em;
     display: block;
     margin-top: 5px;
+}
+.error {
+    color: $redorange;
+    display: none;
+    float: right;
 }

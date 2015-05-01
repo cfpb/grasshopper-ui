@@ -28,8 +28,10 @@ module.exports = function(address) {
         geodata = _setID(data);
     }).error(function(request, status, error) {
         console.log(request);
+        console.log(request.status);
         console.log(status);
         console.log(error);
+        geodata = request.status;
     });
 
     /*
