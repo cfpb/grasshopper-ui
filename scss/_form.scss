@@ -1,5 +1,4 @@
-/* form */
-form {
+.search {
     margin: 0;
     padding: 0;
 }
@@ -7,27 +6,33 @@ form {
     position: relative;
     width: 100%;
 }
-input {
+.input {
+    border: none;
+    border-bottom: 1px solid $gray-20;
+    color: $black;
     display: block;
     float: left;
     font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
     font-size: 1em;
-}
-input[type="text"] {
-    border: none;
-    border-bottom: 1px solid $gray-20;
-    color: $black;
     margin-right: 10px;
     padding: 4px 80px 3px 6px;
     width: 40%;
 }
-input[type="submit"] {
+.btn {
+    background-color: $pacific;
+    border: none;
+    border-radius: 2px;
     bottom: 2px;
+    color: $white;
     font-size: .75em;
     left: 40%;
     margin: 1px 0 0 1px;
     padding: 6px;
     position: absolute;
+    min-width: 75px;
+    &:hover {
+        background-color: $pacific-80;
+    }
 }
 label {
     font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;

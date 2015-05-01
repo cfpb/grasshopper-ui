@@ -1,7 +1,6 @@
 module.exports = function () {
     var speed = 'slow',
-        dw = $('.data-wrapper'),
-        c = $('#count'),
+        //c = $('#count'),
         d = $('#data');
 
     /*
@@ -25,7 +24,7 @@ module.exports = function () {
 
     function _clear() {
         d.html('');
-        c.html('');
+        //c.html('');
         //_changeText('Hide Data');
     }
 
@@ -55,18 +54,12 @@ module.exports = function () {
     function addResults(feature) {
         _clear();
         // append the data
-        d.append('<div class="result group">'
-            + '<div class="geo-data group">'
-            // + '<h6>' + feature.properties.query + '</h6>'
+        d.append('<div class="result">'
             + '<h5><a class="lat-long" data-id="' + feature.properties.id
             + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
             + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
-            + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></div></h5>'
+            + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>'
             + '<p class="placename">' + feature.properties.address + '</p>'
-            // + '<p class="type">' + feature.geometry.type + '</p>'
-            // + '<p class="relevance ' + _setColor(feature.relevance) + '">Score: ' + feature.relevance + '</p>'
-            // + '<p class="source">' + feature.properties.attribution + '</p>'
-            + '</div>'
             + '</div>');
     }
 

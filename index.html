@@ -17,9 +17,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-1">
-                    <form id="geocode">
+                    <form class="search" id="geocode">
                         <div class="input-wrapper group">
-                            <input id="address" name="address" placeholder="Enter an address" type="text" />
+                            <input class="input" id="address" name="address" placeholder="Enter an address" type="text" />
                             <input class="btn" type="submit" value="Search" />
                             <span class="error">Error</span>
                         </div>
@@ -32,17 +32,14 @@
         </div>
     </header>
 
-<div class="wrapper">
-    <div class="panel">
-        
-        <div class="data-wrapper">
+    <div class="wrapper">
+        <div class="panel">
             <div id="data"></div>
         </div>
+        <div id="map"></div>
     </div>
-    <div id="map"></div>
-</div>
 
-<script src='js/grasshopper.js'></script>
+    <script src='js/grasshopper.js'></script>
 
 </body>
 </html>
