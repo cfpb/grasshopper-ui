@@ -27,10 +27,6 @@ module.exports = function(address) {
     }).done(function(data) {
         geodata = _setID(data);
     }).error(function(request, status, error) {
-        console.log(request);
-        console.log(request.status);
-        console.log(status);
-        console.log(error);
         geodata = request.status;
     });
 

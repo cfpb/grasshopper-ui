@@ -6,6 +6,7 @@ var wrap = wrapper();
 var coder = require('../js/geocoder');
 
 var markerCount = 0;
+var request = false;
 
 $(function() {
     // set map size
@@ -38,43 +39,36 @@ $(function() {
         markerCount ++;
     });
 
-    /*if (window.location.hash) {
+    if (window.location.hash && request === false) {
         var hash = window.location.hash;
-        $('#address').val(hash.replace('#', '').replace('+', ' '));
+        $('#address').val(hash.replace('#', '').replace('+', ' ')); 
         formSubmitted(1);
-    }*/
+    }
 
     function formSubmitted(numQueries) {
+        request = true;
         $('.error').css('display', 'none');
 
-        var updatedData = coder($('#address').val());
-        console.log('updatedData');
-        console.log(updatedData);
-        if (updatedData === 404) {
+        var response = coder($('#address').val());
+        window.location.hash = '#' + $('#address').val();
+        
+        if (response === 404) {
             $('.error').css('display', 'inline-block');
-            window.location.hash = '';
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
-            $('.data-wrapper').slideUp('slow');
-            console.log(updatedData);
+            //$('.data-wrapper').slideUp('slow');
+            wrap.addError(response);
         } else {
-            //if (!window.location.hash) {
-                window.location.hash = '#' + $('#address').val();
-            //}
             markerCount = 0;
-            //wrapper.clear();
             markerLayer.clearLayers();
             // add the layer
-            markerLayer.setGeoJSON(updatedData);
+            markerLayer.setGeoJSON(response);
 
             setTimeout(function() {
                 map.fitBounds(markerLayer.getBounds());
             }, 0);
-
-            $('.data-wrapper').slideDown('slow');
-
-            //wrap.addCount(markerCount, numQueries);
         }
+         $('.data-wrapper').slideDown('slow');
     }
 
     function markerSetClass (marker, className) {
