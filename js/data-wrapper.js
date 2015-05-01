@@ -1,46 +1,11 @@
 module.exports = function () {
     var speed = 'slow',
-        //c = $('#count'),
         d = $('#data');
-
-    /*
-    function _changeText(text) {
-        $('.show-hide-data').text(text);
-    }
-    */
-
-    /*
-    // use this later when we add relevancy
-    function _setColor(relevance) {
-        var _colorClass = 'good';
-        if (relevance < .75 && relevance > .5) {
-            _colorClass = 'ok';
-        } else if (relevance <= .5) {
-            _colorClass = 'bad';
-        }
-        return _colorClass;
-    }
-    */
 
     function _clear() {
         d.html('');
-        //c.html('');
-        //_changeText('Hide Data');
     }
 
-    /*
-    // not showing/hiding anything yet
-    function showHide() {
-        if (dw.is(':hidden')) {
-            dw.css('visibility', 'visible');
-            dw.slideDown(speed);
-            _changeText('Hide Data');
-        } else {
-            dw.slideUp(speed);
-            _changeText('Show Data');
-        }
-    }
-    */
     function addError(error) {
         _clear();
         d.append('<div class="result group">'
@@ -62,14 +27,6 @@ module.exports = function () {
             + '<p class="placename">' + feature.properties.address + '</p>'
             + '</div>');
     }
-
-    /*
-    function addCount(markerCount, queryCount) {
-        console.log('addCount');
-        // append to count
-        $('#count').append('Showing ' + markerCount + ' results based on ' + queryCount + ' queries');
-    }
-    */
 
     function activeResult(link) {
         $('.result').removeClass('active');

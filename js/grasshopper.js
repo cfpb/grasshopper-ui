@@ -92,12 +92,6 @@ $(function() {
         }
     });
 
-    // show/hide the data
-    // allows user to get the data panel out of the way
-    $('.show-hide-data').click(function() {
-        wrap.showHide();
-    });
-
      // on mouseover of link
      $('#data').on('mouseover', '.lat-long', function() {
         // if its acitve do nothing
@@ -131,7 +125,6 @@ $(function() {
         });
     });
 
-    // pan to the point from the panel
     // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
     // change marker and result to active
     // reset everything else
