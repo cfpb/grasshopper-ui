@@ -23,6 +23,11 @@
         border-bottom: none;
     }
 }
+.result-error {
+    @extend .result;
+    color: $redorange;
+    font-weight: bold;
+}
 .placename, h5 {
     margin: 0;
 }

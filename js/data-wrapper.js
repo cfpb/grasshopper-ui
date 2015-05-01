@@ -8,9 +8,8 @@ module.exports = function () {
 
     function addError(error) {
         _clear();
-        d.append('<div class="result group">'
+        d.append('<div class="result result-error group">'
             + '<div class="geo-data group">'
-            // + '<h6>' + feature.properties.query + '</h6>'
             + '<h5>No results found</h5>'
             + '</div>'
             + '</div>');
