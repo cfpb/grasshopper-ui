@@ -53,8 +53,10 @@ $(function() {
         
         // add the layer
         markerLayer.setGeoJSON(updatedData);
-        // fit the map to the bounds of the markers
-        map.fitBounds(markerLayer.getBounds());
+
+        setTimeout(function() {
+            map.fitBounds(markerLayer.getBounds());
+        }, 0);
 
         $('.data-wrapper').slideDown('slow');
 
