@@ -40,16 +40,16 @@ $(function() {
 
     if (window.location.hash) {
         var hash = window.location.hash;
-        $('#address').val(hash.replace('#', ''));
+        $('#address').val(hash.replace('#', '').replace('+', ' '));
         formSubmitted(1);
     }
 
     function formSubmitted(numQueries) {
-        window.location.hash = '#' + encodeURIComponent($('#address').val());
+        window.location.hash = '#' + encodeURIComponent($('#address').val().replace(' ', '+'));
         markerCount = 0;
         //wrapper.clear();
         markerLayer.clearLayers();
-        var updatedData = coder($('#address').val());
+        var updatedData = coder(encodeURIComponent($('#address').val().replace(' ', '+')));
         
         // add the layer
         markerLayer.setGeoJSON(updatedData);
