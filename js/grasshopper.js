@@ -47,12 +47,10 @@ $(function() {
 
     function formSubmitted(numQueries) {
         request = true;
-        $('.error').css('display', 'none');
         var response = coder($('#address').val());
         window.location.hash = '#' + $('#address').val();
         
         if (response === 404) {
-            $('.error').css('display', 'inline-block');
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
             //$('.data-wrapper').slideUp('slow');
