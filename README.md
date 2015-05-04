@@ -15,11 +15,6 @@ Our working prototype can be found running in [gh-pages](http://cfpb.github.io/g
 - Grunt
 - [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.1.5/) (for now)
 
-#### If you want to build with Jekyll
-
-- Ruby - for installing Jekyll
-- [Jekyll](http://jekyllrb.com/docs/installation/)
-
 ## Installation
 
 ### Grunt
