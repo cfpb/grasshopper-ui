@@ -50,7 +50,7 @@ The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
 
 ### Docker
 
-The site can also be run as a Docker container.  It hosts an CentOS Nginx server that merges the grasshopper addresspoints API and grasshopper-ui static site into a single site.
+The site can also be run as a Docker container.  It hosts a CentOS Nginx server that merges the grasshopper addresspoints API and grasshopper-ui static site into a single site.
 
 **Note:** This is currently a very manual process, and geared towards a boot2docker dev environment.  A simpler, more generic Docker setup is coming soon.
 
