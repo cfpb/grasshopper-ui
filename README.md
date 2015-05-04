@@ -50,18 +50,30 @@ The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
 
 ### Docker
 
-The site can also be run as a Docker container. First make sure that the site is built by issuing `grunt build`. Once this is done, build the Docker image as follows:
+The site can also be run as a Docker container.  It hosts an CentOS Nginx server that merges the grasshopper addresspoints API and grasshopper-ui static site into a single site.
 
-```
-docker build --rm -t hmda/grasshopper-ui .
+**Note:** This is currently a very manual process, and geared towards a boot2docker dev environment.  A simpler, more generic Docker setup is coming soon.
 
-```
+1. Add the Elasticsearch and grasshopper addresspoints Docker images.  Follow
+   the instructions from the grasshopper project:
 
-To run the Docker container:
+    * https://github.com/cfpb/grasshopper/tree/master/addresspoints#running
 
-```
-docker run -p 80:80 hmda/grasshopper-ui
-```
+1. Import test data into Elasticsearch using the grasshopper-loader:
+
+    * https://github.com/cfpb/grasshopper-loader#usage
+
+1. Build grasshopper-ui static site.
+
+    grunt build
+
+1. Build the grasshopper-ui Docker image.
+
+    docker build --rm -t hmda/grasshopper-ui .
+
+1. Start a grasshopper-ui Docker container:
+
+    docker run -p 80:80 hmda/grasshopper-ui
 
 
 ## Known issues
