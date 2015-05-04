@@ -40,14 +40,6 @@ The site should now be live at `http://localhost:9001`.
 
 *It uses [grunt-contrib-connect](https://www.npmjs.com/package/grunt-contrib-connect), [grunt-connect-proxy](https://www.npmjs.com/package/grunt-connect-proxy) to handle the API call, and [connect-livereload](https://www.npmjs.com/package/connect-livereload).*
 
-### To launch the Jekyll site, enter:
-
-```shell
-$ jekyll serve
-```
-
-The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
-
 ### Docker
 
 The site can also be run as a Docker container. First make sure that the site is built by issuing `grunt build`. Once this is done, build the Docker image as follows:
