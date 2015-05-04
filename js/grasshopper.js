@@ -17,10 +17,10 @@ $(function() {
 
     // load map base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false, attributionControl:false })
+    var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
     map.scrollWheelZoom.disable();
-    new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
     // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
