@@ -65,15 +65,15 @@ The site can also be run as a Docker container.  It hosts an CentOS Nginx server
 
 1. Build grasshopper-ui static site.
 
-    grunt build
+        grunt build
 
 1. Build the grasshopper-ui Docker image.
 
-    docker build --rm -t hmda/grasshopper-ui .
+        docker build --rm -t hmda/grasshopper-ui .
 
 1. Start a grasshopper-ui Docker container:
 
-    docker run -p 80:80 hmda/grasshopper-ui
+        docker run -p 80:80 hmda/grasshopper-ui
 
 
 ## Known issues
