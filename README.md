@@ -37,29 +37,31 @@ The site should now be live at `http://localhost:9001`.
 
 ### Docker
 
-The site can also be run as a Docker container. First make sure that the site is built by issuing `grunt build`. Once this is done, build the Docker image as follows:
+The site can also be run as a Docker container.  It hosts a CentOS Nginx server that merges the grasshopper addresspoints API and grasshopper-ui static site into a single site.
 
-First run
+**Note:** This is currently a very manual process, and geared towards a boot2docker dev environment.  A simpler, more generic Docker setup is coming soon.
 
-```shell
-$ npm install
-```
+1. Add the Elasticsearch and grasshopper addresspoints Docker images.  Follow
+   the instructions from the grasshopper project:
+>>>>>>> master
 
-Then run
+    * https://github.com/cfpb/grasshopper/tree/master/addresspoints#running
 
-```
-$ grunt build
-```
+1. Import test data into Elasticsearch using the grasshopper-loader:
 
-```
-docker build --rm -t hmda/grasshopper-ui .
-```
+    * https://github.com/cfpb/grasshopper-loader#usage
 
-To run the Docker container:
+1. Build grasshopper-ui static site.
 
-```
-docker run -p 80:80 hmda/grasshopper-ui
-```
+        grunt build
+
+1. Build the grasshopper-ui Docker image.
+
+        docker build --rm -t hmda/grasshopper-ui .
+
+1. Start a grasshopper-ui Docker container:
+
+        docker run -p 80:80 hmda/grasshopper-ui
 
 
 ## Known issues
