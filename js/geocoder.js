@@ -1,65 +1,40 @@
-var geocoder = function () {
-    //var _queryName = '';
-    // return the query name from the result
-    function _setQueryName(location) {
-        var _queryName = '';
-        $.each(location, function (i, namePart) {
-            if (i === location.length - 1) {
-                _queryName = _queryName + ', <span>' + namePart + '</span>';
-            } else {
-                _queryName = _queryName + namePart + ' ';
-            }
-        });
-        return _queryName;
-    }
+var lat,
+    lon,
+    latID,
+    longID,
+    featureID;
 
-    // we need to show a few things that aren't in the feature
-    // the actual query ran and the attribution
-    function _setProperties(data) {
-        // single address
-        if (data.features === undefined) {
-            $.each(data, function(i, result) {
-                $.each(result.features, function(j, feature) {
-                    feature.properties.query = _setQueryName(result.query);
-                    feature.properties.attribution = result.attribution;
-                });
-            });
-        // batch
-        } else {
-            $.each(data.features, function(j, feature) {
-                feature.properties.query = _setQueryName(data.query);
-                feature.properties.attribution = data.attribution;
-            });
-        }
-        return data;
-    }
+function _setID(data) {
+    $.each(data, function (i, result) {
+        lat = result.geometry.coordinates[1];
+        lon = result.geometry.coordinates[0];
+        latID = lat.toString().replace('.', '').replace('-', '');
+        lonID = lon.toString().replace('.', '').replace('-', '');
+        featureID = latID + lonID;
+        result.properties.id = featureID;
+    });
+    
+    return data;
+}
 
-    function setupGeoCoder() {
-        var apiPre = 'http://api.tiles.mapbox.com/v4/geocode/';
-        var apiSuf = '.json?access_token=pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
-        // if there is no ; its a single address
-        if ($('#address').val().indexOf(';') === -1) {
-            var geocoder = 'mapbox.places';
-            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query}.json?access_token=<your access token>
-        // batch
-        } else {
-            var geocoder = 'mapbox.places-permanent';
-            //http://api.tiles.mapbox.com/v4/geocode/{index}/{query};{query}; ... ;{query}.json?access_token=<your access token>
-        }
-        var geodata = null;
-        $.ajax({
-            url: apiPre + geocoder + '/' + $('#address').val() + apiSuf,
-            method: "GET",
-            async: false,
-            dataType: "json"
-        }).done(function(data) {
-            console.log(data);
-            geodata = _setProperties(data);
-        });
-        return geodata;
-    }
+module.exports = function(address) {
+    var geodata;
+    $.ajax({
+        url: '/api/addresses/points/' + address,
+        method: "GET",
+        dataType: "json",
+        async: false
+    }).done(function(data) {
+        geodata = _setID(data);
+    }).error(function(request, status, error) {
+        geodata = request.status;
+    });
 
-    return {
-        setupGeoCoder: setupGeoCoder
-    }
+    /*
+    // can use this as a response and comment out the ajax call
+    var data = $.parseJSON('[{"type": "Feature","geometry": {"type": "Point", "coordinates": [-94.01536909650383, 36.17558950466898, 0.0] }, "properties": { "address": "20779 Lakeshore Springdale AR 72764", "alt_address": "", "load_date": 1428674694900 }}]');
+    var geodata = _setID(data);
+    */
+
+    return geodata;
 }

@@ -3,8 +3,9 @@ module.exports = {
         'clean',
         'copy:dev',
         'sass:dev',
-        'concat:dev',
-        'browserSync',
+        'browserify:dev',
+        'configureProxies:livereload',
+        'connect:livereload',
         'watch'
     ],
     'build': [
@@ -12,6 +13,6 @@ module.exports = {
         'copy:build',
         'htmlmin:build',
         'sass:build',
-        'uglify:build'
+        'browserify:dev'
     ]
 };

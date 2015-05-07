@@ -1,37 +1,47 @@
-/* form */
-form {
-    border-bottom: 1px solid $gray-20;
+.search {
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 .input-wrapper {
     position: relative;
+    width: 100%;
 }
-input {
-    border-radius: 2px;
+.input {
+    border: none;
+    border-bottom: 1px solid $gray-20;
+    color: $black;
     display: block;
     float: left;
     font-family: "AvenirNextLTW01-Medium", Helvetica, Arial;
     font-size: 1em;
+    margin-right: 10px;
+    padding: 4px 80px 3px 6px;
+    width: 40%;
 }
-input[type="text"] {
-    border: 1px solid $gray-20;
+.btn {
+    background-color: $pacific;
+    border: none;
     border-radius: 2px;
-    color: $black;
-    padding: 4px 95px 3px 6px;
-    width: 100%;
-}
-input[type="submit"] {
+    bottom: 2px;
+    color: $white;
     font-size: .75em;
+    left: 40%;
     margin: 1px 0 0 1px;
     padding: 6px;
     position: absolute;
-    top: 0;
-    right: 1px;
+    min-width: 75px;
+    &:hover {
+        background-color: $pacific-80;
+    }
 }
 label {
     font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
     font-size: .7em;
     display: block;
     margin-top: 5px;
+}
+.error {
+    color: $redorange;
+    display: none;
+    float: right;
 }

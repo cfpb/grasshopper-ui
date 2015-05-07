@@ -15,11 +15,6 @@ Our working prototype can be found running in [gh-pages](http://cfpb.github.io/g
 - Grunt
 - [Mapbox.js](https://www.mapbox.com/mapbox.js/api/v2.1.5/) (for now)
 
-#### If you want to build with Jekyll
-
-- Ruby - for installing Jekyll
-- [Jekyll](http://jekyllrb.com/docs/installation/)
-
 ## Installation
 
 ### Grunt
@@ -36,17 +31,9 @@ To view the site run
 $ grunt
 ```
 
-The site should now be live at `http://localhost:3000/`.
+The site should now be live at `http://localhost:9001`.
 
-*It uses grunt-browser-sync to preview and update the site 'on-the-fly'. So any changes to the `.scss` and `.js` will reload the site for you.*
-
-### To launch the Jekyll site, enter:
-
-```shell
-$ jekyll serve
-```
-
-The site should now be live at `http://127.0.0.1:4000/grasshopper-ui/dist/`.
+*It uses [grunt-contrib-connect](https://www.npmjs.com/package/grunt-contrib-connect), [grunt-connect-proxy](https://www.npmjs.com/package/grunt-connect-proxy) to handle the API call, and [connect-livereload](https://www.npmjs.com/package/connect-livereload).*
 
 ### Docker
 
@@ -56,6 +43,7 @@ The site can also be run as a Docker container.  It hosts a CentOS Nginx server 
 
 1. Add the Elasticsearch and grasshopper addresspoints Docker images.  Follow
    the instructions from the grasshopper project:
+>>>>>>> master
 
     * https://github.com/cfpb/grasshopper/tree/master/addresspoints#running
 

@@ -1,6 +1,0 @@
-baseurl: /grasshopper-ui
-exclude: [
-    node_modules,
-    grunt,
-    scss
-]

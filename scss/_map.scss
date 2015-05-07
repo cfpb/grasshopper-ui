@@ -1,4 +1,3 @@
-/* map */
 #map {
     background-color: $gray-50;
     height: 100%;
@@ -17,7 +16,6 @@
     width: 5px;
 }
 .marker-hover {
-    background-color: $white;
     @extend .marker;
     box-shadow:
         0 0 0 3px $gold,
@@ -27,7 +25,6 @@
     -webkit-animation: toggle-shadow-hover 1.5s infinite;
 }
 .marker-active {
-    background-color: $white;
     @extend .marker;
     box-shadow:
         0 0 0 3px $green,

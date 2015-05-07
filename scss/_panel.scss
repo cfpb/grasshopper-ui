@@ -1,82 +1,44 @@
 .panel {
-    background: $gray-5;
+    background: $white;
+    border-radius: 2px;
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 20px;
+    top: 20px;
     width: 400px;
     z-index: 1000;
 }
 
-.help {
-    padding-top: 10px;
-
-    a {
-        display: inline-block;
-        font-size: .75em;
-        &.show-hide-data {
-            display: none;
-            float: right;
-        }
-    }
-}
-
-.data-wrapper {
-    display: none;
-}
-
-#downloads {
-    border-bottom: 1px solid $gray-20;
-    font-size: .75em;
-    padding: 10px;
-    text-align: center;
-
-    a {
-        font-size: 1em;
-    }
-}
-
 #data {
-    background: $white;
+    border-radius: 2px;
     padding: 0 20px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     max-width: 500px;
 }
 
 .result {
-    border-bottom: 1px solid $gray-20;
+    border-bottom: 1px solid $gray-5;
     padding: 20px 0;
     position: relative;
     &:last-child {
         border-bottom: none;
     }
-    p, h5 {
-        margin: 0;
-    }
-    p {
-       font-size: .75em;
-    }
-    .geo-data {
-        
-    }
-    h5 {
-        color: $green;
-        font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
-        font-size: .85em;
-        font-weight: normal;
-        margin-bottom: 0;
-    }
-    h6 {
-        color: $gray-50;
-        font-family: "AvenirNextLTW01-Regular", Helvetica, Arial;
-        font-weight: normal;
-        line-height: 1;
-        margin: 0;
-        padding: 0 0 3px;
-        text-transform: capitalize;
-        & span {
-            text-transform: uppercase;
-        }
-    }
+}
+.result-error {
+    @extend .result;
+    color: $redorange;
+    font-weight: bold;
+}
+.placename, h5 {
+    margin: 0;
+}
+.placename {
+   font-size: .75em;
+}
+h5 {
+    font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
+    font-size: .85em;
+    font-weight: normal;
+    margin-bottom: 0;
 }
 
 .geo-symbol {
@@ -129,50 +91,4 @@
     100% {
         background-color: rgba(44, 179, 74, 1);
     }
-}
-
-.line {
-    background-color: $gray-50;
-    border-radius: 3px;
-    display: inline-block;
-    height: 3px;
-    margin-bottom: 5px;
-    margin-right: 2px;
-    width: 10px;
-}
-
-.placename {
-    margin-bottom: 5px;
-}
-.type, .relevance {
-    color: $gray-50;
-    float: left;
-    width: 50%;
-    a {
-        margin: 0;
-    }
-}
-.good {
-    color: $green;
-}
-.ok {
-    color: $gold;
-}
-.bad {
-    color: $redorange;
-}
-.relevance {
-    text-align: right;
-}
-
-#count {
-    background: $gray-5;
-    border-top: 1px solid $gray-20;
-    bottom: 0;
-    font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;
-    font-size: .65em;
-    padding: 10px;
-    position: absolute;
-    text-align: center;
-    width: 100%;
 }
