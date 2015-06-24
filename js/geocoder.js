@@ -3,24 +3,47 @@ var lat,
     latID,
     longID,
     featureID;
+var features = [];
 
 function _setID(data) {
-    $.each(data, function (i, result) {
-        lat = result.geometry.coordinates[1];
-        lon = result.geometry.coordinates[0];
+    //console.log('id data');
+    //console.log(data);
+    $.each(data.addressPointsService.features, function (i, result) {
+        //console.log('status');
+        //console.log(i);
+        //console.log(result);
+        // add to features array
+        features.push(result);
+        /*lat = addressPointsService.features[0].geometry.coordinates[1];
+        lon = addressPointsService.features[0].geometry.coordinates[0];
         latID = lat.toString().replace('.', '').replace('-', '');
         lonID = lon.toString().replace('.', '').replace('-', '');
         featureID = latID + lonID;
-        result.properties.id = featureID;
+        addressPointsService.features[0].properties.id = featureID;*/
     });
-    
-    return data;
+
+    $.each(data.censusService.features, function (i, result) {
+        //console.log('status');
+        //console.log(i);
+        //console.log(result);
+        // add to features array
+        features.push(result);
+        /*lat = addressPointsService.features[0].geometry.coordinates[1];
+        lon = addressPointsService.features[0].geometry.coordinates[0];
+        latID = lat.toString().replace('.', '').replace('-', '');
+        lonID = lon.toString().replace('.', '').replace('-', '');
+        featureID = latID + lonID;
+        addressPointsService.features[0].properties.id = featureID;*/
+    });
+    // return the new array
+    return features;
 }
 
 module.exports = function(address) {
     var geodata;
+    var newadd = address.replace(/ /g, '+');
     $.ajax({
-        url: '/api/addresses/points/' + address,
+        url: '/api/geocoder/' + newadd,
         method: "GET",
         dataType: "json",
         async: false
