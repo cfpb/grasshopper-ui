@@ -5,9 +5,6 @@ var wrapper = require('../js/data-wrapper');
 var wrap = wrapper();
 var coder = require('../js/geocoder');
 
-var markerCount = 0;
-var request = false;
-
 $(function() {
     // set map size
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
@@ -39,16 +36,8 @@ $(function() {
         markerCount ++;
     });
 
-    if (window.location.hash && request === false) {
-        var hash = window.location.hash;
-        $('#address').val(hash.replace('#', '').replace('+', ' ')); 
-        formSubmitted(1);
-    }
-
-    function formSubmitted(numQueries) {
-        request = true;
+    function formSubmitted() {
         var response = coder($('#address').val());
-        window.location.hash = '#' + $('#address').val();
         
         if (response === 404) {
             markerLayer.clearLayers();
@@ -77,12 +66,14 @@ $(function() {
 
     // on submit
     $('#geocode').submit(function(event) {
+        wrap.clear();
         formSubmitted();
         return false;
     });
 
     // on keypress of enter
     $('#address').keypress(function(e) {
+        wrap.clear();
         if (e.which == 13) {
             formSubmitted();
             return false;
