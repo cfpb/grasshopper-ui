@@ -4,8 +4,8 @@ module.exports = {
         'copy:dev',
         'sass:dev',
         'browserify:dev',
-        //'configureProxies:livereload',
-        //'connect:livereload',
+        'configureProxies:livereload',
+        'connect:livereload',
         'watch'
     ],
     'build': [
