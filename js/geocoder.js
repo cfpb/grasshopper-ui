@@ -6,6 +6,10 @@ var lat,
 var features = [];
 
 function _setID(data) {
+    // check for status
+    if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
+        features.push('No results found');
+    }
     $.each(data.addressPointsService.features, function (i, result) {
         // set the id
         lat = result.geometry.coordinates[1];
@@ -55,10 +59,7 @@ module.exports = function(address) {
         async: false
     }).done(function(data) {
         geodata = _setID(data);
-        console.log(geodata);
     }).error(function(request, status, error) {
-        console.log(status + ' and ' + error);
-        console.log(request);
         geodata = request.status;
     });
 

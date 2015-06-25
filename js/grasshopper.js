@@ -39,7 +39,7 @@ $(function() {
     function formSubmitted() {
         var response = coder($('#address').val());
         
-        if (response === 404) {
+        if (response === 404 || response[0] === 'No results found') {
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
             //$('.data-wrapper').slideUp('slow');
