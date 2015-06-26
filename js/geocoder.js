@@ -53,7 +53,7 @@ module.exports = function(address) {
     var geodata;
     var newadd = address.replace(/ /g, '+');
     $.ajax({
-        url: '/api/geocode/' + newadd,
+        url: '/api/geocoder/geocode/' + newadd,
         method: "GET",
         dataType: "json",
         async: false
