@@ -22,6 +22,7 @@ module.exports = function () {
             + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
             + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>';
+        // results are different for point and census
         if (feature.properties.service === 'point') {
             resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
         } else if (feature.properties.service === 'census') {

@@ -99,6 +99,7 @@ $(function() {
         }
     });
 
+    // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
     // on mouse out
     $('#data').on('mouseout', '.lat-long', function() {
         var linkID = $(this).data('id');
@@ -112,8 +113,7 @@ $(function() {
             }
         });
     });
-
-    // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
+    
     // change marker and result to active
     // reset everything else
     $('#data').on('click', '.lat-long', function() {

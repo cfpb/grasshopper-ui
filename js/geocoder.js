@@ -52,6 +52,7 @@ module.exports = function(address) {
     features = [];
     var geodata;
     var newadd = address.replace(/ /g, '+');
+    
     $.ajax({
         url: '/api/geocoder/geocode/' + newadd,
         method: "GET",
@@ -63,10 +64,5 @@ module.exports = function(address) {
         geodata = request.status;
     });
 
-    /*
-    // can use this as a response and comment out the ajax call
-    var data = $.parseJSON('[{"type": "Feature","geometry": {"type": "Point", "coordinates": [-94.01536909650383, 36.17558950466898, 0.0] }, "properties": { "address": "20779 Lakeshore Springdale AR 72764", "alt_address": "", "load_date": 1428674694900 }}]');
-    var geodata = _setID(data);
-    */
     return geodata;
 }
