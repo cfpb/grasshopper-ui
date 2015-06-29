@@ -5,9 +5,6 @@ var wrapper = require('../js/data-wrapper');
 var wrap = wrapper();
 var coder = require('../js/geocoder');
 
-var markerCount = 0;
-var request = false;
-
 $(function() {
     // set map size
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
@@ -39,18 +36,10 @@ $(function() {
         markerCount ++;
     });
 
-    if (window.location.hash && request === false) {
-        var hash = window.location.hash;
-        $('#address').val(hash.replace('#', '').replace('+', ' ')); 
-        formSubmitted(1);
-    }
-
-    function formSubmitted(numQueries) {
-        request = true;
+    function formSubmitted() {
         var response = coder($('#address').val());
-        window.location.hash = '#' + $('#address').val();
         
-        if (response === 404) {
+        if (response === 404 || response[0] === 'No results found') {
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
             //$('.data-wrapper').slideUp('slow');
@@ -77,12 +66,14 @@ $(function() {
 
     // on submit
     $('#geocode').submit(function(event) {
+        wrap.clear();
         formSubmitted();
         return false;
     });
 
     // on keypress of enter
     $('#address').keypress(function(e) {
+        wrap.clear();
         if (e.which == 13) {
             formSubmitted();
             return false;
@@ -108,6 +99,7 @@ $(function() {
         }
     });
 
+    // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
     // on mouse out
     $('#data').on('mouseout', '.lat-long', function() {
         var linkID = $(this).data('id');
@@ -121,8 +113,7 @@ $(function() {
             }
         });
     });
-
-    // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
+    
     // change marker and result to active
     // reset everything else
     $('#data').on('click', '.lat-long', function() {

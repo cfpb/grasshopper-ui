@@ -28,11 +28,16 @@
     color: $redorange;
     font-weight: bold;
 }
-.placename, h5 {
+.placename, .service, h5 {
     margin: 0;
 }
-.placename {
+.placename, .service {
    font-size: .75em;
+}
+.service {
+    color: $gray-80;
+    margin-top: 5px;
+    text-transform: capitalize;
 }
 h5 {
     font-family: "AvenirNextLTW01-Demi", Helvetica, Arial;

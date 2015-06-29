@@ -36,7 +36,7 @@ module.exports = {
             host: 'awsdevhmdal05',
             port: 31010,
             rewrite: {
-                '^/api': ''
+                '^/api/geocoder': ''
             }
         }
     ] 
