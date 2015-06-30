@@ -8,6 +8,13 @@ module.exports = {
         'connect:livereload',
         'watch'
     ],
+    'docker': [
+        'clean',
+        'copy:dev',
+        'sass:dev',
+        'browserify:dev',
+        'watch'
+    ],
     'build': [
         'clean',
         'copy:build',
