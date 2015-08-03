@@ -5,9 +5,6 @@ MAINTAINER Juan Marin Otero <juan.marin.otero@gmail.com>
 RUN yum -y install epel-release
 RUN yum -y install nginx
 
-# Enable EPEL for Node.js
-# RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-
 # Install npm
 RUN yum install -y npm
 
