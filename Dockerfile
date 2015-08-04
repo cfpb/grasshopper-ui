@@ -1,17 +1,20 @@
 FROM centos:7
-
 MAINTAINER Juan Marin Otero <juan.marin.otero@gmail.com>
 
 RUN yum -y install epel-release
 RUN yum -y install nginx
 
 # Install npm
-RUN yum install -y npm
+RUN curl --silent --location https://rpm.nodesource.com/setup | bash -
+RUN yum -y install nodejs
+
+RUN mkdir -p /usr/src/app
 
 # Install grunt-cli
 RUN npm install -g grunt-cli
 
-COPY . /
+WORKDIR /usr/src/app
+COPY . /usr/src/app
 
 RUN npm install
 
@@ -19,9 +22,6 @@ RUN npm install
 RUN node ./node_modules/grunt-sass/node_modules/node-sass/scripts/install.js;
 
 RUN grunt build
-
-# grunt builds to dist
-ADD dist /opt/grasshopper-ui/
 
 RUN rm -v /etc/nginx/nginx.conf
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
