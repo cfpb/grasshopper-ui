@@ -16,7 +16,7 @@ RUN npm install -g grunt-cli
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
-RUN npm install
+RUN npm cache clean; npm install
 
 # Get node-sass to work
 RUN node ./node_modules/grunt-sass/node_modules/node-sass/scripts/install.js;
