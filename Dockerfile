@@ -16,19 +16,15 @@ RUN npm install -g grunt-cli
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
-RUN npm install
+RUN npm cache clean; npm install
 
 # Get node-sass to work
 RUN node ./node_modules/grunt-sass/node_modules/node-sass/scripts/install.js;
 
 RUN grunt build
 
-RUN rm -v /etc/nginx/nginx.conf
-ADD nginx/nginx.conf /etc/nginx/nginx.conf
-
-# Append "daemon off" to the beginning of the configuration
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
-CMD /usr/sbin/nginx
+CMD ["nginx", "-g", "daemon off;"]
