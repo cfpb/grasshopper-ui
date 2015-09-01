@@ -48,15 +48,13 @@ function _setProperties(data) {
 }
 
 module.exports = function(address) {
-    features = [];
     var geodata;
-    var newadd = address.replace(/ /g, '+');
 
     $.ajax({
-        url: '/api/geocoder/geocode/' + newadd,
+        url: '/api/geocoder/geocode/' + address,
         method: "GET",
         dataType: "json",
-        async: false
+        //async: false
     }).done(function(data) {
         geodata = _setProperties(data);
     }).error(function(request, status, error) {
