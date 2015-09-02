@@ -54,7 +54,7 @@ module.exports = function(address) {
         url: '/api/geocoder/geocode/' + address,
         method: "GET",
         dataType: "json",
-        //async: false
+        async: false
     }).done(function(data) {
         geodata = _setProperties(data);
     }).error(function(request, status, error) {
