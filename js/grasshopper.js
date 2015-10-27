@@ -37,6 +37,10 @@ $(function() {
         markerCount ++;
     });
 
+    function error(data) {
+        wrap.addError('404 - geocoder not found');
+    }
+
     function setProperties(data) {
         if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
             features.push('No results found');
@@ -54,7 +58,7 @@ $(function() {
             });
         }
 
-        if (features === 404 || features[0] === 'No results found') {
+        if (features[0] === 'No results found') {
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
             wrap.addError(features);
@@ -74,7 +78,7 @@ $(function() {
         wrap.clear();
         features = [];
 
-        geocoder($('#address').val()).done(setProperties);
+        geocoder($('#address').val()).done(setProperties).fail(error);
 
         wrap.show();
     }
