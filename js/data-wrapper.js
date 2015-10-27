@@ -34,6 +34,7 @@ module.exports = function() {
         // results are different for point and census
         if (feature.properties.service === 'address') {
             resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
+            resultHTML += '<p class="score">Score: ' + feature.properties.match.toFixed(2) + '</p>';
         } else if (feature.properties.service === 'census') {
             resultHTML += '<p class="placename">' + feature.properties.RFROMHN + ' - ' + feature.properties.RTOHN + ' ' + feature.properties.FULLNAME + ' ' + feature.properties.STATE + ' ' + feature.properties.ZIPR + '</p>';
         }
