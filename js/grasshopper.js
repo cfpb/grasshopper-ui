@@ -2,7 +2,6 @@ var $ = require('jquery');
 require('mapbox.js');
 
 var results = require('../js/results');
-var result = results();
 
 var props = require('../js/set-props');
 
@@ -40,19 +39,19 @@ $(function() {
         if (feature.geometry.type === 'Point') {
             markerSetClass(marker, 'marker');
         }
-        result.add(feature);
+        results.add(feature);
 
         markerCount ++;
     });
 
     function displayResults(data) {
         if (data.status === 404) {
-            result.error('404 - geocoder not found');
+            results.error('404 - geocoder not found');
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
         } else {
             if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
-               result.error('No results found');
+               results.error('No results found');
                markerLayer.clearLayers();
                map.setView([39.8282, -98.5795], 4);
             } else {
@@ -72,9 +71,9 @@ $(function() {
     }
 
     function formSubmitted() {
-        result.clear();
+        results.clear();
         geocoder.single($('#address').val(), displayResults);
-        result.show();
+        results.show();
     }
 
     // on submit
@@ -128,7 +127,7 @@ $(function() {
     // change marker and result to active
     // reset everything else
     $('#data').on('click', '.lat-long', function() {
-        result.active(this);
+        results.active(this);
         var linkID = $(this).data('id');
         map.panTo($(this).data('lat-long'));
         // change marker
