@@ -1,12 +1,24 @@
-module.exports = function () {
-    var speed = 'slow',
-        d = $('#data');
+var $ = require('jquery');
 
-    function clear() {
-        d.html('');
+var speed = 'slow',
+    d = $('#data');
+
+module.exports = function() {
+    var wrapper = {};
+
+    wrapper.clear = function() {
+        d.empty();
+        console.log('d - clear');
+        console.log(d.html());
+        d.slideUp(speed);
     }
 
-    function addError(error) {
+    wrapper.show = function() {
+        console.log('show');
+        d.slideDown(speed);
+    }
+
+    wrapper.addError = function(error) {
         d.append('<div class="result result-error group">'
             + '<div class="geo-data group">'
             + '<h5>No results found</h5>'
@@ -14,14 +26,14 @@ module.exports = function () {
             + '</div>');
     }
 
-    function addResults(feature) {
-        //_clear();
+    wrapper.addResults = function(feature) {
         // append the data
         var resultHTML = '<div class="result">'
             + '<h5><a class="lat-long" data-id="' + feature.properties.id
             + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
             + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>';
+        
         // results are different for point and census
         if (feature.properties.service === 'point') {
             resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
@@ -30,18 +42,16 @@ module.exports = function () {
         }
             
         resultHTML += '<p class="service">' + feature.properties.service + '</p></div>';
+
         d.append(resultHTML);
+        console.log('d - add');
+        console.log(d.html());
     }
 
-    function activeResult(link) {
+    wrapper.activeResult = function(link) {
         $('.result').removeClass('active');
         $(link).closest($('.result')).addClass('active');
     }
     
-    return {
-        clear: clear,
-        addResults: addResults,
-        addError: addError,
-        activeResult: activeResult
-    };
+    return wrapper;
 };
