@@ -25,6 +25,13 @@ $(function() {
     // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
 
+    function markerSetClass (marker, className) {
+        marker.setIcon(L.divIcon({
+            className: className,
+            iconSize: [5, 5]
+        }));
+    }
+
     // when a marker gets added set the custom icon
     // and add the result to the panel
     markerLayer.on('layeradd', function(e) {
@@ -54,6 +61,7 @@ $(function() {
                 markerCount = 0;
                 markerLayer.clearLayers();
                 // add the layer
+                // panel gets updated on markerLayer.on above
                 markerLayer.setGeoJSON(features);
 
                 setTimeout(function() {
@@ -67,13 +75,6 @@ $(function() {
         result.clear();
         geocoder.single($('#address').val(), displayResults);
         result.show();
-    }
-
-    function markerSetClass (marker, className) {
-        marker.setIcon(L.divIcon({
-            className: className,
-            iconSize: [5, 5]
-        }));
     }
 
     // on submit
