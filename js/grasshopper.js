@@ -3,7 +3,8 @@ require('mapbox.js');
 
 var wrapper = require('../js/data-wrapper');
 var wrap = wrapper();
-var coder = require('../js/geocoder');
+var geocoder = require('../js/geocoder');
+var features = [];
 
 $(function() {
     // set map size
@@ -36,25 +37,44 @@ $(function() {
         markerCount ++;
     });
 
-    function formSubmitted() {
-        wrap.clear();
-        
-        var response = coder($('#address').val());
-        
-        if (response === 404 || response[0] === 'No results found') {
+    function setProperties(data) {
+        if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
+            features.push('No results found');
+        } else {
+            $.each(data.addressPointsService.features, function (i, result) {
+                result.properties.id = String(Math.random()).replace('.', '');
+                result.properties.service = 'address';
+                features.push(result);
+            });
+
+            $.each(data.censusService.features, function (i, result) {
+                result.properties.id = String(Math.random()).replace('.', '');
+                result.properties.service = 'census';
+                features.push(result);
+            });
+        }
+
+        if (features === 404 || features[0] === 'No results found') {
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
-            wrap.addError(response);
+            wrap.addError(features);
         } else {
             markerCount = 0;
             markerLayer.clearLayers();
             // add the layer
-            markerLayer.setGeoJSON(response);
+            markerLayer.setGeoJSON(features);
 
             setTimeout(function() {
                 map.fitBounds(markerLayer.getBounds());
             }, 0);
         }
+    }
+
+    function formSubmitted() {
+        wrap.clear();
+        features = [];
+
+        geocoder($('#address').val()).done(setProperties);
 
         wrap.show();
     }
