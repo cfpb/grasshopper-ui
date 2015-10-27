@@ -1,10 +1,12 @@
 var $ = require('jquery');
 require('mapbox.js');
 
-var wrapper = require('../js/data-wrapper');
-var wrap = wrapper();
+var results = require('../js/results');
+var result = results();
+
+var props = require('../js/set-props');
+
 var geocoder = require('../js/geocoder');
-var features = [];
 
 $(function() {
     // set map size
@@ -29,58 +31,42 @@ $(function() {
         var marker = e.layer,
         feature = marker.feature;
         if (feature.geometry.type === 'Point') {
-            // custom marker
             markerSetClass(marker, 'marker');
         }
-        wrap.addResults(feature);
+        result.add(feature);
 
         markerCount ++;
     });
 
-    function error(data) {
-        wrap.addError('404 - geocoder not found');
-    }
-
-    function setProperties(data) {
-        if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
-            features.push('No results found');
-        } else {
-            $.each(data.addressPointsService.features, function (i, result) {
-                result.properties.id = String(Math.random()).replace('.', '');
-                result.properties.service = 'address';
-                features.push(result);
-            });
-
-            $.each(data.censusService.features, function (i, result) {
-                result.properties.id = String(Math.random()).replace('.', '');
-                result.properties.service = 'census';
-                features.push(result);
-            });
-        }
-
-        if (features[0] === 'No results found') {
+    function displayResults(data) {
+        if (data.status === 404) {
+            result.error('404 - geocoder not found');
             markerLayer.clearLayers();
             map.setView([39.8282, -98.5795], 4);
-            wrap.addError(features);
         } else {
-            markerCount = 0;
-            markerLayer.clearLayers();
-            // add the layer
-            markerLayer.setGeoJSON(features);
+            if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
+               result.error('No results found');
+               markerLayer.clearLayers();
+               map.setView([39.8282, -98.5795], 4);
+            } else {
+                var features = props.setProps(data);
 
-            setTimeout(function() {
-                map.fitBounds(markerLayer.getBounds());
-            }, 0);
+                markerCount = 0;
+                markerLayer.clearLayers();
+                // add the layer
+                markerLayer.setGeoJSON(features);
+
+                setTimeout(function() {
+                    map.fitBounds(markerLayer.getBounds());
+                }, 0);
+            }
         }
     }
 
     function formSubmitted() {
-        wrap.clear();
-        features = [];
-
-        geocoder($('#address').val()).done(setProperties).fail(error);
-
-        wrap.show();
+        result.clear();
+        geocoder.single($('#address').val(), displayResults);
+        result.show();
     }
 
     function markerSetClass (marker, className) {
@@ -141,7 +127,7 @@ $(function() {
     // change marker and result to active
     // reset everything else
     $('#data').on('click', '.lat-long', function() {
-        wrap.activeResult(this);
+        result.active(this);
         var linkID = $(this).data('id');
         map.panTo($(this).data('lat-long'));
         // change marker

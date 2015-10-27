@@ -4,18 +4,18 @@ var speed = 'slow',
     d = $('#data');
 
 module.exports = function() {
-    var wrapper = {};
+    var results = {};
 
-    wrapper.clear = function() {
+    results.clear = function() {
         d.empty();
         d.slideUp(speed);
     }
 
-    wrapper.show = function() {
+    results.show = function() {
         d.slideDown(speed);
     }
 
-    wrapper.addError = function(error) {
+    results.error = function(error) {
         d.append('<div class="result result-error group">'
             + '<div class="geo-data group">'
             + '<h5>' + error + '</h5>'
@@ -23,7 +23,7 @@ module.exports = function() {
             + '</div>');
     }
 
-    wrapper.addResults = function(feature) {
+    results.add = function(feature) {
         // append the data
         var resultHTML = '<div class="result">'
             + '<h5><a class="lat-long" data-id="' + feature.properties.id
@@ -44,10 +44,10 @@ module.exports = function() {
         d.append(resultHTML);
     }
 
-    wrapper.activeResult = function(link) {
+    results.active = function(link) {
         $('.result').removeClass('active');
         $(link).closest($('.result')).addClass('active');
     }
     
-    return wrapper;
+    return results;
 };
