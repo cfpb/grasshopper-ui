@@ -1,11 +1,9 @@
-var results = [];
-
 function _setID () {
     return String(Math.random()).replace('.', '');
 }
 
 function setProps(data) {
-    results = [];
+    var results = [];
 
     $.each(data.addressPointsService.features, function (i, result) {
         result.properties.id = _setID();

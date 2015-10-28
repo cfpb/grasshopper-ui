@@ -21,14 +21,12 @@ function error(error) {
 }
 
 function add(feature) {
-    // append the data
     var resultHTML = '<div class="result">'
         + '<h5><a class="lat-long" data-id="' + feature.properties.id
         + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
         + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
         + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>';
     
-    // results are different for point and census
     if (feature.properties.service === 'address') {
         resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
         resultHTML += '<p class="score">Score: ' + feature.properties.match.toFixed(2) + '</p>';
