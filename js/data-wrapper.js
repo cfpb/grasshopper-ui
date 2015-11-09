@@ -18,7 +18,7 @@ module.exports = function() {
     wrapper.addError = function(error) {
         d.append('<div class="result result-error group">'
             + '<div class="geo-data group">'
-            + '<h5>No results found</h5>'
+            + '<h5>' + error + '</h5>'
             + '</div>'
             + '</div>');
     }
