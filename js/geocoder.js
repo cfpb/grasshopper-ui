@@ -25,7 +25,7 @@ function _setProperties(data) {
             result.properties.id = _setID(result.geometry.coordinates);
 
             // add the service, needed to output address correctly
-            result.properties.service = 'point';
+            result.properties.service = 'address';
 
             // add to features array
             features.push(result);

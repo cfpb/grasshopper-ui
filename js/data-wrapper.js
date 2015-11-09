@@ -8,13 +8,10 @@ module.exports = function() {
 
     wrapper.clear = function() {
         d.empty();
-        console.log('d - clear');
-        console.log(d.html());
         d.slideUp(speed);
     }
 
     wrapper.show = function() {
-        console.log('show');
         d.slideDown(speed);
     }
 
@@ -35,8 +32,9 @@ module.exports = function() {
             + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>';
         
         // results are different for point and census
-        if (feature.properties.service === 'point') {
+        if (feature.properties.service === 'address') {
             resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
+            resultHTML += '<p class="score">Score: ' + feature.properties.match.toFixed(2) + '</p>';
         } else if (feature.properties.service === 'census') {
             resultHTML += '<p class="placename">' + feature.properties.RFROMHN + ' - ' + feature.properties.RTOHN + ' ' + feature.properties.FULLNAME + ' ' + feature.properties.STATE + ' ' + feature.properties.ZIPR + '</p>';
         }
@@ -44,8 +42,6 @@ module.exports = function() {
         resultHTML += '<p class="service">' + feature.properties.service + '</p></div>';
 
         d.append(resultHTML);
-        console.log('d - add');
-        console.log(d.html());
     }
 
     wrapper.activeResult = function(link) {
