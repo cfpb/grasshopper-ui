@@ -5,16 +5,6 @@ var lat,
     featureID;
 var features = [];
 
-function _setID(coordinates) {
-    lat = coordinates[1];
-    lon = coordinates[0];
-    latID = lat.toString().replace('.', '').replace('-', '');
-    lonID = lon.toString().replace('.', '').replace('-', '');
-    featureID = latID + lonID;
-
-    return featureID;
-}
-
 function _setProperties(data) {
     // check for status
     if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
@@ -22,7 +12,7 @@ function _setProperties(data) {
     } else {
         $.each(data.addressPointsService.features, function (i, result) {
             // set the id
-            result.properties.id = _setID(result.geometry.coordinates);
+            result.properties.id = String(Math.random()).replace('.', '');
 
             // add the service, needed to output address correctly
             result.properties.service = 'address';
@@ -33,7 +23,7 @@ function _setProperties(data) {
 
         $.each(data.censusService.features, function (i, result) {
             // set the id
-            result.properties.id = _setID(result.geometry.coordinates);
+            result.properties.id = String(Math.random()).replace('.', '');
 
             // add the service, needed to output address correctly
             result.properties.service = 'census';
