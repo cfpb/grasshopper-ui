@@ -1,87 +1,26 @@
 var $ = require('jquery');
 require('mapbox.js');
 
-var wrapper = require('../js/data-wrapper');
-var wrap = wrapper();
+var results = require('../js/results');
+
+var props = require('../js/set-props');
+
 var geocoder = require('../js/geocoder');
-var features = [];
 
 $(function() {
-    // set map size
+    // setup map and markerLayer
     var headerPadTop = $('.header').css('padding-top').replace('px', '');
     var headerPadBottom = $('.header').css('padding-bottom').replace('px', '');
     var headerBorderBottom = $('.header').css('border-bottom-width').replace('px', '');
     $('#map').height(($(document).height() - $('.header').height() - headerPadTop - headerPadBottom - headerBorderBottom) + 'px');
 
-    // load map base and settings
     L.mapbox.accessToken = 'pk.eyJ1IjoiY2ZwYiIsImEiOiJodmtiSk5zIn0.VkCynzmVYcLBxbyHzlvaQw';
     var map = L.mapbox.map('map', 'cfpb.k55b27gd', { zoomControl: false })
         .setView([39.8282, -98.5795], 4);
     map.scrollWheelZoom.disable();
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-    // add markerLayer to map
     var markerLayer = L.mapbox.featureLayer().addTo(map);
-
-    // when a marker gets added set the custom icon
-    // and add the result to the panel
-    markerLayer.on('layeradd', function(e) {
-        var marker = e.layer,
-        feature = marker.feature;
-        if (feature.geometry.type === 'Point') {
-            // custom marker
-            markerSetClass(marker, 'marker');
-        }
-        wrap.addResults(feature);
-
-        markerCount ++;
-    });
-
-    function error(data) {
-        wrap.addError('404 - geocoder not found');
-    }
-
-    function setProperties(data) {
-        if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
-            features.push('No results found');
-        } else {
-            $.each(data.addressPointsService.features, function (i, result) {
-                result.properties.id = String(Math.random()).replace('.', '');
-                result.properties.service = 'address';
-                features.push(result);
-            });
-
-            $.each(data.censusService.features, function (i, result) {
-                result.properties.id = String(Math.random()).replace('.', '');
-                result.properties.service = 'census';
-                features.push(result);
-            });
-        }
-
-        if (features[0] === 'No results found') {
-            markerLayer.clearLayers();
-            map.setView([39.8282, -98.5795], 4);
-            wrap.addError(features);
-        } else {
-            markerCount = 0;
-            markerLayer.clearLayers();
-            // add the layer
-            markerLayer.setGeoJSON(features);
-
-            setTimeout(function() {
-                map.fitBounds(markerLayer.getBounds());
-            }, 0);
-        }
-    }
-
-    function formSubmitted() {
-        wrap.clear();
-        features = [];
-
-        geocoder($('#address').val()).done(setProperties).fail(error);
-
-        wrap.show();
-    }
 
     function markerSetClass (marker, className) {
         marker.setIcon(L.divIcon({
@@ -90,13 +29,46 @@ $(function() {
         }));
     }
 
-    // on submit
+    markerLayer.on('layeradd', function(e) {
+        var marker = e.layer,
+        feature = marker.feature;
+        if (feature.geometry.type === 'Point') {
+            markerSetClass(marker, 'marker');
+        }
+        results.add(feature);
+    });
+
+    // form submission
+    function displayResults(data) {
+        if (data.status === 404) {
+            results.error('404 - geocoder not found');
+            markerLayer.clearLayers();
+            map.setView([39.8282, -98.5795], 4);
+        } else {
+            if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
+                results.error('No results found');
+                markerLayer.clearLayers();
+                map.setView([39.8282, -98.5795], 4);
+            } else {
+                var features = props.setProps(data);
+                markerLayer.clearLayers();
+                markerLayer.setGeoJSON(features);
+                map.fitBounds(markerLayer.getBounds());
+            }
+        }
+    }
+
+    function formSubmitted() {
+        results.clear();
+        geocoder.single($('#address').val(), displayResults);
+        results.show();
+    }
+
     $('#geocode').submit(function(event) {
         formSubmitted();
         return false;
     });
 
-    // on keypress of enter
     $('#address').keypress(function(e) {
         if (e.which == 13) {
             formSubmitted();
@@ -104,16 +76,13 @@ $(function() {
         }
     });
 
-     // on mouseover of link
-     $('#data').on('mouseover', '.lat-long', function() {
-        // if its acitve do nothing
+    // marker animation
+
+    $('#data').on('mouseover', '.lat-long', function() {
         if ($(this).closest($('.result')).hasClass('active')) {
             return false;
-        // else blink marker and symbol with gold color (marker-hover class)
         } else {
             var linkID = $(this).data('id');
-
-              // change marker
             markerLayer.eachLayer(function(marker) {
                 var feature = marker.feature;
                 if(feature.properties.id === linkID) {
@@ -123,28 +92,21 @@ $(function() {
         }
     });
 
-    // .on is used because the element being clicked is added to the DOM dynamically, by jQuery
-    // on mouse out
     $('#data').on('mouseout', '.lat-long', function() {
         var linkID = $(this).data('id');
         var hasClass = $(this).closest($('.result')).hasClass('active');
-        // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
-            // change the marker back to normal if its not active
             if(feature.properties.id === linkID && !hasClass) {
                 markerSetClass(marker, 'marker');
             }
         });
     });
     
-    // change marker and result to active
-    // reset everything else
     $('#data').on('click', '.lat-long', function() {
-        wrap.activeResult(this);
+        results.active(this);
         var linkID = $(this).data('id');
         map.panTo($(this).data('lat-long'));
-        // change marker
         markerLayer.eachLayer(function(marker) {
             var feature = marker.feature;
             if(feature.properties.id === linkID) {
@@ -156,5 +118,4 @@ $(function() {
     
         return false;
     });
-
 });
