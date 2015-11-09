@@ -49,6 +49,7 @@ function _setProperties(data) {
 
 module.exports = function(address) {
     var geodata;
+    features = [];
 
     $.ajax({
         url: '/api/geocoder/geocode/' + address,
