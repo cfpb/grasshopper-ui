@@ -3,8 +3,6 @@ require('mapbox.js');
 
 var results = require('../js/results');
 
-var props = require('../js/set-props');
-
 var geocoder = require('../js/geocoder');
 
 $(function() {
@@ -35,27 +33,32 @@ $(function() {
         if (feature.geometry.type === 'Point') {
             markerSetClass(marker, 'marker');
         }
+        feature.properties.id = String(Math.random()).replace('.', '');
         results.add(feature);
     });
 
     // form submission
     function displayResults(data) {
-        if (data.status === 404) {
-            results.error('404 - geocoder not found');
-            markerLayer.clearLayers();
-            map.setView([39.8282, -98.5795], 4);
+      if (data.status === 404) {
+        results.error('404 - geocoder not found');
+        markerLayer.clearLayers();
+        map.setView([39.8282, -98.5795], 4);
+      } else if (data.statusText === 'error') {
+        results.error('Sorry, something went wrong');
+        markerLayer.clearLayers();
+        map.setView([39.8282, -98.5795], 4);
+      } else {
+        if (data.features.length === 0) {
+          results.error('No results found');
+          markerLayer.clearLayers();
+          map.setView([39.8282, -98.5795], 4);
         } else {
-            if (data.addressPointsService.status === 'ADDRESS_NOT_FOUND' && data.censusService.status === 'ADDRESS_NOT_FOUND') {
-                results.error('No results found');
-                markerLayer.clearLayers();
-                map.setView([39.8282, -98.5795], 4);
-            } else {
-                var features = props.setProps(data);
-                markerLayer.clearLayers();
-                markerLayer.setGeoJSON(features);
-                map.fitBounds(markerLayer.getBounds());
-            }
+          //var features = props.setProps(data);
+          markerLayer.clearLayers();
+          markerLayer.setGeoJSON(data.features);
+          map.fitBounds(markerLayer.getBounds());
         }
+      }
     }
 
     function formSubmitted() {
@@ -102,7 +105,7 @@ $(function() {
             }
         });
     });
-    
+
     $('#data').on('click', '.lat-long', function() {
         results.active(this);
         var linkID = $(this).data('id');
@@ -115,7 +118,7 @@ $(function() {
                 markerSetClass(marker, 'marker');
             }
         });
-    
+
         return false;
     });
 });
