@@ -25,16 +25,24 @@ function add(feature) {
         + '<h5><a class="lat-long" data-id="' + feature.properties.id
         + '" data-lat-long="[' + feature.geometry.coordinates[1]+ ', ' + feature.geometry.coordinates[0] + ']" href="#">'
         + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0]
-        + '</a> <div class="' + feature.geometry.type.toLowerCase() + ' geo-symbol"></h5>';
-    
-    if (feature.properties.service === 'address') {
+        + '</a> <div class="' + feature.properties.source + ' geo-symbol"></h5>';
+
+    if (feature.properties.source === 'state-address-points') {
         resultHTML += '<p class="placename">' + feature.properties.address + '</p>';
-        resultHTML += '<p class="score">Score: ' + feature.properties.match.toFixed(2) + '</p>';
-    } else if (feature.properties.service === 'census') {
-        resultHTML += '<p class="placename">' + feature.properties.RFROMHN + ' - ' + feature.properties.RTOHN + ' ' + feature.properties.FULLNAME + ' ' + feature.properties.STATE + ' ' + feature.properties.ZIPR + '</p>';
+        //resultHTML += '<p class="score">Score: ' + feature.properties.match.toFixed(2) + '</p>';
+    } else if (feature.properties.source === 'census-tiger') {
+      var stNum, zip;
+      if(feature.properties.RFROMHN !== null) {
+        stNum = feature.properties.RFROMHN + ' - ' + feature.properties.RTOHN;
+        zip = feature.properties.ZIPR;
+      } else {
+        stNum = feature.properties.LFROMHN + ' - ' + feature.properties.LTOHN;
+        zip = feature.properties.ZIPL;
+      }
+        resultHTML += '<p class="placename">' + stNum + ' ' + feature.properties.FULLNAME + ' ' + feature.properties.STATE + ' ' + zip + '</p>';
     }
-        
-    resultHTML += '<p class="service">' + feature.properties.service + '</p></div>';
+
+    resultHTML += '<p class="service">' + feature.properties.source + '</p></div>';
 
     d.append(resultHTML);
 }
